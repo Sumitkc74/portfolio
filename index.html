@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" id="font-stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" media="print">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap"></noscript>
 <style>
   :root {
@@ -807,7 +807,7 @@
       <li><a href="#resume">Resume</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').style.display = document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex'; document.querySelector('.nav-links').style.cssText += 'flex-direction:column; position:fixed; top:64px; right:0; background:var(--cream-card); padding:20px 28px; border-radius:0 0 0 14px; box-shadow:0 8px 24px rgba(0,0,0,0.1);'">
+    <button class="nav-toggle" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -944,7 +944,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
                 View on GitHub
               </a>
-              <button class="icon-btn" onclick="copyLink(this, 'https://github.com/Sumitkc74/Mealmate.ai')" aria-label="Copy project link">
+              <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Mealmate.ai" aria-label="Copy project link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                 <span class="copy-tooltip" aria-hidden="true">Copied!</span>
               </button>
@@ -966,7 +966,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
                 GitHub
               </a>
-              <button class="icon-btn" onclick="copyLink(this, 'https://github.com/Sumitkc74/learn_to_drive')" aria-label="Copy project link">
+              <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/learn_to_drive" aria-label="Copy project link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                 <span class="copy-tooltip" aria-hidden="true">Copied!</span>
               </button>
@@ -996,7 +996,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
                 GitHub
               </a>
-              <button class="icon-btn" onclick="copyLink(this, 'https://github.com/Sumitkc74/EcoVate-Insforge-x-Qoder-AI-Agent-Hackathon')" aria-label="Copy project link">
+              <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/EcoVate-Insforge-x-Qoder-AI-Agent-Hackathon" aria-label="Copy project link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                 <span class="copy-tooltip" aria-hidden="true">Copied!</span>
               </button>
@@ -1025,7 +1025,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
                 GitHub
               </a>
-              <button class="icon-btn" onclick="copyLink(this, 'https://github.com/Sumitkc74/Multi-Factor-Auth-System')" aria-label="Copy project link">
+              <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Multi-Factor-Auth-System" aria-label="Copy project link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                 <span class="copy-tooltip" aria-hidden="true">Copied!</span>
               </button>
@@ -1055,7 +1055,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
                 View on GitHub
               </a>
-              <button class="icon-btn" onclick="copyLink(this, 'https://github.com/Sumitkc74/Spam_Detection')" aria-label="Copy project link">
+              <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Spam_Detection" aria-label="Copy project link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                 <span class="copy-tooltip" aria-hidden="true">Copied!</span>
               </button>
@@ -1202,64 +1202,7 @@
   </div>
 </footer>
 
-<script>
-  // Required because the CSP enforces Trusted Types for script-controlled HTML.
-  // This policy simply passes strings through unchanged (we don't handle any
-  // user-supplied content, only our own fixed SVG markup).
-  if (window.trustedTypes && trustedTypes.createPolicy) {
-    trustedTypes.createPolicy('default', {
-      createHTML: (string) => string
-    });
-  }
-
-  // Scroll progress bar
-  const progressBar = document.getElementById('progressBar');
-  window.addEventListener('scroll', () => {
-    const h = document.documentElement;
-    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
-    progressBar.style.width = scrolled + '%';
-  });
-
-  // Stat count-up, once, on first visibility
-  const statEls = document.querySelectorAll('.stat-num');
-  const statObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.dataset.count, 10);
-        const suffix = el.dataset.suffix || '';
-        const duration = 900;
-        const start = performance.now();
-        function tick(now) {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(eased * target) + suffix;
-          if (progress < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-        statObserver.unobserve(el);
-      }
-    });
-  }, { threshold: 0.5 });
-  statEls.forEach(el => statObserver.observe(el));
-
-  // Copy project link
-  function copyLink(btn, url) {
-    navigator.clipboard.writeText(url).then(() => {
-      btn.classList.add('copied');
-      const svg = btn.querySelector('svg');
-      const original = svg.innerHTML;
-      svg.innerHTML = '<path d="M20 6L9 17l-5-5"/>';
-      const announcer = document.getElementById('a11y-announcer');
-      if (announcer) announcer.textContent = 'Project link copied to clipboard';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        svg.innerHTML = original;
-        if (announcer) announcer.textContent = '';
-      }, 1500);
-    });
-  }
-</script>
+<script src="main.js"></script>
 
 </body>
 </html>
