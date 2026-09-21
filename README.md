@@ -1,6 +1,6 @@
 # Sumit K C — Personal Portfolio
 
-Live Demo: [sumitkc.netlify.app](https://sumitkc.netlify.app/)
+Live Demo: [sumitkc74.com.np](https://sumitkc74.com.np/) (also available on [sumitkc.netlify.app](https://sumitkc.netlify.app/))
 
 A responsive, accessible, and performance-optimized personal portfolio showcasing full-stack projects, teaching experience, and technical skills. Built entirely with vanilla web technologies for fast load times and clean delivery.
 
@@ -9,17 +9,17 @@ A responsive, accessible, and performance-optimized personal portfolio showcasin
 ## Highlights
 
 - **Fast & Lightweight:** Zero build tools or heavy JavaScript bundles; loads instantly with optimized Google Fonts preconnecting.
-- **Accessibility (a11y):** Screen-reader accessible buttons, explicit `aria-label` tags, and high-contrast WCAG AA compliant colors.
-- **SEO & Social Sharing:** Comprehensive OpenGraph tags, JSON-LD Schema structured data, dynamic progress tracking, and sitemap support[cite: 1, 3].
-- **Security-First:** Hardened HTTP response headers (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`)[cite: 5].
+- **Accessibility (a11y):** Screen-reader accessible buttons, explicit `aria-label` tags, skip-to-content navigation, and high-contrast WCAG AA compliant colors.
+- **SEO & Social Sharing:** Comprehensive OpenGraph tags, JSON-LD Schema structured data, dynamic progress tracking, and sitemap support.
+- **Security-First:** Hardened HTTP response headers (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`).
 
 ---
 
 ## Built With
 
-- **HTML5:** Semantic markup, Schema.org JSON-LD[cite: 1]
-- **CSS3:** Custom properties (CSS variables), CSS Grid, Flexbox, media queries for responsive layouts[cite: 1]
-- **JavaScript (ES6+):** Intersection Observer API for stat animations, Clipboard API for direct link sharing[cite: 1]
+- **HTML5:** Semantic markup, Schema.org JSON-LD
+- **CSS3:** Custom properties (CSS variables), CSS Grid, Flexbox, media queries for responsive layouts
+- **JavaScript (ES6+):** Intersection Observer API for stat animations, Clipboard API for direct link sharing, touch/wheel carousels
 - **Deployment:** Netlify with automated edge distribution
 
 ---
@@ -29,9 +29,15 @@ A responsive, accessible, and performance-optimized personal portfolio showcasin
 ```text
 .
 ├── _headers              # Netlify HTTP security headers
+├── bg-aankhijhyal-1.jpg  # Aankhijhyal Technologies role slide photo
+├── bg-aankhijhyal-2.jpg  # Internship role slide photo
+├── bg-cityu.jpg          # City University teaching assistant slide photo
 ├── favicon.ico           # Legacy favicon
 ├── favicon.png           # Modern PNG favicon
 ├── index.html            # Main site markup, styles, and logic
+├── main.js               # Dynamic interactions, carousels, and a11y handlers
+├── logo-aankhijhyal-white.png # Aankhijhyal Technologies logo mark
+├── logo-cityu-white.png       # City University of Seattle logo mark
 ├── og-image.jpg          # Social media preview card
 ├── README.md             # Project documentation
 ├── robots.txt            # Search engine crawler directives
@@ -47,10 +53,9 @@ No package installations, node dependencies, or build commands required.
 
 1. **Clone the repository:**
 ```bash
-git clone [https://github.com/Sumitkc74/portfolio.git](https://github.com/Sumitkc74/portfolio.git)
+git clone https://github.com/Sumitkc74/portfolio.git
 cd portfolio
 ```
-
 
 2. **Run locally:**
 * Double-click `index.html` to open directly in any browser, or
@@ -64,10 +69,7 @@ python -m http.server 8000
 
 ## Contact & Connect
 
-* **Website:** [sumitkc.netlify.app](https://sumitkc.netlify.app/)
-
-* **LinkedIn:** [linkedin.com/in/sumit-kc-2444652a9](https://www.google.com/search?q=https://linkedin.com/in/sumit-kc-2444652a9)
-
-* **GitHub:** [github.com/Sumitkc74](https://www.google.com/search?q=https://github.com/Sumitkc74)
-
-* **Email:** [sumitkc74@gmail.com](https://www.google.com/search?q=mailto%3Asumitkc74%40gmail.com)
+* **Website:** [sumitkc74.com.np](https://sumitkc74.com.np/)
+* **LinkedIn:** [linkedin.com/in/sumitkc74](https://www.linkedin.com/in/sumitkc74/)
+* **GitHub:** [github.com/Sumitkc74](https://github.com/Sumitkc74)
+* **Email:** [sumitkc74@gmail.com](mailto:sumitkc74@gmail.com)
