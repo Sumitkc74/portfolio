@@ -42,7 +42,7 @@ A responsive, accessible, and performance-optimized personal portfolio showcasin
 ├── README.md             # Project documentation
 ├── robots.txt            # Search engine crawler directives
 ├── sitemap.xml           # Search engine sitemap
-└── Sumit_KC_resume.pdf   # Embeddable/downloadable PDF resume
+└── Sumit_KC_Resume.pdf   # Embeddable/downloadable PDF resume
 ```
 
 ---
