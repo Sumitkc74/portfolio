@@ -15,7 +15,7 @@
   "@type": "Person",
   "name": "Sumit K C",
   "url": "https://sumitkc74.com.np/",
-  "image": "https://sumitkc74.com.np/og-image.jpg",
+  "image": "https://sumitkc74.com.np/images/og-image.jpg",
   "jobTitle": "Full-Stack Developer",
   "description": "Full-stack developer building production web platforms, cross-platform mobile apps, and AI-powered systems.",
   "alumniOf": [
@@ -50,14 +50,14 @@
 }
 </script>
 
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link rel="apple-touch-icon" href="images/favicon.png">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sumit K C — Developer">
 <meta property="og:description" content="Full-stack developer building production web platforms, cross-platform mobile apps, and AI-powered web systems.">
-<meta property="og:image" content="https://sumitkc74.com.np/og-image.jpg">
+<meta property="og:image" content="https://sumitkc74.com.np/images/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://sumitkc74.com.np/">
@@ -65,8 +65,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Sumit K C — Developer">
 <meta name="twitter:description" content="Full-stack developer building production web platforms, cross-platform mobile apps, and AI-powered web systems.">
-<meta name="twitter:image" content="https://sumitkc74.com.np/og-image.jpg">
-<link rel="preload" as="image" href="bg-cityu.jpg">
+<meta name="twitter:image" content="https://sumitkc74.com.np/images/og-image.jpg">
+<link rel="preload" as="image" href="images/bg-cityu.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap">
@@ -232,8 +232,122 @@
 
   /* HERO */
   .hero {
+    position: relative;
     padding: 140px 0 70px;
   }
+
+  /* A small pixel robot with a keyboard-accessible hello. */
+  .pixel-robot {
+    position: absolute;
+    top: 144px;
+    right: -4px;
+    width: 96px;
+    height: 96px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 14px;
+    background: transparent;
+    color: var(--blue);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pixel-robot:hover, .pixel-robot:active, .pixel-robot.is-waving { background: transparent; }
+  .pixel-robot svg { width: 80px; height: 80px; overflow: visible; }
+  .robot-gaze { transform: translate(var(--robot-look-x, 0px), var(--robot-look-y, 0px)); }
+  .robot-eyes { transform-box: fill-box; transform-origin: center; }
+  .robot-arm { transform-origin: 55px 43px; }
+  @keyframes robotBlink { 0%, 94%, 98%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+  @keyframes robotWave { 0%, 100% { transform: rotate(0); } 20%, 60% { transform: rotate(-120deg); } 40%, 80% { transform: rotate(-90deg); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .robot-eyes { animation: robotBlink 9s ease-in-out infinite; }
+    .pixel-robot.is-waving .robot-arm { animation: robotWave 1.1s ease-in-out; }
+    .pixel-robot { transition: background 0.2s ease; }
+  }
+  @media (max-width: 980px) { .pixel-robot { top: 76px; right: 0; width: 64px; height: 64px; } .pixel-robot svg { width: 56px; height: 56px; } }
+  .robot-leg-left { transform-origin: 30px 66px; }
+  .robot-leg-right { transform-origin: 50px 66px; }
+  .robot-arm-left { transform-origin: 22px 51px; }
+  @keyframes robotStride {
+    0%, 100% { transform: rotate(-18deg) translateY(-1px); }
+    50% { transform: rotate(18deg) translateY(1px); }
+  }
+  @keyframes robotArmSwing {
+    0%, 100% { transform: rotate(14deg); }
+    50% { transform: rotate(-14deg); }
+  }
+  @keyframes robotRunBounce {
+    0%, 50%, 100% { transform: translateY(0) rotate(var(--robot-lean, 2deg)); }
+    25%, 75% { transform: translateY(-2px) rotate(var(--robot-lean, 2deg)); }
+  }
+  @media screen and (prefers-reduced-motion: no-preference) {
+    .pixel-robot.is-companion {
+      z-index: 80;
+      transform: translate(var(--robot-walk-x, 0px), var(--robot-walk-y, 0px));
+    }
+    .pixel-robot.is-walking svg { animation: robotRunBounce var(--robot-stride, 0.36s) linear infinite; transform-origin: center bottom; }
+    .pixel-robot.is-walking .robot-leg-left { animation: robotStride var(--robot-stride, 0.36s) ease-in-out infinite; }
+    .pixel-robot.is-walking .robot-leg-right { animation: robotStride var(--robot-stride, 0.36s) ease-in-out infinite reverse; animation-delay: calc(var(--robot-stride, 0.36s) / -2); }
+    .pixel-robot.is-walking .robot-arm-left { animation: robotArmSwing var(--robot-stride, 0.36s) ease-in-out infinite; }
+    .pixel-robot.is-walking:not(.is-waving) .robot-arm { animation: robotArmSwing var(--robot-stride, 0.36s) ease-in-out infinite; animation-delay: calc(var(--robot-stride, 0.36s) / -2); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .pixel-robot.is-running-up .robot-leg-left,
+    .pixel-robot.is-running-up .robot-arm-left,
+    .pixel-robot.is-running-up:not(.is-waving) .robot-arm { animation-direction: reverse; }
+    .pixel-robot.is-running-up .robot-leg-right { animation-direction: normal; }
+  }
+  @media print { .pixel-robot { display: none; } }
+
+  .robot-speech {
+    position: fixed;
+    z-index: 85;
+    width: 218px;
+    max-width: calc(100vw - 24px);
+    padding: 14px 42px 14px 16px;
+    background: var(--cream-card);
+    border: 1px solid var(--cream-border);
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(23,33,58,0.12);
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .robot-speech[hidden] { display: none; }
+  .robot-speech-close {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .robot-speech-close:hover { background: var(--blue-tint); }
+  @media (prefers-reduced-motion: no-preference) {
+    .robot-speech { animation: fadeUp 0.25s ease both; }
+  }
+  @media print { .robot-speech { display: none; } }
+
+  .robot-remove {
+    position: fixed;
+    z-index: 86;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--cream-border);
+    border-radius: 50%;
+    background: var(--cream-card);
+    color: var(--muted);
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .robot-remove[hidden], .pixel-robot[hidden] { display: none; }
+  .robot-remove:hover { color: var(--coral); }
+  @media print { .robot-remove { display: none; } }
 
   .hero-tag {
     display: inline-flex;
@@ -1048,44 +1162,128 @@
     margin-bottom: 14px;
   }
 
+  /* Interactive MealMate architecture walkthrough */
+  .meal-flow {
+    margin-top: 48px;
+    padding: 28px;
+    border: 1px solid var(--navy-border);
+    border-radius: 18px;
+    background: var(--navy-card);
+  }
+  .flow-project-toggle { cursor: pointer; color: #a8bcff; }
+  .flow-project-toggle h3 { display: inline; }
+  .flow-toggle-hint { display: block; margin-top: 6px; font-size: 12px; color: var(--light-muted); }
+  .meal-flow[open] > .flow-project-toggle .flow-toggle-hint { display: none; }
+  .meal-flow + .meal-flow { margin-top: 16px; }
+  .meal-flow h3 { font-family: var(--font-display); font-size: 26px; color: #fff; }
+  .meal-flow-intro { margin: 8px 0 24px; font-size: 14px; }
+  .meal-flow-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .meal-flow-step { position: relative; border: 1px solid var(--navy-border); border-radius: 12px; background: var(--navy); }
+  .meal-flow-step:not(:last-child)::after { content: '\2192'; position: absolute; right: -21px; top: 24px; color: #a8bcff; }
+  .meal-flow-step summary { padding: 18px; cursor: pointer; color: #fff; font-weight: 600; font-size: 14px; border-radius: 12px; }
+  .meal-flow-step summary::marker { color: #a8bcff; }
+  .meal-flow-step summary:hover { background: rgba(168,188,255,0.08); }
+  .meal-flow-number { display: block; color: #a8bcff; font-size: 11px; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .meal-flow-copy { padding: 0 18px 18px; font-size: 13px; line-height: 1.75; }
+  .meal-flow-copy p + p { margin-top: 12px; }
+  .meal-flow-copy strong { color: #fff; }
+  .meal-flow-credit { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--navy-border); font-size: 13px; }
+  .meal-flow-credit strong { color: #a8bcff; }
+  @media screen and (prefers-reduced-motion: no-preference) {
+    .meal-flow-step[open] .meal-flow-copy { animation: fadeUp 0.3s ease both; }
+  }
+  @media (max-width: 720px) {
+    .meal-flow { padding: 22px; }
+    .meal-flow-grid { grid-template-columns: 1fr; }
+    .meal-flow-step:not(:last-child)::after { content: '\2193'; right: 50%; top: auto; bottom: -24px; }
+  }
+  .project-card .meal-flow { margin: 20px 0; padding: 18px; background: var(--navy); }
+  .project-card .meal-flow h3 { font-size: 19px; }
+  .project-card .meal-flow-grid { grid-template-columns: 1fr; gap: 24px; }
+  .project-card .meal-flow-step:not(:last-child)::after { content: '\2193'; right: 50%; top: auto; bottom: -24px; }
+  @media print { .meal-flow-copy { display: block !important; } }
+
+  /* Clear open/closed indicators for project walkthroughs. */
+  .flow-project-toggle, .meal-flow-step > summary {
+    position: relative;
+    list-style: none;
+  }
+  .flow-project-toggle { padding-left: 22px; }
+  .meal-flow-step > summary { padding-left: 34px; }
+  .flow-project-toggle::-webkit-details-marker,
+  .meal-flow-step > summary::-webkit-details-marker { display: none; }
+  .flow-project-toggle::before, .meal-flow-step > summary::before {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid #a8bcff;
+    border-bottom: 2px solid #a8bcff;
+    transform: rotate(-45deg);
+    left: 2px;
+    top: 8px;
+  }
+  .meal-flow-step > summary::before { left: 16px; top: 23px; }
+  .meal-flow[open] > .flow-project-toggle::before,
+  .meal-flow-step[open] > summary::before { transform: rotate(45deg); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .flow-project-toggle::before, .meal-flow-step > summary::before {
+      transition: transform 0.2s ease;
+    }
+    .cert-verify svg, .card-footer .btn-dark svg {
+      transition: transform 0.2s ease;
+    }
+    .cert-item:hover .cert-verify svg,
+    .cert-item:focus-visible .cert-verify svg,
+    .card-footer .btn-dark:hover svg,
+    .card-footer .btn-dark:focus-visible svg {
+      transform: translate(2px, -2px);
+    }
+  }
+
   /* CERTIFICATIONS */
+  .cert-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
   .cert-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding: 22px 28px;
+    gap: 12px;
+    padding: 28px 20px 22px;
     background: var(--cream-card);
     border: 1px solid var(--cream-border);
-    border-radius: 14px;
+    border-radius: 16px;
     text-decoration: none;
+    text-align: center;
     color: var(--ink);
     transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
   }
-
   .cert-item:hover {
-    box-shadow: 0 8px 24px rgba(23,33,58,0.06);
-    transform: translateY(-2px);
-    border-color: var(--coral);
+    box-shadow: 0 12px 28px rgba(23,33,58,0.08);
+    transform: translateY(-4px);
+    border-color: var(--blue);
   }
-
-  .cert-item + .cert-item {
-    margin-top: 12px;
-  }
-
-  .cert-icon {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: var(--coral-tint);
-    color: var(--coral);
+  .cert-badge { width: 100px; height: 100px; object-fit: contain; }
+  .cert-issuer { font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+  .cert-name { font-family: var(--font-display); font-size: 19px; font-weight: 600; line-height: 1.35; }
+  .cert-level { font-size: 12px; color: var(--muted); }
+  .cert-verify {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    gap: 6px;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--cream-border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue);
   }
-
-  .cert-icon svg { width: 18px; height: 18px; }
-
-  .cert-name { font-size: 14px; font-weight: 500; }
+  .cert-verify svg { width: 14px; height: 14px; }
+  @media (max-width: 720px) {
+    .cert-grid { grid-template-columns: 1fr; }
+  }
 
   /* RESUME */
   .resume-frame {
@@ -1102,6 +1300,7 @@
 
   .resume-actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 12px;
     margin-top: 18px;
@@ -1137,10 +1336,12 @@
   .contact-card:hover { background: rgba(255,255,255,0.08); }
 
   .contact-card-email {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    position: relative;
+  }
+
+  .contact-card-email .contact-val {
+    white-space: nowrap;
+    word-break: normal;
   }
 
   .contact-email-link {
@@ -1154,8 +1355,10 @@
   }
 
   .copy-email-btn {
-    flex-shrink: 0;
-    margin-left: 10px;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    margin: 0;
     border-color: rgba(255,255,255,0.3);
     color: rgba(255,255,255,0.85);
   }
@@ -1234,30 +1437,69 @@
 
   footer .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    text-align: center;
   }
 
-  .back-top {
-    text-decoration: none;
-    color: var(--light-muted);
-    font-weight: 500;
+
+  footer .container { flex-direction: column; gap: 12px; }
+  .robot-restore {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    transition: color 0.2s;
+    gap: 8px;
+    min-height: 44px;
+    padding: 8px 14px;
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    background: transparent;
+    color: #e2e6f0;
+    font: inherit;
+    cursor: pointer;
   }
-
-  .back-top:hover { color: #fff; }
+  .robot-restore[hidden] { display: none; }
+  .robot-restore:hover { background: rgba(255,255,255,0.08); }
+  .robot-restore svg { width: 18px; height: 18px; }
+  @media print { .robot-restore { display: none; } }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* One-time scroll reveals; content stays visible without JavaScript. */
+  @media screen and (prefers-reduced-motion: no-preference) {
+    .scroll-reveal {
+      animation: fadeUp 0.65s cubic-bezier(.22, 1, .36, 1) both;
+      animation-delay: var(--reveal-delay, 0ms);
+    }
+
+    .skill-card, .contact-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .skill-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 28px rgba(23,33,58,0.08);
+    }
+
+    .contact-card:hover { transform: translateY(-3px); }
+  }
+
   @media (max-width: 720px) {
     .hero-stats, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
-    .project-card { min-height: 0; }
+    .project-card { min-height: 0; padding: 24px; overflow-wrap: anywhere; }
+    .project-card .meal-flow { padding: 14px; }
+    .project-card .card-footer { flex-wrap: wrap; gap: 12px; }
+    .project-card .icon-btn, .carousel-arrow, .copy-email-btn { min-width: 44px; min-height: 44px; }
+    .copy-email-btn { top: 6px; right: 10px; }
+    .meal-flow-step summary { min-height: 44px; }
+    .hero-detail.open { max-height: none; }
+    .resume-actions .btn { justify-content: center; }
+    .cert-item { padding: 24px 20px; }
+    .hero-links .btn { justify-content: center; }
     .carousel-slide { flex-basis: 88%; margin: 0 1%; }
     .carousel-controls { gap: 14px; }
     .card-item { grid-template-columns: 1fr; }
@@ -1303,6 +1545,15 @@
     }
   }
 
+  @media (max-width: 400px) {
+    .container { padding-left: 20px; padding-right: 20px; }
+    .hero-links { display: grid; grid-template-columns: 1fr; }
+    .hero-links .btn { width: 100%; }
+    .project-card { padding: 20px; }
+    .contact-card { padding: 24px 20px; }
+    .resume-actions .btn { width: 100%; }
+  }
+
   /* PRINT OPTIMIZATION */
   @media print {
     .progress-bar,
@@ -1314,7 +1565,6 @@
     .hero-dots,
     .hero-cta,
     .icon-btn,
-    .back-top,
     .back-to-top,
     .nav-toggle,
     .copy-tooltip {
@@ -1378,6 +1628,23 @@
 
     <!-- HERO -->
     <section class="hero" id="home">
+      <button type="button" class="pixel-robot" id="pixelRobot" aria-label="Say hello to the pixel robot" title="Click to say hello">
+        <svg viewBox="0 0 80 80" fill="none" shape-rendering="crispEdges" aria-hidden="true">
+          <path fill="#e3dbc5" d="M20 72h40v4H20z"/>
+          <path fill="#17213a" d="M38 9h4v10h-4z"/>
+          <path fill="#b0451f" d="M36 5h8v8h-8z"/>
+          <path fill="#17213a" d="M22 19h36v4h4v24h-4v4H22v-4h-4V23h4z"/>
+          <path fill="#e7ebfb" d="M24 25h32v20H24z"/>
+          <g class="robot-gaze"><g class="robot-eyes"><path fill="#3454e0" d="M28 30h6v7h-6zM46 30h6v7h-6z"/></g></g>
+          <path fill="#17213a" d="M36 40h8v2h-8zM26 51h28v15H26z"/>
+          <path class="robot-leg-left" fill="#17213a" d="M26 66h8v6h-8z"/>
+          <path class="robot-leg-right" fill="#17213a" d="M46 66h8v6h-8z"/>
+          <path fill="#3454e0" d="M30 53h20v9H30z"/>
+          <path fill="#f5f1e7" d="M36 56h8v3h-8z"/>
+          <path class="robot-arm-left" fill="#17213a" d="M18 51h6v12h-6z"/>
+          <g class="robot-arm"><path fill="#17213a" d="M55 43h5v14h5v6H55z"/><path fill="#b0451f" d="M59 57h6v6h-6z"/></g>
+        </svg>
+      </button>
       <div class="hero-tag">Open to opportunities</div>
       <h1>Sumit K C</h1>
       <p class="hero-role">Full-stack developer</p>
@@ -1392,6 +1659,10 @@
         <a href="#resume" class="btn btn-secondary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
           View Resume
+        </a>
+        <a href="Sumit_KC_Resume.pdf" download="Sumit_KC_Resume.pdf" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v13m0 0l-4-4m4 4l4-4"/><path d="M4 19h16"/></svg>
+          Download Resume
         </a>
         <a href="https://www.linkedin.com/in/sumitkc74/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 11v5M8 8v.01M12 16v-5M12 11c0-1.1.9-2 2-2s2 .9 2 2v5"/></svg>
@@ -1422,7 +1693,7 @@
 
   <!-- EXPERIENCE -->
   <section class="block" id="experience">
-      <div class="experience-bg" style="--experience-bg-image: url('bg-cityu.jpg');">
+      <div class="experience-bg" style="--experience-bg-image: url('images/bg-cityu.jpg');">
         <div class="container">
           <div class="section-eyebrow">01 / Experience</div>
           <h2 class="tagline">Where I've made an impact.</h2>
@@ -1431,7 +1702,7 @@
         <div class="hero-viewport">
           <div class="hero-track">
 
-            <div class="hero-slide" style="background-image: url('bg-cityu.jpg');">
+            <div class="hero-slide" style="background-image: url('images/bg-cityu.jpg');">
               <div class="hero-slide-overlay"></div>
               <div class="hero-slide-content">
                 <div class="hero-title-row">
@@ -1441,7 +1712,7 @@
                 <div class="hero-meta-row">
                   <span class="meta-pill meta-pill-solid">Oct 2025 – Present</span>
                   <a href="https://cityu.edu/" target="_blank" rel="noopener noreferrer" class="meta-pill meta-pill-link">
-                    <img src="logo-cityu-white.png" alt="" class="pill-logo" width="14" height="14" />
+                    <img src="images/logo-cityu-white.png" alt="" class="pill-logo" width="14" height="14" />
                     City University of Seattle
                   </a>
                   <span class="meta-pill meta-pill-accent">300+ Students</span>
@@ -1465,7 +1736,7 @@
               </div>
             </div>
 
-            <div class="hero-slide" style="background-image: url('bg-aankhijhyal-1.jpg');">
+            <div class="hero-slide" style="background-image: url('images/bg-aankhijhyal-1.jpg');">
               <div class="hero-slide-overlay"></div>
               <div class="hero-slide-content">
                 <div class="hero-title-row">
@@ -1475,7 +1746,7 @@
                 <div class="hero-meta-row">
                   <span class="meta-pill meta-pill-solid">Jun 2023 – Nov 2024</span>
                   <a href="https://aankhijhyal.com.np/" target="_blank" rel="noopener noreferrer" class="meta-pill meta-pill-link">
-                    <img src="logo-aankhijhyal-white.png" alt="" class="pill-logo" width="14" height="14" />
+                    <img src="images/logo-aankhijhyal-white.png" alt="" class="pill-logo" width="14" height="14" />
                     Aankhijhyal Technologies
                   </a>
                   <span class="meta-pill meta-pill-accent">15+ Platforms Shipped</span>
@@ -1499,7 +1770,7 @@
               </div>
             </div>
 
-            <div class="hero-slide" style="background-image: url('bg-aankhijhyal-2.jpg');">
+            <div class="hero-slide" style="background-image: url('images/bg-aankhijhyal-2.jpg');">
               <div class="hero-slide-overlay"></div>
               <div class="hero-slide-content">
                 <div class="hero-title-row">
@@ -1509,7 +1780,7 @@
                 <div class="hero-meta-row">
                   <span class="meta-pill meta-pill-solid">Sep 2022 – Nov 2022</span>
                   <a href="https://aankhijhyal.com.np/" target="_blank" rel="noopener noreferrer" class="meta-pill meta-pill-link">
-                    <img src="logo-aankhijhyal-white.png" alt="" class="pill-logo" width="14" height="14" />
+                    <img src="images/logo-aankhijhyal-white.png" alt="" class="pill-logo" width="14" height="14" />
                     Aankhijhyal Technologies
                   </a>
                   <span class="meta-pill meta-pill-accent">3 Deployments</span>
@@ -1562,9 +1833,8 @@
                   <h3 class="project-name">MealMate.ai</h3>
                   <p class="project-desc">AI-powered meal planning platform</p>
                   <ul class="project-bullets">
-                    <li>Built a 3 tier app (React, Node.js, FastAPI) with a hybrid recommender (TF-IDF, LSA, collaborative filtering) that consistently placed the right recipe among its top 5 results during testing; backed by 128 passing tests via Docker Compose and GitHub Actions CI</li>
-                    <li>Integrated Google Gemini for cooking assistance, pantry parsing, and vision based ingredient capture, with deterministic offline fallbacks across all AI features</li>
-                    <li>My contribution: implemented retrieval-augmented generation (RAG) for recipe suggestions and cooking questions, connected the FastAPI service through the Node.js API, and built the React pantry suggestion interface and assistant integration</li>
+                    <li>React, Node.js, and FastAPI meal planning platform with a hybrid recipe recommender, backed by 128 passing tests.</li>
+                    <li>Gemini cooking assistance, pantry parsing, and ingredient capture, with deterministic offline fallbacks.</li>
                   </ul>
                   <div class="tech-stack">
                     <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">FastAPI</span>
@@ -1575,6 +1845,26 @@
                     <span class="avatar" style="background:#b0451f;" title="Thao Bui">TB</span>
                     <span class="avatar" style="background:#3454e0;" title="Sumit K C">SK</span>
                   </div>
+                  <details class="meal-flow">
+                    <summary class="flow-project-toggle"><h3>Inside MealMate.ai</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From pantry ingredients to recipe suggestions. Select a step to learn more.</p>
+                    <div class="meal-flow-grid">
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">01 / INPUT</span>Your pantry</summary>
+                        <div class="meal-flow-copy"><p>Add ingredients and dietary preferences in the React pantry interface, then request recipe suggestions or a cooking answer.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">02 / RETRIEVAL</span>Find relevant recipes</summary>
+                        <div class="meal-flow-copy"><p>The Node.js API connects to the FastAPI RAG service, which retrieves indexed recipes relevant to the pantry or question.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">03 / RESPONSE</span>Make it useful</summary>
+                        <div class="meal-flow-copy"><p>Gemini uses retrieved recipe context to generate suggestions and cooking answers. Ranked retrieval and structured responses provide a fallback when Gemini is unavailable.</p></div>
+                      </details>
+                    </div>
+                    <p class="meal-flow-credit"><strong>Recommendation pipeline:</strong> TF-IDF, LSA, and collaborative filtering consistently placed the relevant recipe in the top five during testing; Docker Compose and GitHub Actions support validation.</p>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> The RAG service, API connections, React pantry suggestion interface, and assistant integration.</p>
+                  </details>
                   <div class="card-footer">
                     <a href="https://github.com/Sumitkc74/Mealmate.ai" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View MealMate.ai repository on GitHub">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
@@ -1590,16 +1880,97 @@
 
               <div class="carousel-slide">
                 <div class="project-card">
-                  <h3 class="project-name">Learn to Drive</h3>
-                  <p class="project-desc">Driving test preparation platform</p>
+                  <h3 class="project-name">Parallax-Eval</h3>
+                  <p class="project-desc">English/Nepali LLM safety evaluation platform</p>
                   <ul class="project-bullets">
-                    <li>Built a full-stack driving test prep platform with a Laravel backend serving a REST API, admin panel, learner web experience, and scheduled jobs, all consumed by a Flutter mobile client</li>
-                    <li>Structured driving test content into category-based modules across the mobile app, enabling organized offline exam prep with test papers, quizzes, and traffic symbols</li>
+                    <li>Full-stack Flutter and FastAPI platform comparing model safety responses to equivalent English and Nepali prompts.</li>
+                    <li>Combines policy retrieval, Judge/Critic/Arbiter evaluation, and statistical analysis to investigate safety differences across languages.</li>
+                  </ul>
+                  <div class="tech-stack">
+                    <span class="tag">Flutter</span><span class="tag">Python</span><span class="tag">FastAPI</span>
+                    <span class="tag">LangGraph</span><span class="tag">PostgreSQL</span><span class="tag">RAG</span>
+                  </div>
+                  <details class="meal-flow">
+                    <summary class="flow-project-toggle"><h3>Inside Parallax-Eval</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From paired prompts to a comparison of model safety behavior. Select a step to learn more.</p>
+                    <div class="meal-flow-grid">
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">01 / EXPERIMENT</span>Compare two languages</summary>
+                        <div class="meal-flow-copy"><p>Run equivalent English and Nepali prompts through the model gateway. The Flutter client connects to FastAPI to monitor experiments and inspect paired responses.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">02 / EVALUATION</span>Check safety judgments</summary>
+                        <div class="meal-flow-copy"><p>Policy retrieval supplies context to a LangGraph Judge/Critic/Arbiter workflow. The agents evaluate responses, challenge classifications, and reconcile disagreements. Adaptive red-teaming explores prompt variations.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">03 / ANALYSIS</span>Inspect the differences</summary>
+                        <div class="meal-flow-copy"><p>Compare refusal, unsafe compliance, and over-refusal behavior using paired statistical tests and bootstrap confidence intervals. Execution traces track latency, token usage, and estimated costs; CLI tools support dataset verification and regression checks.</p></div>
+                      </details>
+                    </div>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> Flutter dashboard and prompt inspector improvements, including progressive disclosure and reactive dark-mode styling.</p>
+                  </details>
+                  <div class="card-footer">
+<a aria-label="View Parallax-Eval repository on GitHub" class="btn btn-dark" href="https://github.com/Sumitkc74/Parallax-Eval" rel="noopener noreferrer" target="_blank">
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14L21 3"></path></svg>
+                      View on GitHub
+                    </a>
+<button aria-label="Copy project link" class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Parallax-Eval">
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="12" rx="2" width="12" x="9" y="9"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg>
+<span aria-hidden="true" class="copy-tooltip">Copied!</span>
+</button>
+</div>
+                </div>
+              </div>
+
+              <div class="carousel-slide">
+                <div class="project-card">
+                  <h3 class="project-name">Learn to Drive</h3>
+                  <p class="project-desc">Learner, school, and admin platform for web and mobile</p>
+                  <ul class="project-bullets">
+                    <li>Laravel and Flutter platform connecting learners, driving schools, and admins through shared services.</li>
+                    <li>English/Nepali exam practice and progress tracking, plus school scheduling, student records, and lesson bookings.</li>
                   </ul>
                   <div class="tech-stack">
                     <span class="tag">Flutter</span><span class="tag">Laravel</span>
-                    <span class="tag">REST API</span><span class="tag">MySQL</span>
+                    <span class="tag">REST API</span><span class="tag">MySQL</span><span class="tag">Gemini</span>
                   </div>
+                  <details class="meal-flow">
+                    <summary class="flow-project-toggle"><h3>Inside Learn to Drive</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From reviewed learning content to learner progress and driving school operations across web and mobile. Select a step to learn more.</p>
+                    <div class="meal-flow-grid">
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">01 / CONTENT</span>Review and publish</summary>
+                        <div class="meal-flow-copy">
+                          <p>Admins manage traffic signs, question banks, exam papers, tutorials, and notices. Scheduled official-source imports receive Gemini screening, with human review required before publication.</p>
+                          <p>Published resources feed the learner website and Flutter library through the Laravel API, with search, language filters, and saved resources.</p>
+                        </div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">02 / PRACTICE</span>Learn and test yourself</summary>
+                        <div class="meal-flow-copy">
+                          <p>Learners choose English or Nepali, review traffic-sign flashcards, and start randomized practice or a 30-minute mock exam with up to 25 questions.</p>
+                          <p>Attempts can be saved and resumed. The server grades submissions and reveals answers and explanations after submission, using shared attempt records across web and mobile.</p>
+                        </div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">03 / PROGRESS</span>Track and revise</summary>
+                        <div class="meal-flow-copy">
+                          <p>My learning tracks daily goals, streaks, accuracy, milestones, and practice history, and suggests a next step based on unfinished attempts or topics needing attention.</p>
+                          <p>Premium learners can use personalized practice, revision tools, and a Gemini study assistant. Private support conversations and content reports connect learners with admins.</p>
+                        </div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">04 / SCHOOLS</span>Run the school centre</summary>
+                        <div class="meal-flow-copy">
+                          <p>Approved schools manage Owner, Manager, Instructor, and Student memberships through invitations and role-based access. Courses and capacity-limited batches connect students with instructors, scheduled classes, and attendance records.</p>
+                          <p>School staff maintain student exam and licence history, record instructor feedback, and review reports. Students control whether their completed-practice totals are shared with staff.</p>
+                          <p>Private lessons include instructor vehicles, available slots, conflict-checked booking, rescheduling, waitlists, and optional server-verified Khalti/eSewa payments. In-app notifications and scheduled reminders keep members informed.</p>
+                          <p>The Flutter school centre shares the Laravel services; school management and booking workflows also use the responsive website through secure browser handoffs.</p>
+                        </div>
+                      </details>
+                    </div>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> Laravel backend and REST API, learner and admin web experiences, Flutter integration, and school management workflows.</p>
+                  </details>
                   <div class="card-footer">
                     <a href="https://github.com/Sumitkc74/learn_to_drive" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View Learn to Drive repository on GitHub">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
@@ -1619,8 +1990,8 @@
                   <h3 class="project-name">EcoVate</h3>
                   <p class="project-desc">AI-powered circular-economy platform</p>
                   <ul class="project-bullets">
-                    <li>Built during the Insforge x Qoder AI Agent Hackathon: a coordinated multi-agent pipeline that turns a photo into a verified reuse plan — vision agents identify the item, research agents surface sustainable reuse options, and a verification agent checks recommendations before they reach the user</li>
-                    <li>My contribution: implemented the multi-agent coordination layer, chaining vision analysis, sustainability research, and DIY reuse recommendations into a single verified output</li>
+                    <li>Hackathon project turning an item photo into a verified reuse plan through coordinated AI agents.</li>
+                    <li>Connects vision analysis, sustainability research, and DIY recommendations in one pipeline.</li>
                   </ul>
                   <div class="tech-stack">
                     <span class="tag">Next.js</span><span class="tag">TypeScript</span>
@@ -1632,6 +2003,25 @@
                     <span class="avatar" style="background:#3454e0;" title="Ritish Upadhyayula">RU</span>
                     <span class="avatar" style="background:#b0451f;" title="Sumit K C">SK</span>
                   </div>
+                  <details class="meal-flow">
+                    <summary class="flow-project-toggle"><h3>Inside EcoVate</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From an item photo to a verified reuse plan. Select a step to learn more.</p>
+                    <div class="meal-flow-grid">
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">01 / VISION</span>Identify the item</summary>
+                        <div class="meal-flow-copy"><p>Vision agents analyze the uploaded photo to identify the item that could be reused.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">02 / RESEARCH</span>Explore reuse options</summary>
+                        <div class="meal-flow-copy"><p>Research agents find sustainable reuse options and DIY recommendations for the identified item.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">03 / VERIFICATION</span>Check the plan</summary>
+                        <div class="meal-flow-copy"><p>A verification agent checks the recommendations before the coordinated pipeline presents a reuse plan to the user.</p></div>
+                      </details>
+                    </div>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> The multi-agent coordination layer connecting vision analysis, sustainability research, and DIY reuse recommendations.</p>
+                  </details>
                   <div class="card-footer">
                     <a href="https://github.com/Sumitkc74/EcoVate-Insforge-x-Qoder-AI-Agent-Hackathon" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View EcoVate repository on GitHub">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
@@ -1651,8 +2041,8 @@
                   <h3 class="project-name">Multi-Factor Auth System</h3>
                   <p class="project-desc">Multi-factor authentication prototype</p>
                   <ul class="project-bullets">
-                    <li>Built a Flask backend paired with an Expo React Native client, combining bcrypt-hashed password auth with MongoDB-backed user storage and Duo Security SMS one-time passcodes for a complete two-factor login flow</li>
-                    <li>My contribution: built the Expo client and login flow, implemented MongoDB-backed user registration, and wired up the Duo Security integration end-to-end for SMS delivery and OTP verification</li>
+                    <li>Flask and Expo React Native prototype with password authentication and SMS verification.</li>
+                    <li>Combines bcrypt password hashing, MongoDB user records, and Duo Security one-time passcodes.</li>
                   </ul>
                   <div class="tech-stack">
                     <span class="tag">Flask</span><span class="tag">React Native</span>
@@ -1663,6 +2053,25 @@
                     <span class="avatar" style="background:#b0451f;" title="Sai Shruthi Sridhar">SS</span>
                     <span class="avatar" style="background:#3454e0;" title="Sumit K C">SK</span>
                   </div>
+                  <details class="meal-flow">
+                    <summary class="flow-project-toggle"><h3>Inside Multi-Factor Auth System</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From registration to a two-factor login. Select a step to learn more.</p>
+                    <div class="meal-flow-grid">
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">01 / REGISTRATION</span>Create an account</summary>
+                        <div class="meal-flow-copy"><p>The Expo React Native client connects to a Flask backend. User records are stored in MongoDB, with passwords hashed using bcrypt.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">02 / PASSWORD</span>Start the login</summary>
+                        <div class="meal-flow-copy"><p>The user submits their credentials through the mobile login flow for password authentication.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">03 / VERIFICATION</span>Confirm with a code</summary>
+                        <div class="meal-flow-copy"><p>Duo Security delivers an SMS one-time passcode, and the integration verifies the code to complete the two-factor login flow.</p></div>
+                      </details>
+                    </div>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> The Expo client and login flow, MongoDB-backed registration, and Duo Security SMS delivery and OTP verification integration.</p>
+                  </details>
                   <div class="card-footer">
                     <a href="https://github.com/Sumitkc74/Multi-Factor-Auth-System" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View Multi-Factor Auth System repository on GitHub">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
@@ -1682,8 +2091,8 @@
                   <h3 class="project-name">AI-Powered Spam Detection</h3>
                   <p class="project-desc">SMS spam classification system</p>
                   <ul class="project-bullets">
-                    <li>Preprocessed the SMS Spam Collection dataset (tokenization, stopword removal, stemming) and vectorized it with Bag-of-Words and TF-IDF, then benchmarked six models — Naive Bayes, Logistic Regression, Linear SVM, Decision Tree, Random Forest, and KNN</li>
-                    <li>Linear SVM came out on top at 98.1% accuracy with the best precision/recall balance and was selected for final deployment; my contribution covered model validation and interpretation</li>
+                    <li>Compared six SMS classifiers using Bag-of-Words and TF-IDF text features.</li>
+                    <li>Selected Linear SVM at 98.1% accuracy with the best precision/recall balance in the project evaluation.</li>
                   </ul>
                   <div class="tech-stack">
                     <span class="tag">Python</span><span class="tag">scikit-learn</span>
@@ -1695,6 +2104,25 @@
                     <span class="avatar" style="background:#3454e0;" title="Megha Narendra Simha">MS</span>
                     <span class="avatar" style="background:#b0451f;" title="Sumit K C">SK</span>
                   </div>
+                  <details class="meal-flow">
+                    <summary class="flow-project-toggle"><h3>Inside AI-Powered Spam Detection</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From labeled SMS messages to a validated classifier. Select a step to learn more.</p>
+                    <div class="meal-flow-grid">
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">01 / PREPARATION</span>Process the messages</summary>
+                        <div class="meal-flow-copy"><p>The SMS Spam Collection dataset is tokenized, stripped of stopwords, and stemmed, then represented using Bag-of-Words and TF-IDF.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">02 / COMPARISON</span>Benchmark six models</summary>
+                        <div class="meal-flow-copy"><p>Compare Naive Bayes, Logistic Regression, Linear SVM, Decision Tree, Random Forest, and KNN.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">03 / VALIDATION</span>Select the classifier</summary>
+                        <div class="meal-flow-copy"><p>Linear SVM achieved 98.1% accuracy with the best precision/recall balance in the project evaluation and was selected for final deployment.</p></div>
+                      </details>
+                    </div>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> Model validation and interpretation.</p>
+                  </details>
                   <div class="card-footer">
                     <a href="https://github.com/Sumitkc74/Spam_Detection" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View AI-Powered Spam Detection repository on GitHub">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
@@ -1793,24 +2221,29 @@
       <div class="container">
       <div class="section-eyebrow">05 / Certifications</div>
       <h2 class="tagline">Proof, beyond the transcript.</h2>
-      <a href="https://learn.microsoft.com/en-us/users/sumitkc74/credentials/f90cd8e1fa15fc6a" target="_blank" rel="noopener noreferrer" class="cert-item">
-        <div class="cert-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <div class="cert-name">Microsoft Certified: Fabric Data Engineer Associate</div>
-      </a>
-      <a href="https://learn.microsoft.com/en-us/users/sumitkc74/credentials/68f3684e021dadd1" target="_blank" rel="noopener noreferrer" class="cert-item">
-        <div class="cert-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <div class="cert-name">Microsoft Certified: Azure Administrator Associate</div>
-      </a>
-      <a href="https://www.credly.com/badges/5e0ca160-b099-4457-984e-a92bd6ecb379/public_url" target="_blank" rel="noopener noreferrer" class="cert-item">
-        <div class="cert-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <div class="cert-name">Microsoft Certified: Azure AI Fundamentals</div>
-      </a>
+      <div class="cert-grid">
+        <a href="https://learn.microsoft.com/en-us/users/sumitkc74/credentials/f90cd8e1fa15fc6a" target="_blank" rel="noopener noreferrer" class="cert-item" aria-label="Verify Microsoft Certified: Fabric Data Engineer Associate">
+          <img class="cert-badge" src="images/badge-microsoft-associate.svg" alt="" width="100" height="100" loading="lazy">
+          <span class="cert-issuer">Issued by Microsoft</span>
+          <h3 class="cert-name">Fabric Data Engineer</h3>
+          <span class="cert-level">Associate</span>
+          <span class="cert-verify">Verify credential <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+        </a>
+        <a href="https://learn.microsoft.com/en-us/users/sumitkc74/credentials/68f3684e021dadd1" target="_blank" rel="noopener noreferrer" class="cert-item" aria-label="Verify Microsoft Certified: Azure Administrator Associate">
+          <img class="cert-badge" src="images/badge-microsoft-associate.svg" alt="" width="100" height="100" loading="lazy">
+          <span class="cert-issuer">Issued by Microsoft</span>
+          <h3 class="cert-name">Azure Administrator</h3>
+          <span class="cert-level">Associate</span>
+          <span class="cert-verify">Verify credential <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+        </a>
+        <a href="https://www.credly.com/badges/5e0ca160-b099-4457-984e-a92bd6ecb379/public_url" target="_blank" rel="noopener noreferrer" class="cert-item" aria-label="Verify Microsoft Certified: Azure AI Fundamentals">
+          <img class="cert-badge" src="images/badge-microsoft-fundamentals.svg" alt="" width="100" height="100" loading="lazy">
+          <span class="cert-issuer">Issued by Microsoft</span>
+          <h3 class="cert-name">Azure AI</h3>
+          <span class="cert-level">Fundamentals</span>
+          <span class="cert-verify">Verify credential <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+        </a>
+      </div>
       </div>
     </section>
 
@@ -1865,6 +2298,13 @@
   </section>
 </main>
 
+<button type="button" class="robot-remove" id="robotRemove" aria-label="Hide robot for this visit" title="Hide robot" hidden>&times;</button>
+
+<div class="robot-speech" id="robotSpeech" hidden>
+  <p id="robotSpeechText" role="status" aria-live="polite"></p>
+  <button type="button" class="robot-speech-close" id="robotSpeechClose" aria-label="Dismiss robot message">&times;</button>
+</div>
+
 <div id="a11y-announcer" class="sr-only" aria-live="polite"></div>
 
 <button id="backToTop" class="back-to-top" aria-label="Back to top" title="Back to top">
@@ -1876,10 +2316,10 @@
 <footer>
   <div class="container">
     <span>© 2026 Sumit K C — Built with care</span>
-    <a href="#home" class="back-top">
-      Back to top
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    </a>
+    <button type="button" class="robot-restore" id="robotRestore" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M12 7V3M8 12v2m8-2v2M9 17h6M1 11v5m22-5v5"/></svg>
+      Bring back robot
+    </button>
   </div>
 </footer>
 

@@ -28,21 +28,14 @@ A responsive, accessible, and performance-optimized personal portfolio showcasin
 
 ```text
 .
-├── _headers              # Netlify HTTP security headers
-├── bg-aankhijhyal-1.jpg  # Aankhijhyal Technologies role slide photo
-├── bg-aankhijhyal-2.jpg  # Internship role slide photo
-├── bg-cityu.jpg          # City University teaching assistant slide photo
-├── favicon.ico           # Legacy favicon
-├── favicon.png           # Modern PNG favicon
-├── index.html            # Main site markup, styles, and logic
-├── main.js               # Dynamic interactions, carousels, and a11y handlers
-├── logo-aankhijhyal-white.png # Aankhijhyal Technologies logo mark
-├── logo-cityu-white.png       # City University of Seattle logo mark
-├── og-image.jpg          # Social media preview card
-├── README.md             # Project documentation
-├── robots.txt            # Search engine crawler directives
-├── sitemap.xml           # Search engine sitemap
-└── Sumit_KC_Resume.pdf   # Embeddable/downloadable PDF resume
+|-- images/                  # Backgrounds, logos, favicons, badges, and social preview
+|-- _headers                 # Netlify HTTP security and cache headers
+|-- index.html               # Main site markup and styles
+|-- main.js                  # Interactions, carousels, and accessibility handlers
+|-- README.md                # Project documentation
+|-- robots.txt               # Search engine crawler directives
+|-- sitemap.xml              # Search engine sitemap
+`-- Sumit_KC_Resume.pdf       # Embeddable/downloadable PDF resume
 ```
 
 ---

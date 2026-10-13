@@ -9,13 +9,7 @@
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
 
-/*.jpg
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.png
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.ico
+/images/*
   Cache-Control: public, max-age=31536000, immutable
 
 /main.js
