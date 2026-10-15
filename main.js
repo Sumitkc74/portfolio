@@ -774,7 +774,7 @@ if (contactForm) {
       })
       .then((data) => {
         if (data.success === 'true' || data.success === true) {
-          if (statusEl) statusEl.textContent = 'Thank you! Your message has been sent directly to my inbox.';
+          if (statusEl) statusEl.textContent = 'Thank you! Your message has been sent.';
           contactForm.reset();
         } else {
           throw new Error(data.message || 'Submission error');
