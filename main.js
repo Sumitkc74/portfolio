@@ -584,6 +584,7 @@ if (pixelRobot) {
     pixelRobot.style.setProperty('--robot-walk-x', companionX + 'px');
     pixelRobot.style.setProperty('--robot-walk-y', companionY + 'px');
     positionRobotSpeech();
+    if (typeof updateRobotDarkTheme === 'function') updateRobotDarkTheme();
     pixelRobot.style.setProperty('--robot-lean', distanceY >= 0 ? '3deg' : '-3deg');
     pixelRobot.style.setProperty('--robot-stride', Math.abs(distanceY) > 40 ? '0.26s' : '0.36s');
     if (running) companionFrame = requestAnimationFrame(updateCompanion);
@@ -694,13 +695,48 @@ if (pixelRobot && robotSpeech && robotSpeechText && robotSpeechClose) {
     positionRobotSpeech();
     hintTimer = setTimeout(hideRobotSpeech, 3000);
   });
+  function updateRobotDarkTheme() {
+    if (!pixelRobot || pixelRobot.hidden) return;
+    const rect = pixelRobot.getBoundingClientRect();
+    const probeY = rect.top + rect.height * 0.5;
+    const darkSections = document.querySelectorAll('.experience-bg, .navy-section, .contact-section, footer');
+    let isOverDark = false;
+    for (const sec of darkSections) {
+      const sRect = sec.getBoundingClientRect();
+      if (sRect.top <= probeY && sRect.bottom >= probeY) {
+        isOverDark = true;
+        break;
+      }
+    }
+    pixelRobot.classList.toggle('on-dark', isOverDark);
+    if (robotRemove && !robotRemove.hidden) robotRemove.classList.toggle('on-dark', isOverDark);
+  }
+
+  function updateRobotRestoreTheme() {
+    if (!robotRestore || robotRestore.hidden) return;
+    const probeY = window.innerHeight * 0.5;
+    const darkSections = document.querySelectorAll('.experience-bg, .navy-section, .contact-section, footer');
+    let isOverDark = false;
+    for (const sec of darkSections) {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= probeY && rect.bottom >= probeY) {
+        isOverDark = true;
+        break;
+      }
+    }
+    robotRestore.classList.toggle('on-dark', isOverDark);
+  }
+
   if (robotRemove) {
     robotRemove.addEventListener('click', () => {
       clearTimeout(robotRemoveTimer);
       hideRobotSpeech();
       pixelRobot.hidden = true;
       robotRemove.hidden = true;
-      if (robotRestore) robotRestore.hidden = false;
+      if (robotRestore) {
+        robotRestore.hidden = false;
+        updateRobotRestoreTheme();
+      }
       pixelRobot.classList.remove('is-walking', 'is-waving');
       const main = document.getElementById('main');
       if (main) main.focus({ preventScroll: true });
@@ -710,6 +746,7 @@ if (pixelRobot && robotSpeech && robotSpeechText && robotSpeechClose) {
     robotRestore.addEventListener('click', () => {
       pixelRobot.hidden = false;
       robotRestore.hidden = true;
+      updateRobotDarkTheme();
       pixelRobot.dispatchEvent(new Event('robot-restored'));
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         pixelRobot.scrollIntoView({ block: 'center', behavior: 'auto' });
@@ -724,11 +761,19 @@ if (pixelRobot && robotSpeech && robotSpeechText && robotSpeechClose) {
   }
   window.addEventListener('scroll', () => {
     positionRobotSpeech();
+    updateRobotRestoreTheme();
+    updateRobotDarkTheme();
     clearTimeout(hintScrollTimer);
     hintScrollTimer = setTimeout(checkRobotSection, 120);
   }, { passive: true });
-  window.addEventListener('resize', positionRobotSpeech, { passive: true });
+  window.addEventListener('resize', () => {
+    positionRobotSpeech();
+    updateRobotRestoreTheme();
+    updateRobotDarkTheme();
+  }, { passive: true });
   checkRobotSection();
+  updateRobotRestoreTheme();
+  updateRobotDarkTheme();
   // Greet visitors after the page has loaded, using the same wave and bubble.
   function greetWithRobot() {
     if (!pixelRobot.hidden) {
@@ -788,4 +833,19 @@ if (contactForm) {
       });
   });
 }
+
+// Graceful image fallbacks for certification badges and meta pill logos
+document.querySelectorAll('.cert-badge, .pill-logo').forEach((img) => {
+  const triggerFallback = () => {
+    img.hidden = true;
+    const fallback = img.parentElement ? img.parentElement.querySelector('.cert-badge-fallback, .pill-fallback-icon') : null;
+    if (fallback) fallback.hidden = false;
+  };
+
+  if (img.complete && img.naturalWidth === 0 && img.src) {
+    triggerFallback();
+  } else {
+    img.addEventListener('error', triggerFallback);
+  }
+});
 
