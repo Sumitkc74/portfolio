@@ -1612,25 +1612,39 @@
     text-align: center;
   }
 
-
-  footer .container { flex-direction: column; gap: 12px; }
   .robot-restore {
+    position: fixed;
+    bottom: 84px;
+    right: 28px;
+    z-index: 89;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    min-height: 44px;
+    min-height: 40px;
     padding: 8px 14px;
-    border: 1px solid var(--navy-border);
-    border-radius: 8px;
-    background: transparent;
-    color: #e2e6f0;
-    font: inherit;
+    border: 1px solid var(--cream-border);
+    border-radius: 24px;
+    background: rgba(245, 241, 231, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(23, 33, 58, 0.12);
     cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .robot-restore[hidden] { display: none; }
-  .robot-restore:hover { background: rgba(255,255,255,0.08); }
-  .robot-restore svg { width: 18px; height: 18px; }
-  @media print { .robot-restore { display: none; } }
+  .robot-restore:hover {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(52, 84, 224, 0.28);
+  }
+  .robot-restore svg { width: 17px; height: 17px; flex-shrink: 0; }
+  @media print { .robot-restore { display: none !important; } }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -1689,7 +1703,7 @@
     }
     .nav-links.is-open { display: flex; }
     .nav-toggle { display: flex; }
-    footer .container { flex-direction: column; gap: 8px; text-align: center; }
+    footer .container { text-align: center; }
     .hero-slide { min-height: 720px; align-items: flex-end; padding-bottom: 70px; }
     .hero-slide-overlay { background: linear-gradient(180deg, rgba(8,12,20,0.35) 0%, rgba(8,12,20,0.88) 55%, rgba(8,12,20,0.96) 100%); }
     .hero-title { font-size: 26px; }
@@ -1707,6 +1721,13 @@
     .form-row { grid-template-columns: 1fr; }
     .contact-form { padding: 0 18px 20px; }
     .contact-form-toggle { padding: 16px 18px; }
+    .robot-restore {
+      bottom: 68px;
+      right: 20px;
+      padding: 6px 12px;
+      font-size: 11px;
+      min-height: 36px;
+    }
     .back-to-top {
       bottom: 20px;
       right: 20px;
@@ -2526,13 +2547,14 @@
   </svg>
 </button>
 
+<button type="button" class="robot-restore" id="robotRestore" aria-label="Bring back robot companion" title="Bring back robot" hidden>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M12 7V3M8 12v2m8-2v2M9 17h6M1 11v5m22-5v5"/></svg>
+  Bring back robot
+</button>
+
 <footer>
   <div class="container">
     <span>© 2026 Sumit K C — Built with care</span>
-    <button type="button" class="robot-restore" id="robotRestore" hidden>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M12 7V3M8 12v2m8-2v2M9 17h6M1 11v5m22-5v5"/></svg>
-      Bring back robot
-    </button>
   </div>
 </footer>
 
