@@ -180,13 +180,45 @@ function initCarousel(config) {
   }
 
   let isAnimating = false;
+  let animTimeout = null;
+
+  function clearAnimTimeout() {
+    if (animTimeout) {
+      clearTimeout(animTimeout);
+      animTimeout = null;
+    }
+  }
+
+  function finishAnimation() {
+    clearAnimTimeout();
+    if (index === 0) {
+      index = total;
+      render(false);
+    } else if (index === total + 1) {
+      index = 1;
+      render(false);
+    }
+    isAnimating = false;
+  }
 
   function goTo(newIndex, announce) {
-    if (isAnimating) return;
+    if (isAnimating) {
+      // If an animation is already queued/running, settle it immediately to avoid getting stuck
+      finishAnimation();
+    }
     index = newIndex;
     dragDeltaPercent = 0;
     isAnimating = true;
     render(true);
+
+    // Guaranteed safeguard: transitions are 0.5s (500ms). If transitionend doesn't fire
+    // (e.g. mobile gesture interruption, 0-delta snap, background tab, or sub-pixel edge case),
+    // force-unlock after 550ms so user touches or buttons NEVER freeze.
+    clearAnimTimeout();
+    animTimeout = setTimeout(() => {
+      finishAnimation();
+    }, 550);
+
     if (announce !== false && announcer) {
       const r = realIndexFromDom(index);
       announcer.textContent = config.announceText(r, total, realSlides[r]);
@@ -196,14 +228,7 @@ function initCarousel(config) {
   // Silent snap from decoy clone back to matching real slide
   track.addEventListener('transitionend', (e) => {
     if (e.target !== track || (e.propertyName && e.propertyName !== 'transform')) return;
-    if (index === 0) {
-      index = total;
-      render(false);
-    } else if (index === total + 1) {
-      index = 1;
-      render(false);
-    }
-    isAnimating = false;
+    finishAnimation();
   });
 
   if (prevBtn) prevBtn.addEventListener('click', () => goTo(index - 1));
@@ -227,36 +252,80 @@ function initCarousel(config) {
     return target.closest('a, button, summary');
   }
 
+  let startTime = 0;
+  let startY = 0;
+  let activePointerId = null;
+
   track.addEventListener('pointerdown', (e) => {
     if (isInteractive(e.target)) return;
+    // Settle any active animation immediately so the carousel responds instantly to new touch
+    if (isAnimating) {
+      finishAnimation();
+    }
     isDragging = true;
     moved = false;
     startX = e.clientX;
+    startY = e.clientY;
+    startTime = performance.now();
+    activePointerId = e.pointerId;
     track.classList.add('dragging');
-    track.setPointerCapture(e.pointerId);
+    try {
+      track.setPointerCapture(e.pointerId);
+    } catch (_) {
+      // Ignored if pointer capture is unsupported or invalid
+    }
   });
 
   track.addEventListener('pointermove', (e) => {
-    if (!isDragging) return;
+    if (!isDragging || (activePointerId !== null && e.pointerId !== activePointerId)) return;
     const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+
     if (Math.abs(deltaX) > 4) moved = true;
+
     const viewportWidth = viewport.getBoundingClientRect().width || 1;
     dragDeltaPercent = (deltaX / viewportWidth) * 100;
     render(false);
   });
 
-  function endDrag() {
+  function endDrag(e) {
     if (!isDragging) return;
+    if (activePointerId !== null && e && e.pointerId !== undefined && e.pointerId !== activePointerId) return;
+
     isDragging = false;
     track.classList.remove('dragging');
-    const threshold = 18;
-    if (dragDeltaPercent <= -threshold) {
+
+    if (activePointerId !== null) {
+      try {
+        if (track.hasPointerCapture(activePointerId)) {
+          track.releasePointerCapture(activePointerId);
+        }
+      } catch (_) {}
+      activePointerId = null;
+    }
+
+    const elapsed = Math.max(1, performance.now() - startTime);
+    const viewportWidth = viewport.getBoundingClientRect().width || 1;
+    const pixelDistance = (dragDeltaPercent / 100) * viewportWidth;
+    const velocity = Math.abs(pixelDistance) / elapsed; // px per ms
+
+    // Thresholds: either dragged > 12% of screen OR swiped with quick flick velocity (> 0.25 px/ms)
+    const isFlick = velocity > 0.25 && Math.abs(pixelDistance) > 15;
+    const isSignificantDrag = Math.abs(dragDeltaPercent) >= 12;
+
+    if (dragDeltaPercent < 0 && (isSignificantDrag || (isFlick && pixelDistance < 0))) {
       goTo(index + 1);
-    } else if (dragDeltaPercent >= threshold) {
+    } else if (dragDeltaPercent > 0 && (isSignificantDrag || (isFlick && pixelDistance > 0))) {
       goTo(index - 1);
     } else {
+      // Clean snap-back to current slide
       dragDeltaPercent = 0;
+      isAnimating = true;
       render(true);
+      clearAnimTimeout();
+      animTimeout = setTimeout(() => {
+        finishAnimation();
+      }, 550);
     }
   }
 
