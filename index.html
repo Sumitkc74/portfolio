@@ -18,12 +18,12 @@
   "image": "https://sumitkc74.com.np/images/og-image.jpg",
   "jobTitle": "Full-Stack Developer",
   "description": "Full-stack developer building production web platforms, cross-platform mobile apps, and AI-powered systems.",
+  "affiliation": {
+    "@type": "CollegeOrUniversity",
+    "name": "City University of Seattle",
+    "url": "https://cityu.edu/"
+  },
   "alumniOf": [
-    {
-      "@type": "CollegeOrUniversity",
-      "name": "City University of Seattle",
-      "url": "https://cityu.edu/"
-    },
     {
       "@type": "CollegeOrUniversity",
       "name": "Informatics College Pokhara",
@@ -254,6 +254,9 @@
   }
   .pixel-robot:hover, .pixel-robot:active, .pixel-robot.is-waving { background: transparent; }
   .pixel-robot svg { width: 80px; height: 80px; overflow: visible; }
+  .pixel-robot.is-paused, .pixel-robot.is-paused * {
+    animation-play-state: paused !important;
+  }
   .robot-gaze { transform: translate(var(--robot-look-x, 0px), var(--robot-look-y, 0px)); }
   .robot-eyes { transform-box: fill-box; transform-origin: center; }
   .robot-arm { transform-origin: 55px 43px; }
@@ -404,7 +407,7 @@
     margin-bottom: 36px;
     line-height: 1.8;
     text-align: left;
-    hyphens: auto;
+    hyphens: manual;
     animation: fadeUp 0.6s 0.2s ease both;
   }
 
@@ -933,6 +936,11 @@
     cursor: pointer;
   }
 
+  .carousel-slide:not(.active):hover {
+    opacity: 0.65;
+    transform: scale(0.95);
+  }
+
   .carousel-slide.active {
     opacity: 1;
     transform: scale(1);
@@ -948,6 +956,41 @@
     flex-direction: column;
     min-height: 380px;
     height: 100%;
+  }
+
+  .carousel-side-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--navy-border);
+    background: rgba(22, 34, 58, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--light-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+  }
+
+  .carousel-side-arrow:hover {
+    background: rgba(28, 42, 69, 0.95);
+    border-color: #8fa3ff;
+    color: #fff;
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  .carousel-side-arrow svg { width: 20px; height: 20px; }
+  .carousel-side-arrow-left { left: 16px; }
+  .carousel-side-arrow-right { right: 16px; }
+
+  @media (max-width: 900px) {
+    .carousel-side-arrow { display: none; }
   }
 
   .carousel-controls {
@@ -1160,6 +1203,18 @@
     color: var(--muted);
     text-align: center;
     margin-bottom: 14px;
+  }
+
+  .resume-mobile-note {
+    display: none;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    background: var(--cream-peach);
+    border: 1px solid var(--cream-border);
+    border-radius: 8px;
   }
 
   /* Interactive MealMate architecture walkthrough */
@@ -1383,6 +1438,121 @@
     word-break: break-all;
   }
 
+  /* CONTACT FORM */
+  .contact-form-details {
+    margin-top: 24px;
+    border: 1.5px dashed rgba(255, 255, 255, 0.35);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .contact-form-details[open] {
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .contact-form-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+    list-style: none;
+    user-select: none;
+  }
+
+  .contact-form-toggle::-webkit-details-marker { display: none; }
+
+  .contact-toggle-icon {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.2s ease;
+  }
+
+  .contact-form-details[open] .contact-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .contact-form {
+    padding: 0 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(8, 14, 26, 0.5);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .form-input:focus, .form-textarea:focus {
+    border-color: #8fa3ff;
+    background: rgba(8, 14, 26, 0.75);
+    outline: 2px solid #8fa3ff;
+    outline-offset: 1px;
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .form-submit-btn {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .form-submit-btn:hover {
+    background: #2841c2;
+  }
+
+  .form-status {
+    font-size: 13px;
+    color: #a8bcff;
+  }
+
   /* FLOATING BACK TO TOP */
   .back-to-top {
     position: fixed;
@@ -1533,6 +1703,10 @@
     .hero-arrow-left { left: 12px; }
     .hero-arrow-right { right: 12px; }
     .resume-frame embed { display: none; }
+    .resume-mobile-note { display: block; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-form { padding: 0 18px 20px; }
+    .contact-form-toggle { padding: 16px 18px; }
     .back-to-top {
       bottom: 20px;
       right: 20px;
@@ -1683,7 +1857,7 @@
           <span class="stat-label">Client Websites</span>
         </div>
         <div class="stat">
-          <span class="stat-num" data-count="40" data-suffix="%">40%</span>
+          <span class="stat-num" data-count="40" data-suffix="%" data-prefix="~">~40%</span>
           <span class="stat-label">Page Load Reduction</span>
         </div>
       </div>
@@ -1751,11 +1925,11 @@
                   </a>
                   <span class="meta-pill meta-pill-accent">15+ Platforms Shipped</span>
                 </div>
-                <p class="hero-desc" id="exp-desc-2">Shipped 15+ client web platforms with custom code and ~40% faster load times.</p>
+                <p class="hero-desc" id="exp-desc-2">Shipped 15+ client web platforms with custom code and approximately 40% lower page load times.</p>
                 <div class="hero-detail" id="exp-detail-2">
                   <ul class="item-bullets">
                     <li>Delivered 15+ client web platforms end to end, writing custom PHP, JavaScript, and hand coded themes instead of prebuilt templates</li>
-                    <li>Cut page load times by ~40% on 5+ platforms through plugin audits, asset optimization, and server side caching</li>
+                    <li>Reduced page load times by approximately 40% on 5+ platforms through plugin audits, asset optimization, and server side caching</li>
                     <li>Integrated 3 third party REST APIs, including payment and booking systems, cutting manual order processing time by an estimated 5+ hours per week</li>
                   </ul>
                   <div class="tech-stack">
@@ -1824,6 +1998,12 @@
       </div>
 
         <div class="carousel" id="projectCarousel">
+          <button class="carousel-side-arrow carousel-side-arrow-left" id="carouselSidePrev" aria-label="Previous project">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="carousel-side-arrow carousel-side-arrow-right" id="carouselSideNext" aria-label="Next project">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
           <div class="carousel-viewport">
             <div class="carousel-track">
 
@@ -1880,10 +2060,11 @@
 
               <div class="carousel-slide">
                 <div class="project-card">
+                  <span class="team-badge">Solo Project</span>
                   <h3 class="project-name">Parallax-Eval</h3>
                   <p class="project-desc">English/Nepali LLM safety evaluation platform</p>
                   <ul class="project-bullets">
-                    <li>Full-stack Flutter and FastAPI platform comparing model safety responses to equivalent English and Nepali prompts.</li>
+                    <li>Designed and built an end-to-end Flutter and FastAPI platform comparing model safety responses to equivalent English and Nepali prompts.</li>
                     <li>Combines policy retrieval, Judge/Critic/Arbiter evaluation, and statistical analysis to investigate safety differences across languages.</li>
                   </ul>
                   <div class="tech-stack">
@@ -1907,7 +2088,7 @@
                         <div class="meal-flow-copy"><p>Compare refusal, unsafe compliance, and over-refusal behavior using paired statistical tests and bootstrap confidence intervals. Execution traces track latency, token usage, and estimated costs; CLI tools support dataset verification and regression checks.</p></div>
                       </details>
                     </div>
-                    <p class="meal-flow-credit"><strong>My contribution:</strong> Flutter dashboard and prompt inspector improvements, including progressive disclosure and reactive dark-mode styling.</p>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> Sole developer of the full platform: system architecture, Flutter client, FastAPI backend, LangGraph evaluation workflows, policy retrieval, statistical analysis, database integration, and CI tooling.</p>
                   </details>
                   <div class="card-footer">
 <a aria-label="View Parallax-Eval repository on GitHub" class="btn btn-dark" href="https://github.com/Sumitkc74/Parallax-Eval" rel="noopener noreferrer" target="_blank">
@@ -2254,6 +2435,7 @@
       <h2 class="tagline">The full picture, one document.</h2>
       <div class="resume-frame">
         <p class="resume-intro">View or download my full one-page software engineering resume.</p>
+        <p class="resume-mobile-note">PDF preview is optimized for desktop displays. Tap below to view or download directly.</p>
         <embed src="Sumit_KC_Resume.pdf" type="application/pdf" width="100%" height="800px" title="Sumit K C Resume" />
         <div class="resume-actions">
           <a href="Sumit_KC_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
@@ -2294,6 +2476,41 @@
           <span class="contact-val">sumitkc74</span>
         </a>
       </div>
+      <details class="contact-form-details">
+        <summary class="contact-form-toggle">
+          <span class="contact-form-toggle-text">Send a quick message</span>
+          <svg class="contact-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </summary>
+        <form class="contact-form" action="https://formsubmit.co/sumitkc74@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="New Portfolio Message from sumitkc74.com.np" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contact-name" class="form-label">Name</label>
+              <input type="text" id="contact-name" name="name" class="form-input" required placeholder="Your name" autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label for="contact-email" class="form-label">Email</label>
+              <input type="email" id="contact-email" name="email" class="form-input" required placeholder="your.email@example.com" autocomplete="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contact-message" class="form-label">Message</label>
+            <textarea id="contact-message" name="message" class="form-textarea" rows="4" required placeholder="What would you like to discuss?"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary form-submit-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              Send Message
+            </button>
+            <span class="form-status" id="formStatus" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </details>
     </div>
   </section>
 </main>
@@ -2323,7 +2540,7 @@
   </div>
 </footer>
 
-<script src="main.js"></script>
+<script src="main.js?v=20261014"></script>
 
 </body>
 </html>

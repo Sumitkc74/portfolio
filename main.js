@@ -67,12 +67,13 @@ const statObserver = new IntersectionObserver((entries) => {
       const el = entry.target;
       const target = parseInt(el.dataset.count, 10);
       const suffix = el.dataset.suffix || '';
+      const prefix = el.dataset.prefix || '';
       const duration = 900;
       const start = performance.now();
       function tick(now) {
         const progress = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(eased * target) + suffix;
+        el.textContent = prefix + Math.round(eased * target) + suffix;
         if (progress < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
@@ -207,6 +208,14 @@ function initCarousel(config) {
 
   if (prevBtn) prevBtn.addEventListener('click', () => goTo(index - 1));
   if (nextBtn) nextBtn.addEventListener('click', () => goTo(index + 1));
+  if (config.sidePrevId) {
+    const sidePrevBtn = document.getElementById(config.sidePrevId);
+    if (sidePrevBtn) sidePrevBtn.addEventListener('click', () => goTo(index - 1));
+  }
+  if (config.sideNextId) {
+    const sideNextBtn = document.getElementById(config.sideNextId);
+    if (sideNextBtn) sideNextBtn.addEventListener('click', () => goTo(index + 1));
+  }
 
   carousel.setAttribute('tabindex', '0');
   carousel.addEventListener('keydown', (e) => {
@@ -311,6 +320,8 @@ initCarousel({
   dotsId: 'carouselDots',
   prevId: 'carouselPrev',
   nextId: 'carouselNext',
+  sidePrevId: 'carouselSidePrev',
+  sideNextId: 'carouselSideNext',
   peek: true,
   cellWidth: 50,
   dotLabel: (i, total) => 'Go to project ' + (i + 1) + ' of ' + total,
@@ -445,6 +456,28 @@ if ('IntersectionObserver' in window && !revealMotion.matches) {
 
 // A short hello on click, Enter, or Space; no animation for reduced motion.
 const pixelRobot = document.getElementById('pixelRobot');
+function robotIsActive() {
+  return pixelRobot && !pixelRobot.hidden && !document.hidden && !pixelRobot.classList.contains('is-paused');
+}
+if (pixelRobot) {
+  let robotInView = true;
+  function syncRobotActivity() {
+    const paused = document.hidden || pixelRobot.hidden || !robotInView;
+    pixelRobot.classList.toggle('is-paused', paused);
+    pixelRobot.dispatchEvent(new Event('robot-activity-change'));
+  }
+  if ('IntersectionObserver' in window) {
+    const robotVisibilityObserver = new IntersectionObserver(entries => {
+      robotInView = entries[0].isIntersecting;
+      syncRobotActivity();
+    });
+    robotVisibilityObserver.observe(pixelRobot);
+  }
+  new MutationObserver(syncRobotActivity).observe(pixelRobot, { attributes: true, attributeFilter: ['hidden'] });
+  document.addEventListener('visibilitychange', syncRobotActivity);
+  syncRobotActivity();
+}
+
 if (pixelRobot) {
   let robotHelloTimer;
   pixelRobot.addEventListener('click', () => {
@@ -475,13 +508,13 @@ if (pixelRobot) {
     pixelRobot.style.removeProperty('--robot-look-y');
   };
   window.addEventListener('pointermove', (event) => {
-    if (event.pointerType !== 'mouse' || robotMotion.matches) return;
+    if (event.pointerType !== 'mouse' || robotMotion.matches || !robotIsActive()) return;
     robotPointerX = event.clientX;
     robotPointerY = event.clientY;
     if (robotPointerFrame) return;
     robotPointerFrame = requestAnimationFrame(() => {
       robotPointerFrame = 0;
-      if (robotMotion.matches) return;
+      if (robotMotion.matches || !robotIsActive()) return;
       const rect = pixelRobot.getBoundingClientRect();
       if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
       const dx = robotPointerX - (rect.left + rect.width / 2);
@@ -495,6 +528,9 @@ if (pixelRobot) {
   document.documentElement.addEventListener('pointerleave', resetRobotGaze);
   window.addEventListener('blur', resetRobotGaze);
   robotMotion.addEventListener('change', resetRobotGaze);
+  pixelRobot.addEventListener('robot-activity-change', () => {
+    if (!robotIsActive()) resetRobotGaze();
+  });
 }
 
 
@@ -509,6 +545,10 @@ if (pixelRobot) {
 
   function updateCompanion(now) {
     companionFrame = 0;
+    if (document.hidden) {
+      companionLastTime = 0;
+      return;
+    }
     if (pixelRobot.hidden || companionMotion.matches) {
       pixelRobot.classList.remove('is-companion', 'is-walking', 'is-running-up');
       pixelRobot.style.removeProperty('--robot-walk-x');
@@ -550,8 +590,18 @@ if (pixelRobot) {
     else companionLastTime = 0;
   }
   function scheduleCompanion() {
+    if (document.hidden || pixelRobot.hidden) return;
     if (!companionFrame) companionFrame = requestAnimationFrame(updateCompanion);
   }
+  pixelRobot.addEventListener('robot-activity-change', () => {
+    if (document.hidden || pixelRobot.hidden) {
+      cancelAnimationFrame(companionFrame);
+      companionFrame = 0;
+      companionLastTime = 0;
+    } else {
+      scheduleCompanion();
+    }
+  });
   window.addEventListener('scroll', scheduleCompanion, { passive: true });
   window.addEventListener('resize', scheduleCompanion, { passive: true });
   companionMotion.addEventListener('change', scheduleCompanion);
@@ -692,3 +742,50 @@ if (pixelRobot && robotSpeech && robotSpeechText && robotSpeechClose) {
     window.addEventListener('load', greetWithRobot, { once: true });
   }
 }
+
+// Contact form submission handling (FormSubmit.co - Free direct email delivery)
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', (e) => {
+    const statusEl = document.getElementById('formStatus');
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    if (window.location.protocol === 'file:') {
+      e.preventDefault();
+      if (statusEl) statusEl.textContent = 'Note: Direct submissions require live hosting. Please use the email button above in local preview.';
+      return;
+    }
+
+    e.preventDefault();
+    if (submitBtn) submitBtn.disabled = true;
+    if (statusEl) statusEl.textContent = 'Sending...';
+
+    const formData = new FormData(contactForm);
+    fetch('https://formsubmit.co/ajax/sumitkc74@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json'
+      },
+      body: formData
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
+      .then((data) => {
+        if (data.success === 'true' || data.success === true) {
+          if (statusEl) statusEl.textContent = 'Thank you! Your message has been sent directly to my inbox.';
+          contactForm.reset();
+        } else {
+          throw new Error(data.message || 'Submission error');
+        }
+      })
+      .catch(() => {
+        contactForm.submit();
+      })
+      .finally(() => {
+        if (submitBtn) submitBtn.disabled = false;
+      });
+  });
+}
+

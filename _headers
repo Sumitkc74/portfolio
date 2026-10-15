@@ -4,7 +4,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Cross-Origin-Opener-Policy: same-origin
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'self'; base-uri 'self'; frame-ancestors 'self'; require-trusted-types-for 'script'
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; object-src 'self'; base-uri 'self'; frame-ancestors 'self'; require-trusted-types-for 'script'
 
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
@@ -13,7 +13,7 @@
   Cache-Control: public, max-age=31536000, immutable
 
 /main.js
-  Cache-Control: public, max-age=86400, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
 
 /*.pdf
   Cache-Control: public, max-age=86400, must-revalidate
