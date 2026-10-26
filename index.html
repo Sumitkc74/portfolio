@@ -57,6 +57,10 @@
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 <link rel="apple-touch-icon" href="images/favicon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Sumit K C">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sumit K C — Software Engineer">
@@ -629,7 +633,47 @@
   }
 
   .experience-bg .section-eyebrow { color: #8fa3ff; }
-  .experience-bg h2.tagline { color: #fff; }
+  .experience-bg h2.tagline { color: #fff; margin-bottom: 24px; }
+
+  /* Experience Role Quick Switcher */
+  .role-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .role-tab {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+  }
+
+  .role-tab:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #fff;
+  }
+
+  .role-tab.active {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(52, 84, 224, 0.35);
+  }
+
+  @media (max-width: 600px) {
+    .role-tabs { display: none; }
+  }
 
   .hero-carousel {
     position: relative;
@@ -1094,6 +1138,7 @@
 
   .carousel-dots {
     display: flex;
+    align-items: center;
     gap: 8px;
   }
 
@@ -1104,12 +1149,30 @@
     background: var(--navy-border);
     cursor: pointer;
     padding: 0;
-    transition: background 0.2s, transform 0.2s;
+    transition: all 0.25s cubic-bezier(.25,.8,.35,1);
   }
 
   .carousel-dots .dot.active {
     background: #8fa3ff;
-    transform: scale(1.3);
+    width: 22px;
+    border-radius: 6px;
+    transform: none;
+  }
+
+  .carousel-counter {
+    display: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--light-muted);
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    border: 1px solid var(--navy-border);
+  }
+
+  @media (max-width: 480px) {
+    .carousel-counter { display: inline-block; }
   }
 
   .team-badge {
@@ -1372,7 +1435,7 @@
   }
 
   /* CERTIFICATIONS */
-  .cert-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .cert-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
   .cert-item {
     display: flex;
     flex-direction: column;
@@ -1425,7 +1488,7 @@
     color: var(--blue);
   }
   .cert-verify svg { width: 14px; height: 14px; }
-  @media (max-width: 992px) {
+  @media (max-width: 900px) {
     .cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 720px) {
@@ -2092,6 +2155,11 @@
         <div class="container">
           <div class="section-eyebrow">01 / Experience</div>
           <h2 class="tagline">Where I've made an impact.</h2>
+          <div class="role-tabs" id="experienceTabs" role="tablist" aria-label="Select role">
+            <button class="role-tab active" role="tab" aria-selected="true" data-slide-index="1">CityU — Cloud &amp; Teaching</button>
+            <button class="role-tab" role="tab" aria-selected="false" data-slide-index="2">Aankhijhyal — Software Engineer</button>
+            <button class="role-tab" role="tab" aria-selected="false" data-slide-index="3">Aankhijhyal — Intern</button>
+          </div>
         </div>
         <div class="hero-carousel" id="experienceCarousel">
         <div class="hero-viewport">
@@ -2234,6 +2302,101 @@
 
               <div class="carousel-slide">
                 <div class="project-card">
+                  <span class="team-badge">Solo Project</span>
+                  <h3 class="project-name">CarePolicyGuard</h3>
+                  <p class="project-desc">Policy-aware clinical coverage verification engine</p>
+                  <ul class="project-bullets">
+                    <li>FastAPI multi-agent system checking EHR patient records against CMS Medicare coverage determinations (NCD/LCD) for prior-authorization reviews.</li>
+                    <li>Achieved 100% decision concordance and 100% evidence faithfulness across 10 clinical benchmark cases, with 20% safe deferrals to human review.</li>
+                  </ul>
+                  <div class="tech-stack">
+                    <span class="tag">FastAPI</span><span class="tag">Python 3.12</span>
+                    <span class="tag">Multi-Agent AI</span><span class="tag">RAG</span><span class="tag">HIPAA RBAC</span>
+                  </div>
+                  <details class="meal-flow">
+                    <summary class="flow-project-toggle"><h3>Inside CarePolicyGuard</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From raw clinical EHR text to mathematically verified prior-authorization decisions. Select a step to learn more.</p>
+                    <div class="meal-flow-grid">
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">01 / RETRIEVAL</span>Policy &amp; Criteria Ingestion</summary>
+                        <div class="meal-flow-copy"><p>Retrieves governing Medicare NCD/LCD policies (such as ICD, PAP, TAVR) using hybrid lexical-semantic chunk matching, then extracts clinical criteria with character offset anchors.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">02 / VERIFICATION</span>Adversarial Slice Auditing</summary>
+                        <div class="meal-flow-copy"><p>An adversarial verification agent programmatically confirms character slices directly against the raw EHR text to prevent LLM hallucinations, quote drifts, and negative omissions.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">03 / DECISION</span>Calibrated Gate &amp; Defense Packet</summary>
+                        <div class="meal-flow-copy"><p>Enforces a calibrated confidence gate (&tau; = 0.85); cases falling below the threshold route safely to human auditors, while verified decisions generate complete CMS appeal defense packets.</p></div>
+                      </details>
+                    </div>
+                    <p class="meal-flow-credit"><strong>Empirical Benchmark:</strong> 100% accuracy and 100% evidence faithfulness vs. a zero-shot prompt baseline (60% accuracy, 45% faithfulness) with an ECE of 0.064.</p>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> Sole author of the full system architecture, FastAPI microservice, multi-agent pipeline, deterministic slice validators, HIPAA minimum-necessary masking, and benchmark evaluation suite.</p>
+                  </details>
+                  <div class="card-footer">
+                    <a href="https://github.com/Sumitkc74/CarePolicyGuard" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View CarePolicyGuard repository on GitHub">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
+                      View on GitHub
+                    </a>
+                    <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/CarePolicyGuard" aria-label="Copy project link">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                      <span class="copy-tooltip" aria-hidden="true">Copied!</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="carousel-slide">
+                <div class="project-card">
+                  <span class="team-badge">Solo Project</span>
+                  <h3 class="project-name">Parallax-Eval</h3>
+                  <p class="project-desc">English/Nepali LLM safety evaluation platform</p>
+                  <ul class="project-bullets">
+                    <li>Designed and built an end-to-end Flutter and FastAPI platform comparing model safety responses to equivalent English and Nepali prompts.</li>
+                    <li>Combines policy retrieval, Judge/Critic/Arbiter evaluation, and statistical analysis to investigate safety differences across languages.</li>
+                  </ul>
+                  <div class="tech-stack">
+                    <span class="tag">Flutter</span><span class="tag">Python</span><span class="tag">FastAPI</span>
+                    <span class="tag">LangGraph</span><span class="tag">PostgreSQL</span><span class="tag">RAG</span>
+                  </div>
+                  <details class="meal-flow">
+                    <summary class="flow-project-toggle"><h3>Inside Parallax-Eval</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From paired prompts to a comparison of model safety behavior. Select a step to learn more.</p>
+                    <div class="meal-flow-grid">
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">01 / EXPERIMENT</span>Compare two languages</summary>
+                        <div class="meal-flow-copy"><p>Run equivalent English and Nepali prompts through the model gateway. The Flutter client connects to FastAPI to monitor experiments and inspect paired responses.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">02 / EVALUATION</span>Check safety judgments</summary>
+                        <div class="meal-flow-copy"><p>Policy retrieval supplies context to a LangGraph Judge/Critic/Arbiter workflow. The agents evaluate responses, challenge classifications, and reconcile disagreements. Adaptive red-teaming explores prompt variations.</p></div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">03 / ANALYSIS</span>Inspect the differences</summary>
+                        <div class="meal-flow-copy"><p>Compare refusal, unsafe compliance, and over-refusal behavior using paired statistical tests and bootstrap confidence intervals. Execution traces track latency, token usage, and estimated costs; CLI tools support dataset verification and regression checks.</p></div>
+                      </details>
+                    </div>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> Sole developer of the full platform: system architecture, Flutter client, FastAPI backend, LangGraph evaluation workflows, policy retrieval, statistical analysis, database integration, and CI tooling.</p>
+                  </details>
+                  <div class="card-footer">
+                    <a aria-label="View Parallax-Eval repository on GitHub" class="btn btn-dark" href="https://github.com/Sumitkc74/Parallax-Eval" rel="noopener noreferrer" target="_blank">
+                      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14L21 3"></path></svg>
+                      View on GitHub
+                    </a>
+                    <button class="btn btn-dark" data-copy-bibtex aria-label="Copy BibTeX citation for Parallax-Eval">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                      <span class="btn-text">BibTeX</span>
+                    </button>
+                    <button aria-label="Copy project link" class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Parallax-Eval">
+                      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="12" rx="2" width="12" x="9" y="9"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg>
+                      <span aria-hidden="true" class="copy-tooltip">Copied!</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="carousel-slide">
+                <div class="project-card">
                   <span class="team-badge">Team Project</span>
                   <h3 class="project-name">MealMate.ai</h3>
                   <p class="project-desc">AI-powered meal planning platform</p>
@@ -2286,50 +2449,6 @@
               <div class="carousel-slide">
                 <div class="project-card">
                   <span class="team-badge">Solo Project</span>
-                  <h3 class="project-name">Parallax-Eval</h3>
-                  <p class="project-desc">English/Nepali LLM safety evaluation platform</p>
-                  <ul class="project-bullets">
-                    <li>Designed and built an end-to-end Flutter and FastAPI platform comparing model safety responses to equivalent English and Nepali prompts.</li>
-                    <li>Combines policy retrieval, Judge/Critic/Arbiter evaluation, and statistical analysis to investigate safety differences across languages.</li>
-                  </ul>
-                  <div class="tech-stack">
-                    <span class="tag">Flutter</span><span class="tag">Python</span><span class="tag">FastAPI</span>
-                    <span class="tag">LangGraph</span><span class="tag">PostgreSQL</span><span class="tag">RAG</span>
-                  </div>
-                  <details class="meal-flow">
-                    <summary class="flow-project-toggle"><h3>Inside Parallax-Eval</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
-                    <p class="meal-flow-intro">From paired prompts to a comparison of model safety behavior. Select a step to learn more.</p>
-                    <div class="meal-flow-grid">
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">01 / EXPERIMENT</span>Compare two languages</summary>
-                        <div class="meal-flow-copy"><p>Run equivalent English and Nepali prompts through the model gateway. The Flutter client connects to FastAPI to monitor experiments and inspect paired responses.</p></div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">02 / EVALUATION</span>Check safety judgments</summary>
-                        <div class="meal-flow-copy"><p>Policy retrieval supplies context to a LangGraph Judge/Critic/Arbiter workflow. The agents evaluate responses, challenge classifications, and reconcile disagreements. Adaptive red-teaming explores prompt variations.</p></div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">03 / ANALYSIS</span>Inspect the differences</summary>
-                        <div class="meal-flow-copy"><p>Compare refusal, unsafe compliance, and over-refusal behavior using paired statistical tests and bootstrap confidence intervals. Execution traces track latency, token usage, and estimated costs; CLI tools support dataset verification and regression checks.</p></div>
-                      </details>
-                    </div>
-                    <p class="meal-flow-credit"><strong>My contribution:</strong> Sole developer of the full platform: system architecture, Flutter client, FastAPI backend, LangGraph evaluation workflows, policy retrieval, statistical analysis, database integration, and CI tooling.</p>
-                  </details>
-                  <div class="card-footer">
-<a aria-label="View Parallax-Eval repository on GitHub" class="btn btn-dark" href="https://github.com/Sumitkc74/Parallax-Eval" rel="noopener noreferrer" target="_blank">
-<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14L21 3"></path></svg>
-                      View on GitHub
-                    </a>
-<button aria-label="Copy project link" class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Parallax-Eval">
-<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="12" rx="2" width="12" x="9" y="9"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg>
-<span aria-hidden="true" class="copy-tooltip">Copied!</span>
-</button>
-</div>
-                </div>
-              </div>
-
-              <div class="carousel-slide">
-                <div class="project-card">
                   <h3 class="project-name">Learn to Drive</h3>
                   <p class="project-desc">Learner, school, and admin platform for web and mobile</p>
                   <ul class="project-bullets">
@@ -2444,46 +2563,45 @@
               <div class="carousel-slide">
                 <div class="project-card">
                   <span class="team-badge">Team Project</span>
-                  <h3 class="project-name">Multi-Factor Auth System</h3>
-                  <p class="project-desc">Multi-factor authentication prototype</p>
+                  <h3 class="project-name">LinguoAI</h3>
+                  <p class="project-desc">AI-powered language learning mobile application</p>
                   <ul class="project-bullets">
-                    <li>Flask and Expo React Native prototype with password authentication and SMS verification.</li>
-                    <li>Combines bcrypt password hashing, MongoDB user records, and Duo Security one-time passcodes.</li>
+                    <li>Cross-platform mobile app built with React Native (Expo) and Node.js/Express, providing interactive speaking, listening, and reading curriculum.</li>
+                    <li>Integrated real-time streaming voice conversations with Google Gemini and local Ollama (Gemma2), with smart progress tracking.</li>
                   </ul>
                   <div class="tech-stack">
-                    <span class="tag">Flask</span><span class="tag">React Native</span>
-                    <span class="tag">MongoDB</span><span class="tag">Duo Security</span><span class="tag">Python</span>
+                    <span class="tag">React Native (Expo)</span><span class="tag">TypeScript</span>
+                    <span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">MongoDB</span><span class="tag">Gemini API</span>
                   </div>
                   <div class="avatar-stack">
-                    <span class="avatar" style="background:#3454e0;" title="Shila Jahanbin">SJ</span>
-                    <span class="avatar" style="background:#b0451f;" title="Sai Shruthi Sridhar">SS</span>
-                    <span class="avatar" style="background:#3454e0;" title="Sumit K C">SK</span>
+                    <span class="avatar" style="background:#3454e0;" title="Namrata Mali">NM</span>
+                    <span class="avatar" style="background:#b0451f;" title="Sumit K C">SK</span>
                   </div>
                   <details class="meal-flow">
-                    <summary class="flow-project-toggle"><h3>Inside Multi-Factor Auth System</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
-                    <p class="meal-flow-intro">From registration to a two-factor login. Select a step to learn more.</p>
+                    <summary class="flow-project-toggle"><h3>Inside LinguoAI</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From speech input to interactive conversational feedback. Select a step to learn more.</p>
                     <div class="meal-flow-grid">
                       <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">01 / REGISTRATION</span>Create an account</summary>
-                        <div class="meal-flow-copy"><p>The Expo React Native client connects to a Flask backend. User records are stored in MongoDB, with passwords hashed using bcrypt.</p></div>
+                        <summary><span class="meal-flow-number">01 / CONVERSATION</span>Speaking Partner</summary>
+                        <div class="meal-flow-copy"><p>Learners practice real-world dialogues with an AI conversation partner powered by streaming SSE responses from Google Gemini and Gemma2.</p></div>
                       </details>
                       <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">02 / PASSWORD</span>Start the login</summary>
-                        <div class="meal-flow-copy"><p>The user submits their credentials through the mobile login flow for password authentication.</p></div>
+                        <summary><span class="meal-flow-number">02 / FEEDBACK</span>Pronunciation &amp; Grammar</summary>
+                        <div class="meal-flow-copy"><p>Real-time speech evaluation reviews pronunciation, identifies sentence structure mistakes, and offers instant corrections.</p></div>
                       </details>
                       <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">03 / VERIFICATION</span>Confirm with a code</summary>
-                        <div class="meal-flow-copy"><p>Duo Security delivers an SMS one-time passcode, and the integration verifies the code to complete the two-factor login flow.</p></div>
+                        <summary><span class="meal-flow-number">03 / TRACKING</span>Adaptive Progress</summary>
+                        <div class="meal-flow-copy"><p>Mongoose-backed progress controllers record practice streaks, mastery milestones, vocabulary retention, and smart scheduling reminders.</p></div>
                       </details>
                     </div>
-                    <p class="meal-flow-credit"><strong>My contribution:</strong> The Expo client and login flow, MongoDB-backed registration, and Duo Security SMS delivery and OTP verification integration.</p>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> Mobile client application flows, AI streaming integration, voice conversation state management, and backend progress tracking services.</p>
                   </details>
                   <div class="card-footer">
-                    <a href="https://github.com/Sumitkc74/Multi-Factor-Auth-System" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View Multi-Factor Auth System repository on GitHub">
+                    <a href="https://github.com/Sumitkc74/LinguoAI" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View LinguoAI repository on GitHub">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
                       View on GitHub
                     </a>
-                    <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Multi-Factor-Auth-System" aria-label="Copy project link">
+                    <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/LinguoAI" aria-label="Copy project link">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                       <span class="copy-tooltip" aria-hidden="true">Copied!</span>
                     </button>
@@ -2550,6 +2668,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
             <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Select project"></div>
+            <span class="carousel-counter" id="carouselCounter" aria-hidden="true">1 / 7</span>
             <button class="carousel-arrow" id="carouselNext" aria-label="Next project">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
             </button>
@@ -2634,8 +2753,8 @@
       <div class="cert-grid">
         <a href="https://learn.microsoft.com/en-us/users/sumitkc74/credentials/f90cd8e1fa15fc6a" target="_blank" rel="noopener noreferrer" class="cert-item" aria-label="Verify Microsoft Certified: Fabric Data Engineer Associate">
           <img class="cert-badge" src="images/badge-microsoft-associate.svg" alt="" width="100" height="100" loading="lazy">
-          <div class="cert-badge-fallback" hidden aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          <div class="cert-badge-fallback cert-fallback-fabric" hidden aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
           </div>
           <span class="cert-issuer">Issued by Microsoft</span>
           <h3 class="cert-name">Fabric Data Engineer</h3>
@@ -2644,8 +2763,8 @@
         </a>
         <a href="https://learn.microsoft.com/en-us/users/sumitkc74/credentials/68f3684e021dadd1" target="_blank" rel="noopener noreferrer" class="cert-item" aria-label="Verify Microsoft Certified: Azure Administrator Associate">
           <img class="cert-badge" src="images/badge-microsoft-associate.svg" alt="" width="100" height="100" loading="lazy">
-          <div class="cert-badge-fallback" hidden aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          <div class="cert-badge-fallback cert-fallback-admin" hidden aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
           </div>
           <span class="cert-issuer">Issued by Microsoft</span>
           <h3 class="cert-name">Azure Administrator</h3>
@@ -2654,18 +2773,18 @@
         </a>
         <a href="https://www.credly.com/badges/5e0ca160-b099-4457-984e-a92bd6ecb379/public_url" target="_blank" rel="noopener noreferrer" class="cert-item" aria-label="Verify Microsoft Certified: Azure AI Fundamentals">
           <img class="cert-badge" src="images/badge-microsoft-fundamentals.svg" alt="" width="100" height="100" loading="lazy">
-          <div class="cert-badge-fallback" hidden aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          <div class="cert-badge-fallback cert-fallback-ai" hidden aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/></svg>
           </div>
           <span class="cert-issuer">Issued by Microsoft</span>
           <h3 class="cert-name">Azure AI</h3>
           <span class="cert-level">Fundamentals</span>
           <span class="cert-verify">Verify credential <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
         </a>
-        <a href="https://learn.microsoft.com/en-us/users/sumitkc74/credentials" target="_blank" rel="noopener noreferrer" class="cert-item" aria-label="Verify Microsoft Certified: Azure Data Fundamentals">
+        <a href="https://www.credly.com/badges/c15d5660-3b02-413a-aaa0-9931afd0156f/public_url" target="_blank" rel="noopener noreferrer" class="cert-item" aria-label="Verify Microsoft Certified: Azure Data Fundamentals">
           <img class="cert-badge" src="images/badge-microsoft-fundamentals.svg" alt="" width="100" height="100" loading="lazy">
-          <div class="cert-badge-fallback" hidden aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          <div class="cert-badge-fallback cert-fallback-data" hidden aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
           </div>
           <span class="cert-issuer">Issued by Microsoft</span>
           <h3 class="cert-name">Azure Data</h3>

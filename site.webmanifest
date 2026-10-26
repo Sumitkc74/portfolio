@@ -1,0 +1,22 @@
+{
+  "name": "Sumit K C — Software Engineer",
+  "short_name": "Sumit K C",
+  "description": "Portfolio of Sumit K C — Software Engineer building production web platforms, cloud environments, and AI-powered systems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f1e7",
+  "theme_color": "#f5f1e7",
+  "icons": [
+    {
+      "src": "/images/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+

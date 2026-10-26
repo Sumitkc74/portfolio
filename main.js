@@ -177,6 +177,9 @@ function initCarousel(config) {
       d.classList.toggle('active', isActive);
       d.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
+    if (config.onSlideChange) {
+      config.onSlideChange(r, total);
+    }
   }
 
   let isAnimating = false;
@@ -380,7 +383,10 @@ function initCarousel(config) {
   });
 
   render(false);
+  return { goTo };
 }
+
+const projectCounter = document.getElementById('carouselCounter');
 
 initCarousel({
   carouselId: 'projectCarousel',
@@ -394,13 +400,20 @@ initCarousel({
   peek: true,
   cellWidth: 50,
   dotLabel: (i, total) => 'Go to project ' + (i + 1) + ' of ' + total,
+  onSlideChange: (realIdx, total) => {
+    if (projectCounter) {
+      projectCounter.textContent = (realIdx + 1) + ' / ' + total;
+    }
+  },
   announceText: (i, total, slideEl) => {
     const nameEl = slideEl.querySelector('.project-name');
     return 'Showing project ' + (i + 1) + ' of ' + total + ': ' + (nameEl ? nameEl.textContent : '');
   }
 });
 
-initCarousel({
+const roleTabs = Array.from(document.querySelectorAll('.role-tab'));
+
+const expCarousel = initCarousel({
   carouselId: 'experienceCarousel',
   viewportSelector: '.hero-viewport',
   trackSelector: '.hero-track',
@@ -408,6 +421,13 @@ initCarousel({
   prevId: 'experiencePrev',
   nextId: 'experienceNext',
   dotLabel: (i, total) => 'Go to role ' + (i + 1) + ' of ' + total,
+  onSlideChange: (realIdx) => {
+    roleTabs.forEach((tab, i) => {
+      const isActive = i === realIdx;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  },
   announceText: (i, total, slideEl) => {
     const titleEl = slideEl.querySelector('.hero-title');
     const expBg = document.querySelector('.experience-bg');
@@ -417,6 +437,15 @@ initCarousel({
     }
     return 'Showing role ' + (i + 1) + ' of ' + total + ': ' + (titleEl ? titleEl.textContent : '');
   }
+});
+
+roleTabs.forEach((tab) => {
+  tab.addEventListener('click', () => {
+    const slideIdx = parseInt(tab.dataset.slideIndex, 10);
+    if (!isNaN(slideIdx) && expCarousel) {
+      expCarousel.goTo(slideIdx);
+    }
+  });
 });
 
 // Expand/collapse the "View Details" panel on each experience hero slide
@@ -436,6 +465,34 @@ document.querySelectorAll('[data-expand-target]').forEach((btn) => {
 });
 
 // Wire up all copy buttons via data attributes instead of inline onclick
+document.querySelectorAll('[data-copy-bibtex]').forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const bibtex = `@misc{kc2026parallaxeval,
+  author = {K C, Sumit},
+  title = {Parallax-Eval: Cross-Lingual English-Nepali LLM Safety Evaluation Platform},
+  year = {2026},
+  publisher = {GitHub},
+  howpublished = {\\url{https://github.com/Sumitkc74/Parallax-Eval}}
+}`;
+    const textEl = btn.querySelector('.btn-text');
+    const prevText = textEl ? textEl.textContent : 'BibTeX';
+    navigator.clipboard.writeText(bibtex).then(() => {
+      btn.classList.add('copied');
+      if (textEl) textEl.textContent = 'Copied!';
+      const announcer = document.getElementById('a11y-announcer');
+      if (announcer) announcer.textContent = 'BibTeX citation copied to clipboard';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        if (textEl) textEl.textContent = prevText;
+        if (announcer) announcer.textContent = '';
+      }, 1800);
+    }).catch(() => {
+      copyLink(btn, 'https://github.com/Sumitkc74/Parallax-Eval', 'Repository link copied');
+    });
+  });
+});
+
 document.querySelectorAll('[data-copy-url]').forEach((btn) => {
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
