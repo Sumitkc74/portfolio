@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Portfolio Quest — Sumit K C</title>
+<meta name="description" content="A full-screen town to explore through Sumit K C's portfolio. Walk between districts, enter schools, offices, labs, and homes, and read what each place holds. Original art and code, inspired by classic exploration games.">
+<link rel="stylesheet" href="game.css">
+</head>
+<body>
+<canvas id="gameCanvas" aria-label="Full-screen town map. Use WASD or arrow keys, or the bottom-left joystick, to walk. Click a building or stand next to it and press Space to enter it."></canvas>
+
+<div id="topLeft">
+  <a id="backLink" href="index.html">&larr; Portfolio</a>
+  <button type="button" id="howtoBtn" aria-label="Show how to play">How to play</button>
+</div>
+
+<div id="topRight">
+  <button type="button" id="questToggle" aria-label="Toggle quest log">Quest</button>
+</div>
+
+<div id="rightPanels">
+  <div id="counters" class="hud-panel collapsed" aria-label="Visited places">
+    <button id="countersToggle" class="counters-head" aria-expanded="false">
+      <span class="counters-title">Visited</span>
+      <span class="counters-total"><span id="totalVisited">0</span>/<span id="totalBuildings">15</span></span>
+      <span id="countersChev" class="counters-chev" aria-hidden="true">▾</span>
+    </button>
+    <div id="counterLines"></div>
+  </div>
+
+  <aside id="questPanel" class="hud-panel hidden" aria-label="Quest log">
+    <div class="quest-head">
+      <h2>Quest log</h2>
+      <button type="button" id="resetBtn" class="btn-small">Reset</button>
+    </div>
+    <p class="quest-note">Visited places can be re-entered from here. Unvisited places stay hidden as ???</p>
+    <ul id="questList"></ul>
+    <div id="winNote" class="win-note" hidden>
+      <strong>Portfolio Master!</strong> You visited every place. <a href="mailto:sumitkc74@gmail.com">contact Sumit</a>.
+    </div>
+  </aside>
+</div>
+
+<div id="hint">WASD / arrows or bottom-left touch to move &middot; Drag to look around &middot; C to recenter &middot; Tap a building or file to open it &middot; Scroll or + / - to zoom &middot; Q for quest log &middot; H for help</div>
+
+<div id="minimapWrap" aria-label="Mini-map">
+  <div id="minimapHead"><span>Map</span><button type="button" id="minimapToggle" aria-label="Collapse mini-map">&minus;</button></div>
+  <canvas id="minimap" width="220" height="140" aria-label="Mini-map of the town. Click to move the camera there."></canvas>
+</div>
+
+<div id="howto" class="hud-panel" hidden>
+  <h2>How to play</h2>
+  <ul>
+    <li><b>Move:</b> WASD or arrow keys, or the joystick in the bottom-left corner on touch screens.</li>
+    <li><b>Look around:</b> drag the map. Press C or Center to come back to the robot.</li>
+    <li><b>Open a place:</b> tap or click a building or file, or stand near one and press Space.</li>
+    <li><b>Details:</b> every place shows a short overview first. Tap See details for the full story.</li>
+    <li><b>Quest:</b> press Q for the quest log. The gold arrow guides you in order: home, then education and jobs by date, then skills, then contact. Visit all 15 places to become a Portfolio Master.</li>
+    <li><b>Zoom:</b> + / &minus; buttons, scroll wheel, or pinch.</li>
+  </ul>
+  <button type="button" id="howtoStart" class="btn-small">Start playing</button>
+</div>
+
+<div id="joystick" aria-label="Movement joystick">
+  <div id="joyBase"><div id="joyKnob"></div></div>
+</div>
+
+<div id="zoomControls" aria-label="Zoom controls">
+  <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
+  <button type="button" id="zoomLabel" aria-label="Reset zoom">100%</button>
+  <button type="button" id="zoomOut" aria-label="Zoom out">&minus;</button>
+  <button type="button" id="centerBtn" aria-label="Recenter camera">Center</button>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #7fae6a;
+  color: #17213a;
+  -webkit-user-select: none;
+  user-select: none;
+}
+a { color: #9db4ff; }
+#gameCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  image-rendering: pixelated;
+  touch-action: none;
+}
+.hud-panel {
+  position: fixed;
+  z-index: 10;
+  background: rgba(23, 33, 58, 0.88);
+  color: #fff;
+  border: 2px solid #d9a441;
+  border-radius: 14px;
+  padding: 12px 14px;
+  backdrop-filter: blur(2px);
+}
+#counters { min-width: 186px; max-width: calc(100vw - 24px); }
+.counters-head {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.counters-head .counters-title { margin-bottom: 0; }
+.counters-head .counters-total { border-top: 0; margin-top: 0; padding-top: 0; margin-left: auto; white-space: nowrap; }
+.counters-chev { font-size: 14px; }
+#counters.collapsed #counterLines { display: none; }
+.counters-title { font-weight: 800; font-size: 16px; margin-bottom: 6px; letter-spacing: 0.5px; }
+.counter-line { display: flex; justify-content: space-between; align-items: center; gap: 14px; font-size: 15px; padding: 2px 0; }
+.counter-line .ci { display: inline-flex; align-items: center; margin-right: 6px; vertical-align: -3px; }
+.counter-line .count { font-weight: 700; color: #f6d743; }
+.counters-total { border-top: 1px solid rgba(255,255,255,0.3); margin-top: 6px; padding-top: 6px; font-weight: 700; }
+#topLeft {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+#topRight {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+#rightPanels {
+  position: fixed;
+  top: 64px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  max-height: calc(100vh - 76px);
+  overflow-y: auto;
+  overflow-x: auto;
+  max-width: calc(100vw - 24px);
+}
+#rightPanels .hud-panel { position: static; }
+#backLink, #questToggle, #howtoBtn {
+  background: rgba(23, 33, 58, 0.88);
+  color: #fff;
+  border: 2px solid #d9a441;
+  border-radius: 10px;
+  padding: 9px 13px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+#questPanel {
+  width: 288px;
+  max-width: calc(100vw - 24px);
+}
+#questPanel.hidden { display: none; }
+.quest-head { display: flex; justify-content: space-between; align-items: center; }
+.quest-head h2 { margin: 0; font-size: 18px; }
+.btn-small {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.quest-note { font-size: 13px; color: #cfd6e4; }
+#questList { list-style: none; padding: 0; margin: 8px 0 0; }
+#questList li { padding: 7px 0; border-top: 1px solid rgba(255,255,255,0.25); font-size: 14px; }
+#questList li.found { color: #f6d743; }
+#questList button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: #9db4ff;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+#questList button .ci { display: inline-flex; flex: none; }
+.win-note { margin-top: 12px; background: #fff4cf; color: #17213a; border-radius: 10px; padding: 10px; font-size: 14px; }
+.win-note a { color: #3454e0; }
+#hint {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(23, 33, 58, 0.75);
+  color: #fff;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 13px;
+  white-space: nowrap;
+  max-width: calc(100vw - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#joystick {
+  position: fixed;
+  z-index: 10;
+  display: none;
+  pointer-events: none;
+}
+#joyBase {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: rgba(23, 33, 58, 0.45);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  position: relative;
+  touch-action: none;
+}
+#joyKnob {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #d9a441;
+  border: 3px solid #17213a;
+  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.25);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -24px;
+  margin-top: -24px;
+  touch-action: none;
+}
+#zoomControls {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(23, 33, 58, 0.88);
+  border: 2px solid #d9a441;
+  border-radius: 12px;
+  padding: 4px;
+}
+#zoomControls button {
+  background: transparent;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+}
+#zoomControls button:hover { background: rgba(255, 255, 255, 0.15); }
+#zoomControls #zoomLabel { width: 56px; font-size: 13px; }
+#minimapWrap {
+  position: fixed;
+  right: 12px;
+  bottom: 74px;
+  z-index: 10;
+  background: rgba(23, 33, 58, 0.88);
+  border: 2px solid #d9a441;
+  border-radius: 12px;
+  padding: 8px;
+}
+#minimapHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+#minimapToggle {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0 4px;
+}
+#minimap { display: block; width: 220px; height: 140px; cursor: pointer; }
+#minimapWrap.collapsed #minimap { display: none; }
+#howto {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(480px, calc(100vw - 32px));
+  z-index: 30;
+}
+#howto[hidden] { display: none; }
+#howto h2 { margin: 0 0 8px; font-size: 20px; }
+#howto ul { margin: 0 0 14px; padding-left: 20px; font-size: 15px; line-height: 1.55; }
+#howto li { margin: 6px 0; }
+@media (max-width: 640px) {
+  #questPanel { width: calc(100vw - 24px); right: 12px; }
+  #counters { min-width: 158px; }
+  .counter-line { font-size: 14px; }
+}
