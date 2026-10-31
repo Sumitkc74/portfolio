@@ -991,41 +991,84 @@
     var eyeH = (now > 8460 && now < 8820) ? 1 : 2;
     ctx.fillStyle = "rgba(0,0,0,0.20)";
     ctx.fillRect(player.x - 7, player.y + 8, 14, 2);
+    var side = player.facing === "left" || player.facing === "right";
+    var right = player.facing === "right";
     // Antenna: navy stem, burnt-orange bulb (gold once the quest is done).
-    ctx.fillStyle = "#17213a"; ctx.fillRect(ox + 6, ty, 2, 2);
-    ctx.fillStyle = gold ? "#f6d743" : "#b0451f"; ctx.fillRect(ox + 5, ty - 3, 4, 3);
-    // Head: navy frame, pale face screen.
+    // In profile the antenna leans toward the facing side.
+    var antX = side ? (right ? ox + 8 : ox + 5) : ox + 6;
+    ctx.fillStyle = "#17213a"; ctx.fillRect(antX, ty, 2, 2);
+    ctx.fillStyle = gold ? "#f6d743" : "#b0451f"; ctx.fillRect(antX - 1, ty - 3, 4, 3);
+    // Head: navy frame. Front view keeps the full face screen and both eyes;
+    // back view shows the plain panel; side view is a true profile with the
+    // face on the leading side, one eye at the front edge, and an ear tab
+    // on the trailing side.
     ctx.fillStyle = "#17213a"; ctx.fillRect(ox + 1, ty + 2, 12, 7);
-    ctx.fillStyle = "#e7ebfb"; ctx.fillRect(ox + 2, ty + 3, 10, 5);
-    if (player.facing !== "up") {
-      ctx.fillStyle = "#3454e0";
-      if (player.facing === "down") { ctx.fillRect(ox + 3, ty + 4, 2, eyeH); ctx.fillRect(ox + 9, ty + 4, 2, eyeH); }
-      else if (player.facing === "left") { ctx.fillRect(ox + 3, ty + 4, 2, eyeH); }
-      else { ctx.fillRect(ox + 9, ty + 4, 2, eyeH); }
-      ctx.fillStyle = "#17213a"; ctx.fillRect(ox + 6, ty + 7, 2, 1);
-    } else {
+    if (player.facing === "up") {
+      ctx.fillStyle = "#e7ebfb"; ctx.fillRect(ox + 2, ty + 3, 10, 5);
       ctx.fillStyle = "#9aa0ab"; ctx.fillRect(ox + 4, ty + 4, 6, 2);
+    } else if (side) {
+      var faceX = right ? ox + 6 : ox + 2;
+      var eyeX = right ? ox + 9 : ox + 3;
+      ctx.fillStyle = "#e7ebfb"; ctx.fillRect(faceX, ty + 3, 6, 5);
+      ctx.fillStyle = "#3454e0"; ctx.fillRect(eyeX, ty + 4, 2, eyeH);
+      ctx.fillStyle = "#17213a"; ctx.fillRect(eyeX, ty + 7, 2, 1);
+      ctx.fillStyle = "#2b3648"; ctx.fillRect(right ? ox : ox + 13, ty + 4, 1, 2);
+    } else {
+      ctx.fillStyle = "#e7ebfb"; ctx.fillRect(ox + 2, ty + 3, 10, 5);
+      ctx.fillStyle = "#3454e0";
+      ctx.fillRect(ox + 3, ty + 4, 2, eyeH); ctx.fillRect(ox + 9, ty + 4, 2, eyeH);
+      ctx.fillStyle = "#17213a"; ctx.fillRect(ox + 6, ty + 7, 2, 1);
     }
-    // Body: navy torso, blue chest panel, cream light.
+    // Body: navy torso, blue chest panel, cream light. In profile the panel
+    // sits on the leading side.
     ctx.fillStyle = "#17213a"; ctx.fillRect(ox + 2, ty + 9, 10, 5);
     if (player.facing === "up") {
       ctx.fillStyle = "#9aa0ab"; ctx.fillRect(ox + 4, ty + 10, 6, 2);
+    } else if (side) {
+      var panelX = right ? ox + 7 : ox + 2;
+      ctx.fillStyle = "#3454e0"; ctx.fillRect(panelX, ty + 10, 5, 3);
+      ctx.fillStyle = gold ? "#f6d743" : "#f5f1e7"; ctx.fillRect(panelX + 2, ty + 11, 2, 1);
     } else {
       ctx.fillStyle = "#3454e0"; ctx.fillRect(ox + 3, ty + 10, 8, 3);
       ctx.fillStyle = gold ? "#f6d743" : "#f5f1e7"; ctx.fillRect(ox + 6, ty + 11, 2, 1);
     }
-    // Arms: navy, right hand burnt orange, swinging with the walk.
-    ctx.fillStyle = "#17213a";
-    ctx.fillRect(ox, ty + 10 - liftL, 2, 4);
-    ctx.fillRect(ox + 12, ty + 10 - liftR, 2, 4);
-    ctx.fillStyle = "#b0451f"; ctx.fillRect(ox + 12, ty + 13 - liftR, 2, 1);
-    // Legs and feet, stepping with the walk cycle.
-    ctx.fillStyle = "#17213a";
-    ctx.fillRect(ox + 3, ty + 14, 3, 3);
-    ctx.fillRect(ox + 8, ty + 14, 3, 3);
-    ctx.fillStyle = "#2b3648";
-    ctx.fillRect(ox + 3, ty + 17 - liftL, 3, 1);
-    ctx.fillRect(ox + 8, ty + 17 - liftR, 3, 1);
+    // Arms: in profile the far arm is shaded dark and the near arm swings
+    // with the walk, burnt-orange hand on the visible arm.
+    if (side) {
+      var farX = right ? ox : ox + 12;
+      var nearX = right ? ox + 12 : ox;
+      var nearLift = right ? liftR : liftL;
+      ctx.fillStyle = "#2b3648"; ctx.fillRect(farX, ty + 10, 2, 4);
+      ctx.fillStyle = "#17213a"; ctx.fillRect(nearX, ty + 10 - nearLift, 2, 4);
+      ctx.fillStyle = "#b0451f"; ctx.fillRect(nearX, ty + 13 - nearLift, 2, 1);
+    } else {
+      ctx.fillStyle = "#17213a";
+      ctx.fillRect(ox, ty + 10 - liftL, 2, 4);
+      ctx.fillRect(ox + 12, ty + 10 - liftR, 2, 4);
+      ctx.fillStyle = "#b0451f"; ctx.fillRect(ox + 12, ty + 13 - liftR, 2, 1);
+    }
+    // Legs and feet, stepping with the walk cycle. In profile the far leg
+    // is shaded dark and the near leg steps.
+    if (side) {
+      var farLegX = right ? ox + 3 : ox + 8;
+      var nearLegX = right ? ox + 8 : ox + 3;
+      var farLift = right ? liftL : liftR;
+      var nearLegLift = right ? liftR : liftL;
+      ctx.fillStyle = "#2b3648";
+      ctx.fillRect(farLegX, ty + 14, 3, 3);
+      ctx.fillStyle = "#17213a";
+      ctx.fillRect(nearLegX, ty + 14, 3, 3);
+      ctx.fillStyle = "#2b3648";
+      ctx.fillRect(farLegX, ty + 17 - farLift, 3, 1);
+      ctx.fillRect(nearLegX, ty + 17 - nearLegLift, 3, 1);
+    } else {
+      ctx.fillStyle = "#17213a";
+      ctx.fillRect(ox + 3, ty + 14, 3, 3);
+      ctx.fillRect(ox + 8, ty + 14, 3, 3);
+      ctx.fillStyle = "#2b3648";
+      ctx.fillRect(ox + 3, ty + 17 - liftL, 3, 1);
+      ctx.fillRect(ox + 8, ty + 17 - liftR, 3, 1);
+    }
   }
   // In-game dialog: drawn on the canvas itself, never an outside popup.
   // Overview first; the full description only after "See details".
