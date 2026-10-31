@@ -73,17 +73,6 @@
   <button type="button" id="centerBtn" aria-label="Recenter camera">Center</button>
 </div>
 
-<div id="questError" style="display:none;position:fixed;z-index:9999;left:8px;top:8px;right:8px;background:#ffffff;color:#b00000;padding:10px;font:14px monospace;white-space:pre-wrap"></div>
-<script>
-window.addEventListener("error", function (e) {
-  var d = document.getElementById("questError");
-  if (d) { d.style.display = "block"; d.textContent = "Game error: " + (e.message || e.error) + " @ " + (e.filename || "") + ":" + (e.lineno || ""); }
-});
-window.addEventListener("unhandledrejection", function (e) {
-  var d = document.getElementById("questError");
-  if (d) { d.style.display = "block"; d.textContent = "Game error (promise): " + (e.reason && e.reason.message ? e.reason.message : e.reason); }
-});
-</script>
 <script src="game.js"></script>
 </body>
 </html>

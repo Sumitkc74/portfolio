@@ -31,24 +31,38 @@
     { id: "home", label: "Home" },
     { id: "contact", label: "Contact" }
   ];
-  function svgIcon(cat, color) {
-    var inner = {
-      school: '<path d="M12 4 L22 9 L12 14 L2 9 Z"/><path d="M6 11.5 V16 c0 1.5 2.7 3 6 3 s6-1.5 6-3 v-4.5"/><path d="M22 9 v5"/>',
-      work: '<rect x="3" y="7" width="18" height="12" rx="2"/><path d="M9 7 V5 a2 2 0 0 1 2-2 h2 a2 2 0 0 1 2 2 v2"/><path d="M3 13 h18"/>',
-      projects: '<path d="M10 3 h4 v5 l4.5 9 a2 2 0 0 1-1.8 3 H7.3 a2 2 0 0 1-1.8-3 L10 8 Z"/><circle cx="11" cy="15" r="1" fill="' + color + '" stroke="none"/><circle cx="14" cy="17" r="1" fill="' + color + '" stroke="none"/>',
-      skills: '<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5 v3 M12 18.5 v3 M2.5 12 h3 M18.5 12 h3 M5.3 5.3 l2.1 2.1 M16.6 16.6 l2.1 2.1 M18.7 5.3 l-2.1 2.1 M7.4 16.6 l-2.1 2.1"/>',
-      certs: '<path d="M8 3 L12 9 L16 3"/><circle cx="12" cy="15" r="5"/><path d="M12 12.5 l0.9 1.8 2-0.3 -1.5 1.4 0.4 2 -1.8-0.9 -1.8 0.9 0.4-2 -1.5-1.4 2 0.3 Z" fill="' + color + '" stroke="none"/>',
-      home: '<path d="M3 11 L12 3 L21 11"/><path d="M5.5 9.5 V20 a1 1 0 0 0 1 1 h11 a1 1 0 0 0 1-1 V9.5"/><path d="M10 20 v-5 h4 v5"/>',
-      contact: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 7 l9 6 9-6"/>'
-    }[cat];
-    return '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="' + color + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + inner + "</svg>";
-  }
-  // Build the category icon as a real DOM node instead of innerHTML: the
-  // site enforces Trusted Types, which blocks innerHTML assignment.
-  // DOMParser is not a Trusted Types sink, so this stays allowed.
+  // Build the category icon purely with createElementNS/setAttribute.
+  // The site enforces Trusted Types (blocks innerHTML) and its CSP blocks
+  // inline scripts, and DOMParser also counts as a Trusted Types sink here,
+  // so no string-to-DOM conversion is used anywhere in this file.
   function svgEl(cat, color) {
-    var doc = new DOMParser().parseFromString(svgIcon(cat, color), "image/svg+xml");
-    return doc.documentElement;
+    var NS = "http://www.w3.org/2000/svg";
+    var defs = {
+      school: [["path", { d: "M12 4 L22 9 L12 14 L2 9 Z" }], ["path", { d: "M6 11.5 V16 c0 1.5 2.7 3 6 3 s6-1.5 6-3 v-4.5" }], ["path", { d: "M22 9 v5" }]],
+      work: [["rect", { x: "3", y: "7", width: "18", height: "12", rx: "2" }], ["path", { d: "M9 7 V5 a2 2 0 0 1 2-2 h2 a2 2 0 0 1 2 2 v2" }], ["path", { d: "M3 13 h18" }]],
+      projects: [["path", { d: "M10 3 h4 v5 l4.5 9 a2 2 0 0 1-1.8 3 H7.3 a2 2 0 0 1-1.8-3 L10 8 Z" }], ["circle", { cx: "11", cy: "15", r: "1", fill: "COLOR", stroke: "none" }], ["circle", { cx: "14", cy: "17", r: "1", fill: "COLOR", stroke: "none" }]],
+      skills: [["circle", { cx: "12", cy: "12", r: "3.2" }], ["path", { d: "M12 2.5 v3 M12 18.5 v3 M2.5 12 h3 M18.5 12 h3 M5.3 5.3 l2.1 2.1 M16.6 16.6 l2.1 2.1 M18.7 5.3 l-2.1 2.1 M7.4 16.6 l-2.1 2.1" }]],
+      certs: [["path", { d: "M8 3 L12 9 L16 3" }], ["circle", { cx: "12", cy: "15", r: "5" }], ["path", { d: "M12 12.5 l0.9 1.8 2-0.3 -1.5 1.4 0.4 2 -1.8-0.9 -1.8 0.9 0.4-2 -1.5-1.4 2 0.3 Z", fill: "COLOR", stroke: "none" }]],
+      home: [["path", { d: "M3 11 L12 3 L21 11" }], ["path", { d: "M5.5 9.5 V20 a1 1 0 0 0 1 1 h11 a1 1 0 0 0 1-1 V9.5" }], ["path", { d: "M10 20 v-5 h4 v5" }]],
+      contact: [["rect", { x: "3", y: "6", width: "18", height: "12", rx: "2" }], ["path", { d: "M3 7 l9 6 9-6" }]]
+    };
+    var svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("width", "17");
+    svg.setAttribute("height", "17");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", color);
+    svg.setAttribute("stroke-width", "1.8");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    (defs[cat] || []).forEach(function (spec) {
+      var el = document.createElementNS(NS, spec[0]);
+      Object.keys(spec[1]).forEach(function (k) {
+        el.setAttribute(k, spec[1][k] === "COLOR" ? color : spec[1][k]);
+      });
+      svg.appendChild(el);
+    });
+    return svg;
   }
 
   var ROOF = { school: "#b8543f", office: "#4a5a78", hall: "#c9a86a", house: "#8a5a3a", post: "#5a7a9a", workshop: "#6b4a2f" };
