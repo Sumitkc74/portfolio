@@ -43,6 +43,13 @@
     }[cat];
     return '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="' + color + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + inner + "</svg>";
   }
+  // Build the category icon as a real DOM node instead of innerHTML: the
+  // site enforces Trusted Types, which blocks innerHTML assignment.
+  // DOMParser is not a Trusted Types sink, so this stays allowed.
+  function svgEl(cat, color) {
+    var doc = new DOMParser().parseFromString(svgIcon(cat, color), "image/svg+xml");
+    return doc.documentElement;
+  }
 
   var ROOF = { school: "#b8543f", office: "#4a5a78", hall: "#c9a86a", house: "#8a5a3a", post: "#5a7a9a", workshop: "#6b4a2f" };
   var BLDG_H = { school: 56, office: 72, hall: 56, house: 48, post: 52, workshop: 56 };
@@ -285,7 +292,11 @@
     var line = document.createElement("div");
     line.className = "counter-line";
     var name = document.createElement("span");
-    name.innerHTML = '<span class="ci">' + svgIcon(cat.id, "#f6d743") + "</span>" + cat.label;
+    var ci = document.createElement("span");
+    ci.className = "ci";
+    ci.appendChild(svgEl(cat.id, "#f6d743"));
+    name.appendChild(ci);
+    name.appendChild(document.createTextNode(cat.label));
     var count = document.createElement("span");
     count.className = "count";
     countSpans[cat.id] = count;
@@ -332,7 +343,7 @@
   }
   function renderQuest() {
     var all = renderCounters();
-    questList.innerHTML = "";
+    questList.textContent = "";
     QUEST_ORDER.forEach(function (id) {
       var p = placeById(id);
       var li = document.createElement("li");
@@ -340,7 +351,13 @@
         li.className = "found";
         var btn = document.createElement("button");
         btn.type = "button";
-        btn.innerHTML = '<span class="ci">' + svgIcon(p.cat, "currentColor") + "</span><span>" + p.label + "</span>";
+        var ci2 = document.createElement("span");
+        ci2.className = "ci";
+        ci2.appendChild(svgEl(p.cat, "currentColor"));
+        btn.appendChild(ci2);
+        var lbl = document.createElement("span");
+        lbl.textContent = p.label;
+        btn.appendChild(lbl);
         btn.addEventListener("click", function () { openDialog(p); });
         li.appendChild(btn);
       } else {
