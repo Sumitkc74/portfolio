@@ -9,40 +9,36 @@
 </head>
 <body>
 <canvas id="gameCanvas" aria-label="Full-screen town map. Use WASD or arrow keys, or the bottom-left joystick, to walk. Click a building or stand next to it and press Space to enter it."></canvas>
+<div id="loadScreen">
+  <div class="load-title">Portfolio Quest</div>
+  <div class="load-spinner" aria-hidden="true"></div>
+  <div class="load-text">Loading the town…</div>
+  <div class="load-note">If this screen stays, the game didn't load. Try refreshing the page.</div>
+</div>
 
 <div id="topLeft">
   <a id="backLink" href="index.html">&larr; Portfolio</a>
   <button type="button" id="howtoBtn" aria-label="Show how to play">How to play</button>
+  <button type="button" id="nightToggle" aria-label="Toggle night mode" aria-pressed="false">Night</button>
 </div>
 
 <div id="topRight">
-  <button type="button" id="questToggle" aria-label="Toggle quest log">Quest</button>
-</div>
-
-<div id="rightPanels">
-  <div id="counters" class="hud-panel collapsed" aria-label="Visited places">
-    <button id="countersToggle" class="counters-head" aria-expanded="false">
-      <span class="counters-title">Visited</span>
-      <span class="counters-total"><span id="totalVisited">0</span>/<span id="totalBuildings">15</span></span>
-      <span id="countersChev" class="counters-chev" aria-hidden="true">▾</span>
-    </button>
-    <div id="counterLines"></div>
+  <div id="questCol">
+    <button type="button" id="questToggle" aria-label="Toggle quest log">Quest</button>
+    <aside id="questPanel" class="hud-panel hidden" aria-label="Quest log">
+      <div class="quest-head">
+        <h2>Quest log</h2>
+        <button type="button" id="resetBtn" class="btn-small">Reset</button>
+      </div>
+      <div class="quest-visited">
+        <div class="visited-head"><span>Visited</span><span><span id="totalVisited">0</span>/<span id="totalBuildings">15</span></span></div>
+        <div id="counterLines"></div>
+      </div>
+    </aside>
   </div>
-
-  <aside id="questPanel" class="hud-panel hidden" aria-label="Quest log">
-    <div class="quest-head">
-      <h2>Quest log</h2>
-      <button type="button" id="resetBtn" class="btn-small">Reset</button>
-    </div>
-    <p class="quest-note">Visited places can be re-entered from here. Unvisited places stay hidden as ???</p>
-    <ul id="questList"></ul>
-    <div id="winNote" class="win-note" hidden>
-      <strong>Portfolio Master!</strong> You visited every place. <a href="mailto:sumitkc74@gmail.com">contact Sumit</a>.
-    </div>
-  </aside>
 </div>
 
-<div id="hint">WASD / arrows or bottom-left touch to move &middot; Drag to look around &middot; C to recenter &middot; Tap a building or file to open it &middot; Scroll or + / - to zoom &middot; Q for quest log &middot; H for help</div>
+<div id="hint">WASD / arrows / joystick to move &middot; Drag to look around &middot; Space / tap to open &middot; H for help</div>
 
 <div id="minimapWrap" aria-label="Mini-map">
   <div id="minimapHead"><span>Map</span><button type="button" id="minimapToggle" aria-label="Collapse mini-map">&minus;</button></div>
@@ -54,10 +50,15 @@
   <ul>
     <li><b>Move:</b> WASD or arrow keys, or the joystick in the bottom-left corner on touch screens.</li>
     <li><b>Look around:</b> drag the map. Press C or Center to come back to the robot.</li>
-    <li><b>Open a place:</b> tap or click a building or file, or stand near one and press Space.</li>
+    <li><b>Open a place:</b> Space / tap to open — stand near a building or file and press Space, or tap / click it.</li>
+    <li><b>Play:</b> walk up to a swing, seesaw, slide, roundabout, or bench and press Space, or tap it, to ride or sit. Press Space again to hop off (slides finish on their own).</li>
+    <li><b>Mailbox and crates:</b> press Space near the post office mailbox to read Sumit's letter, and walk into the work-yard crates to push them around.</li>
+    <li><b>Swim:</b> walk into a pond to swim — you move slower in the water. Walk back out onto grass to stop swimming.</li>
     <li><b>Details:</b> every place shows a short overview first. Tap See details for the full story.</li>
     <li><b>Quest:</b> press Q for the quest log. The gold arrow guides you in order: home, then education and jobs by date, then skills, then contact. Visit all 15 places to become a Portfolio Master.</li>
+    <li><b>Treasure:</b> after visiting all 15 places, a hidden golden chest appears somewhere in town, in a different spot each time you complete the quest. Follow the gold arrow to find it.</li>
     <li><b>Zoom:</b> + / &minus; buttons, scroll wheel, or pinch.</li>
+    <li><b>Night:</b> press N or the Night button for a dark map with lit windows, glowing name letters, and fireflies.</li>
   </ul>
   <button type="button" id="howtoStart" class="btn-small">Start playing</button>
 </div>

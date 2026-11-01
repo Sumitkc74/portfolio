@@ -68,38 +68,47 @@
   var ROOF = { school: "#b8543f", office: "#4a5a78", hall: "#c9a86a", house: "#8a5a3a", post: "#5a7a9a", workshop: "#6b4a2f" };
   var BLDG_H = { school: 56, office: 72, hall: 56, house: 48, post: 52, workshop: 56 };
   var BLDGS = [
-    { bid: "cityu", cat: "school", shape: "school", label: "City University", x: 18, y: 9 },
-    { bid: "bs", cat: "school", shape: "school", label: "Informatics College", x: 26, y: 9 },
-    { bid: "aank", cat: "work", shape: "office", label: "Aankhijhyal Technologies", x: 19, y: 22 },
-    { bid: "skills", cat: "skills", shape: "workshop", label: "Skills Center", x: 13, y: 17 },
-    { bid: "certs", cat: "certs", shape: "hall", label: "Cert Hall", x: 12, y: 10 },
-    { bid: "house", cat: "home", shape: "house", label: "My House", x: 19, y: 16 },
-    { bid: "post", cat: "contact", shape: "post", label: "Contact", x: 25, y: 17 }
+    { bid: "cityu", cat: "school", shape: "school", label: "City University", x: 17, y: 11 },
+    { bid: "bs", cat: "school", shape: "school", label: "Informatics College", x: 27, y: 11 },
+    { bid: "aank", cat: "work", shape: "office", label: "Aankhijhyal Technologies", x: 27, y: 19 },
+    { bid: "skills", cat: "skills", shape: "workshop", label: "Skills Center", x: 12, y: 19 },
+    { bid: "certs", cat: "certs", shape: "hall", label: "Cert Hall", x: 8, y: 11 },
+    { bid: "house", cat: "home", shape: "house", label: "My House", x: 19, y: 19 },
+    { bid: "post", cat: "contact", shape: "post", label: "Contact", x: 36, y: 19 }
   ];
+  // Hidden treasure chest spots: tucked-away corners and edges, each
+  // clear of buildings, files, lamps, roads, ponds, and play anchors.
+  // A new spot is picked every time the quest is completed, never the
+  // same as the previous one.
+  var CHEST_SPOTS = [{ x: 42, y: 27 }, { x: 1, y: 1 }, { x: 42, y: 1 }, { x: 30, y: 27 }, { x: 16, y: 27 }, { x: 1, y: 14 }];
+  var LEGACY_CHEST = { x: 42, y: 27 };
+  // Work-yard crates: pushable toys, not scenery. Tile positions, so
+  // pushing moves them one tile at a time.
+  var CRATES = [{ tx: 10, ty: 14 }, { tx: 11, ty: 14 }];
   function bldgH(b) { return BLDG_H[b.shape]; }
   var MS_BODY = "• Master of Science in Computer Science, City University of Seattle\n• GPA 4.0 out of 4.0\n• Dean's List, Winter 2025 through Spring 2026\n• Graduating in December 2026";
   var TA_BODY = "• Teaching Assistant, October 2025 to present\n• Maintained cloud and application environments for 6 to 7 graduate courses per quarter (AWS EC2, S3, Lambda; Python, React, machine learning) for 500+ students\n• Rebuilt five graduate-course lab environments on AWS, reducing setup failures to nearly zero\n• Fixed a grade-sync defect that re-synced grades for 250+ students within 24 hours";
   var PLACES = [
-    { id: "ms", cat: "school", kind: "building", bid: "cityu", label: "City University · M.S.", x: 18, y: 9 },
-    { id: "ta", cat: "work", kind: "building", bid: "cityu", label: "City University · TA", x: 18, y: 9 },
-    { id: "bs", cat: "school", kind: "building", bid: "bs", label: "Informatics College", title: "B.S. Computing — Informatics College Pokhara", x: 26, y: 9,
+    { id: "ms", cat: "school", kind: "building", bid: "cityu", label: "City University · M.S.", x: 17, y: 11 },
+    { id: "ta", cat: "work", kind: "building", bid: "cityu", label: "City University · TA", x: 17, y: 11 },
+    { id: "bs", cat: "school", kind: "building", bid: "bs", label: "Informatics College", title: "B.S. Computing — Informatics College Pokhara", x: 27, y: 11,
       body: "• Bachelor of Science in Computing, Informatics College Pokhara\n• Graduated top of the cohort\n• Letter of Commendation and AAA Excellence Scholarship" },
-    { id: "aank", cat: "work", kind: "building", bid: "aank", label: "Aankhijhyal Technologies", title: "Aankhijhyal Technologies — Software Engineer and Intern", x: 19, y: 22,
+    { id: "aank", cat: "work", kind: "building", bid: "aank", label: "Aankhijhyal Technologies", title: "Aankhijhyal Technologies — Software Engineer and Intern", x: 27, y: 19,
       body: "• Software Engineer, June 2023 to November 2024\n• Integrated three payment and booking REST APIs (eSewa, Khalti, reservations) into client PHP and Laravel platforms with server-side verification, saving about 5 hours per week\n• Cut page load times by approximately 40% across 5+ client sites\n• Delivered 15+ client platforms with Nepali and English content and owner-editable admin panels\n• Software Engineer Intern, September to November 2022\n• Deployed three client websites to production (live server, domain, SSL) with zero reported post-launch issues\n• Built a local development setup with a sample database and guide, cutting project setup from about 3 hours to under 1 hour\n• Inquiry and booking forms that validated input and emailed owners.",
       link: "index.html", linkLabel: "See experience" },
-    { id: "skills", cat: "skills", kind: "building", bid: "skills", label: "Skills Center", title: "Skills", x: 13, y: 17,
+    { id: "skills", cat: "skills", kind: "building", bid: "skills", label: "Skills Center", title: "Skills", x: 12, y: 19,
       body: "• Languages: Python, Java, C#, PHP, JavaScript, TypeScript, R, Dart, SQL, HTML, CSS\n• Frameworks: FastAPI, React, Next.js, Flutter, Node.js, Express, Laravel, Flask\n• AI and ML: RAG architecture, LangGraph multi-agent systems, TensorFlow, scikit-learn, LLM evaluation, Gemini API\n• Cloud and DevOps: AWS (EC2, S3, Lambda), Azure, Docker, GitHub Actions, REST APIs\n• Databases: MySQL, PostgreSQL, MongoDB, SQLite",
       link: "index.html", linkLabel: "See skills" },
-    { id: "certs", cat: "certs", kind: "building", bid: "certs", label: "Cert Hall", title: "Certifications", x: 12, y: 10,
+    { id: "certs", cat: "certs", kind: "building", bid: "certs", label: "Cert Hall", title: "Certifications", x: 8, y: 11,
       body: "• Microsoft Certified: Fabric Data Engineer Associate\n• Microsoft Certified: Azure Administrator Associate\n• Microsoft Certified: Azure AI Fundamentals\n• Microsoft Certified: Azure Data Fundamentals\n• Each badge on the main portfolio links to its verification page",
       link: "index.html#certifications", linkLabel: "See certifications" },
-    { id: "house", cat: "home", kind: "building", bid: "house", label: "My House", title: "About Sumit", x: 19, y: 16,
+    { id: "house", cat: "home", kind: "building", bid: "house", label: "My House", title: "About Sumit", x: 19, y: 19,
       body: "• Software Engineer based in Seattle, WA, open to relocation and remote work\n• Builds production web platforms, payment and booking integrations, AWS cloud environments, and AI-powered systems\n• Focused on reliable, well-tested software that cuts manual work and improves performance" },
-    { id: "post", cat: "contact", kind: "building", bid: "post", label: "Contact", title: "Contact", x: 25, y: 17,
+    { id: "post", cat: "contact", kind: "building", bid: "post", label: "Contact", title: "Contact", x: 36, y: 19,
       body: "• Email: sumitkc74@gmail.com\n• LinkedIn: https://www.linkedin.com/in/sumitkc74\n• GitHub: https://github.com/Sumitkc74\n• Open to opportunities, relocation, and remote work" },
-    { id: "care", cat: "projects", kind: "file", label: "CarePolicyGuard", title: "CarePolicyGuard", x: 4, y: 7,
+    { id: "care", cat: "projects", kind: "file", label: "CarePolicyGuard", title: "CarePolicyGuard", x: 23, y: 14,
       body: "• Solo project\n• FastAPI multi-agent system checking EHR patient records against CMS Medicare coverage determinations (NCD and LCD) for prior-authorization reviews\n• 100% decision concordance and 100% evidence faithfulness across 10 clinical benchmark cases\n• 20% safe deferrals to human review" },
-    { id: "parallax", cat: "projects", kind: "file", label: "Parallax-Eval", title: "Parallax-Eval", x: 40, y: 7,
+    { id: "parallax", cat: "projects", kind: "file", label: "Parallax-Eval", title: "Parallax-Eval", x: 32, y: 14,
       body: "• Solo project\n• End-to-end Flutter and FastAPI platform comparing model safety responses to equivalent English and Nepali prompts\n• Policy retrieval, Judge, Critic and Arbiter evaluation workflow\n• Statistical analysis of safety differences across languages" },
     { id: "mealmate", cat: "projects", kind: "file", label: "MealMate.ai", title: "MealMate.ai", x: 4, y: 24,
       body: "• Team project\n• React, Node.js, and FastAPI meal planning platform with a hybrid recipe recommender, backed by 128 passing tests\n• Gemini cooking assistance, pantry parsing, and ingredient capture, with deterministic offline fallbacks\n• Sumit's contribution: the RAG service, API connections, React pantry interface, and assistant integration" },
@@ -109,7 +118,7 @@
       body: "• Team hackathon project\n• AI-powered circular-economy platform turning an item photo into a verified reuse plan through coordinated AI agents\n• Vision analysis, sustainability research, and DIY recommendations, checked by a verification agent\n• Sumit's contribution: the multi-agent coordination layer" },
     { id: "linguo", cat: "projects", kind: "file", label: "LinguoAI", title: "LinguoAI", x: 32, y: 6,
       body: "• Team project\n• AI-powered language learning mobile app built with React Native (Expo) and Node.js and Express\n• Interactive speaking, listening, and reading curriculum\n• Real-time streaming voice conversations with Google Gemini and local Ollama (Gemma2)" },
-    { id: "spam", cat: "projects", kind: "file", label: "Spam Detection", title: "AI-Powered Spam Detection", x: 24, y: 20,
+    { id: "spam", cat: "projects", kind: "file", label: "Spam Detection", title: "AI-Powered Spam Detection", x: 20, y: 24,
       body: "• Team project\n• SMS spam classification system comparing six classifiers using Bag-of-Words and TF-IDF text features\n• Linear SVM selected at 98.1% accuracy with the best precision and recall balance in the project evaluation" }
   ];
   // Quest order for the guide arrow and the quest log: home first, then
@@ -159,7 +168,17 @@
   // row, and the player can never walk through it.
   function topTile(b) { return Math.floor((b.y * TILE + 16 - bldgH(b)) / TILE); }
   function inFootprint(b, tx, ty) {
-    return tx >= b.x - 2 && tx <= b.x + 2 && ty >= topTile(b) && ty <= b.y;
+    if (tx < b.x - 2 || tx > b.x + 2 || ty < topTile(b) || ty > b.y) return false;
+    if (ty === topTile(b)) {
+      // The top row is only a thin strip of roof at its bottom edge on
+      // flat roofs (4–8 px), so the whole row looks like open ground
+      // behind the building and stays walkable. Stepped and pitched
+      // roofs narrow toward the top, so only their top-row corner tiles
+      // look open; the middle columns stay solid up there.
+      if (b.shape === "hall" || b.shape === "house") return tx !== b.x - 2 && tx !== b.x + 2;
+      return false;
+    }
+    return true;
   }
   // Scatter keeps a full tile of open ground around every building, so
   // no tree, rock, or flower ever sits right against a building surface
@@ -179,6 +198,7 @@
     return false;
   }
   for (var px = 0; px < COLS; px++) grid[13][px] = PATH;
+  for (var px = 0; px < COLS; px++) grid[21][px] = PATH; // south street
   for (var py = 0; py < ROWS; py++) grid[py][22] = PATH;
   function pond(cx, cy, rx, ry) {
     for (var ty = 0; ty < ROWS; ty++) for (var tx = 0; tx < COLS; tx++) {
@@ -187,8 +207,8 @@
       if (dx * dx + dy * dy <= 1) grid[ty][tx] = WATER;
     }
   }
-  pond(34, 9, 4, 2.5);
-  pond(7, 19, 2.5, 2.0); // smaller left pond, so open space stays on both sides
+  pond(36, 9, 4, 2.5); // moved east so columns 30-31 stay open beside Informatics
+  pond(6, 19, 2.5, 2.0); // moved west so column 9 stays open beside the workshop
   var rand = mulberry32(23);
   // Keep a clear ring of open grass around every lake, so the player can
   // always pass beside the water without squeezing through trees or rocks.
@@ -199,24 +219,167 @@
     }
     return false;
   }
-  // Open lanes between the buildings: the front streets, the stubs from
-  // each front to its street, the west passage, and the exit from
-  // Aankhijhyal's front to the avenue. Scatter never blocks these, so the
-  // way between any two buildings always stays open.
+  // Open lanes between the buildings: the front sidewalks along both
+  // streets, the gaps between neighbouring plots, and the house-aank gap.
+  // Scatter never blocks these, so the way between any two buildings
+  // always stays open. Every building stands north of its street, front
+  // yard on the sidewalk row, road beyond it.
   function onLane(tx, ty) {
-    if (ty === 11 && tx >= 10 && tx <= 30) return true; // north front street
-    if (ty === 18 && ((tx >= 11 && tx <= 16) || (tx >= 22 && tx <= 27))) return true; // south front street
-    if ((tx === 18 || tx === 26) && ty === 10) return true; // north fronts to their street
-    if (tx === 16 && ty >= 14 && ty <= 17) return true; // west passage up to the road
-    if (ty === 17 && tx >= 16 && tx <= 19) return true; // house front row to the west passage
-    if (ty === 23 && tx >= 19 && tx <= 22) return true; // Aankhijhyal front to the avenue
+    if (ty === 12 && tx >= 5 && tx <= 30) return true; // north front sidewalk
+    if (ty === 20 && tx >= 9 && tx <= 39) return true; // south front sidewalk
+    if ((tx === 12 || tx === 13) && ty >= 8 && ty <= 12) return true; // certs-cityu gap
+    if ((tx === 21 || tx === 23) && ty >= 8 && ty <= 12) return true; // cityu-bs gap beside the avenue
+    if (tx === 23 && ty >= 16 && ty <= 20) return true; // house-aank gap
+    return false;
+  }
+  // Yard plots: each building gets its own ground beside the road.
+  // Schools get playgrounds, the workshop a work yard, the house a
+  // garden, and the hall and post office paved courtyards. Plots are
+  // drawn ground, never block, and scatter keeps clear of them.
+  var PLOTS = [
+    { bid: "certs", x0: 6, y0: 4, x1: 10, y1: 7, ground: "#b8b0a0", kind: "court" },
+    { bid: "cityu", x0: 14, y0: 4, x1: 20, y1: 7, ground: "#e0c98f", kind: "play" },
+    { bid: "bs", x0: 24, y0: 4, x1: 30, y1: 7, ground: "#e0c98f", kind: "play" },
+    { bid: "skills", x0: 10, y0: 14, x1: 14, y1: 15, ground: "#b09a72", kind: "work" },
+    { bid: "house", x0: 17, y0: 14, x1: 21, y1: 16, ground: null, kind: "garden" },
+    { bid: "post", x0: 34, y0: 14, x1: 38, y1: 15, ground: "#b8b0a0", kind: "court" }
+  ];
+  // Playable items: the two swings, the seesaw, the slide, and the
+  // roundabout in each school playground, plus every bench in the yards
+  // and courtyards. Items never block; they are entered with Space/tap
+  // like places.
+  var PLAY_ITEMS = [];
+  PLOTS.forEach(function (p) {
+    var ox = p.x0 * TILE, oy = p.y0 * TILE;
+    if (p.kind === "play") {
+      var sx = ox + 8, sy = oy + 10;
+      PLAY_ITEMS.push({ type: "swing", plot: p, seat: 0, pivotX: sx + 5, pivotY: sy + 2, seatTop: sy + 8 });
+      PLAY_ITEMS.push({ type: "swing", plot: p, seat: 1, pivotX: sx + 14, pivotY: sy + 2, seatTop: sy + 8 });
+      var px = ox + 76, py = oy + 26;
+      PLAY_ITEMS.push({ type: "seesaw", plot: p, pivotX: px + 5, pivotY: py });
+      PLAY_ITEMS.push({ type: "slide", plot: p, ox: ox + 44, oy: oy + 12 });
+      PLAY_ITEMS.push({ type: "roundabout", plot: p, cx: ox + 88, cy: oy + 44 });
+    } else if (p.kind === "work") {
+      PLAY_ITEMS.push({ type: "bench", plot: p, bx: ox + 42, seatTop: oy + 17 });
+    } else if (p.kind === "garden") {
+      PLAY_ITEMS.push({ type: "bench", plot: p, bx: ox + 18, seatTop: oy + 19 });
+    } else if (p.kind === "court") {
+      PLAY_ITEMS.push({ type: "bench", plot: p, bx: ox + 16, seatTop: oy + 5 });
+    }
+  });
+  var playing = null; // { item, t0, side } while riding or sitting
+  function playSeconds() { return playing ? (performance.now() - playing.t0) / 1000 : 0; }
+  function swingAngle() { return 0.9 * Math.sin(playSeconds() * 2.8); }
+  function seesawAngle() { return 0.16 * Math.sin(playSeconds() * 2.2); }
+  function playAnchor(it) {
+    if (it.type === "swing") return { x: it.pivotX, y: it.seatTop - 4 };
+    if (it.type === "seesaw") return { x: it.pivotX, y: it.pivotY - 8 };
+    if (it.type === "bench") return { x: it.bx, y: it.seatTop - 4 };
+    if (it.type === "slide") return { x: it.ox + 6, y: it.oy + 6 };
+    return { x: it.cx, y: it.cy };
+  }
+  function riderPos() {
+    if (!playing) return null;
+    var it = playing.item;
+    if (it.type === "swing") {
+      var a = swingAngle();
+      return { x: it.pivotX + 6 * Math.sin(a), y: it.pivotY + 6 * Math.cos(a) - 4 };
+    }
+    if (it.type === "seesaw") {
+      var b = seesawAngle(), s = playing.side;
+      return { x: it.pivotX + s * 12 * Math.cos(b), y: it.pivotY + s * 12 * Math.sin(b) - 8 };
+    }
+    if (it.type === "bench") return { x: it.bx, y: it.seatTop - 4 };
+    if (it.type === "roundabout") {
+      // Ride the edge, not the centre: the robot stands on a handle
+      // (radius 8, same as the disc's handles) and is carried around
+      // the disc as it spins.
+      var th = playSeconds() * 2.5;
+      return { x: it.cx + 8 * Math.cos(th), y: it.cy + 8 * Math.sin(th) };
+    }
+    var t = Math.min(playSeconds() / 1.1, 1), e = t * t;
+    return { x: it.ox + 11 + 10 * e, y: it.oy - 5 + 10 * e };
+  }
+  function nearestPlayItem(maxDist) {
+    var best = null, bestDist = 1e9;
+    PLAY_ITEMS.forEach(function (it) {
+      var a = playAnchor(it);
+      var d = Math.hypot(a.x - player.x, a.y - player.y);
+      if (d < bestDist) { bestDist = d; best = it; }
+    });
+    return bestDist <= maxDist ? best : null;
+  }
+  function mountPlay(it) {
+    var side = 1;
+    if (it.type === "seesaw") side = player.x < it.pivotX ? -1 : 1;
+    playing = { item: it, t0: performance.now(), side: side };
+    var rest = playAnchor(it);
+    if (it.type === "seesaw") rest = { x: it.pivotX + side * 12, y: it.pivotY - 8 };
+    player.x = rest.x; player.y = rest.y; player.facing = "down"; player.moving = false;
+  }
+  function stopPlaying() {
+    if (playing) { var r = riderPos(); if (r) { player.x = r.x; player.y = r.y; } }
+    playing = null;
+  }
+  // Fireflies: only at night, drifting over open ground and blinking.
+  // Positions are seeded, so the same fireflies return every visit.
+  var FIREFLIES = null;
+  function buildFireflies() {
+    var r = mulberry32(99), out = [], guard = 0;
+    while (out.length < 14 && guard++ < 2000) {
+      var tx = Math.floor(r() * COLS), ty = Math.floor(r() * ROWS);
+      var t = grid[ty][tx];
+      if (t !== GRASS && t !== PATH && t !== FLOWER) continue;
+      out.push({
+        bx: tx * TILE + 8 + Math.floor(r() * 9) - 4,
+        by: ty * TILE + 8 + Math.floor(r() * 9) - 4,
+        rx: 6 + r() * 12, ry: 4 + r() * 8,
+        sp: 0.3 + r() * 0.4, ph: r() * Math.PI * 2,
+        bf: 0.8 + r() * 1.2, bp: r() * Math.PI * 2
+      });
+    }
+    return out;
+  }
+  function onPlot(tx, ty) {
+    for (var i = 0; i < PLOTS.length; i++) {
+      var p = PLOTS[i];
+      if (tx >= p.x0 && tx <= p.x1 && ty >= p.y0 && ty <= p.y1) return true;
+    }
+    return false;
+  }
+  // Lampposts line every road at equal 8-tile spacing: Main Street on
+  // its north sidewalk, South Street on its north sidewalk, and the
+  // avenue on its west side (one east-side lamp where the house stands).
+  // At night their heads glow and each casts a pool of light.
+  var LAMPS = [
+    { x: 2, y: 12 }, { x: 10, y: 12 }, { x: 18, y: 12 }, { x: 26, y: 12 }, { x: 34, y: 12 }, { x: 42, y: 12 },
+    { x: 2, y: 20 }, { x: 10, y: 20 }, { x: 18, y: 20 }, { x: 26, y: 20 }, { x: 34, y: 20 }, { x: 42, y: 20 },
+    { x: 21, y: 2 }, { x: 21, y: 10 }, { x: 23, y: 18 }, { x: 21, y: 26 }
+  ];
+  function nearLamp(tx, ty) {
+    for (var i = 0; i < LAMPS.length; i++) {
+      if (Math.abs(LAMPS[i].x - tx) <= 1 && Math.abs(LAMPS[i].y - ty) <= 1) return true;
+    }
+    return false;
+  }
+  // Every blocking obstacle keeps a gap around it: no tree or rock ever
+  // spawns touching another tree or rock, so there is always a way
+  // through between any two obstacles. Flowers do not block and are
+  // exempt.
+  function nearObstacle(tx, ty) {
+    for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
+      if (dx === 0 && dy === 0) continue;
+      var nx = tx + dx, ny = ty + dy;
+      if (nx >= 0 && ny >= 0 && nx < COLS && ny < ROWS && (grid[ny][nx] === TREE || grid[ny][nx] === ROCK)) return true;
+    }
     return false;
   }
   function scatter(tile, count) {
     var placed = 0, guard = 0;
     while (placed < count && guard++ < 8000) {
       var tx = Math.floor(rand() * COLS), ty = Math.floor(rand() * ROWS);
-      if (grid[ty][tx] !== GRASS || nearBuilding(tx, ty) || onFile(tx, ty) || nearWater(tx, ty) || onLane(tx, ty)) continue;
+      if (grid[ty][tx] !== GRASS || nearBuilding(tx, ty) || onFile(tx, ty) || nearWater(tx, ty) || onLane(tx, ty) || onPlot(tx, ty) || nearLamp(tx, ty) || CHEST_SPOTS.some(function (s) { return s.x === tx && s.y === ty; })) continue;
+      if ((tile === TREE || tile === ROCK) && nearObstacle(tx, ty)) continue;
       if (Math.max(Math.abs(tx - 22), Math.abs(ty - 13)) <= 2) continue;
       grid[ty][tx] = tile; placed++;
     }
@@ -231,14 +394,61 @@
     var t = grid[ty][tx];
     if (t === TREE || t === WATER || t === ROCK) return true;
     if (buildingAt(tx, ty)) return true;
+    if (crateAt(tx, ty)) return true;
     return false;
+  }
+  function crateAt(tx, ty) {
+    for (var i = 0; i < CRATES.length; i++) if (CRATES[i].tx === tx && CRATES[i].ty === ty) return CRATES[i];
+    return null;
+  }
+  // Tiles a crate may never be pushed onto: walls, trees, water, other
+  // crates, lamps, files, the treasure spots, and the work-yard bench.
+  function crateBlocked(tx, ty) {
+    if (tx < 0 || ty < 0 || tx >= COLS || ty >= ROWS) return true;
+    var t = grid[ty][tx];
+    if (t === TREE || t === WATER || t === ROCK) return true;
+    if (buildingAt(tx, ty)) return true;
+    if (crateAt(tx, ty)) return true;
+    for (var i = 0; i < LAMPS.length; i++) if (LAMPS[i].x === tx && LAMPS[i].y === ty) return true;
+    if (onFile(tx, ty)) return true;
+    if (CHEST_SPOTS.some(function (s) { return s.x === tx && s.y === ty; })) return true;
+    if (tx === 12 && ty === 15) return true;
+    return false;
+  }
+  // Push a crate one tile in the move direction. Called when an axis
+  // move is blocked: if exactly one crate touches the player's leading
+  // edge and the tile beyond it is free, move the crate and report the
+  // move as possible; otherwise roll back and stay blocked.
+  function tryPush(sx, sy, px, py) {
+    var corners = sx !== 0
+      ? [[px + sx * 5, py - 6], [px + sx * 5, py + 6]]
+      : [[px - 5, py + sy * 6], [px + 5, py + sy * 6]];
+    var found = null, two = false;
+    for (var i = 0; i < corners.length; i++) {
+      var c = crateAt(Math.floor(corners[i][0] / TILE), Math.floor(corners[i][1] / TILE));
+      if (c && c !== found) { if (found) { two = true; break; } found = c; }
+    }
+    if (!found || two) return false;
+    var nx = found.tx + sx, ny = found.ty + sy;
+    if (crateBlocked(nx, ny)) return false;
+    var ox = found.tx, oy = found.ty;
+    found.tx = nx; found.ty = ny;
+    if (collides(px, py)) { found.tx = ox; found.ty = oy; return false; }
+    return true;
   }
   function collides(px, py) {
     var hw = 5, vt = 6, vb = 6;
-    return isBlocked(Math.floor((px - hw) / TILE), Math.floor((py - vt) / TILE)) ||
-      isBlocked(Math.floor((px + hw) / TILE), Math.floor((py - vt) / TILE)) ||
-      isBlocked(Math.floor((px - hw) / TILE), Math.floor((py + vb) / TILE)) ||
-      isBlocked(Math.floor((px + hw) / TILE), Math.floor((py + vb) / TILE));
+    return hit(px - hw, py - vt) || hit(px + hw, py - vt) || hit(px - hw, py + vb) || hit(px + hw, py + vb);
+    function hit(x, y) {
+      var tx = Math.floor(x / TILE), ty = Math.floor(y / TILE);
+      if (tx < 0 || ty < 0 || tx >= COLS || ty >= ROWS) return true;
+      if (grid[ty][tx] === WATER) return false; // ponds are swimmable
+      return isBlocked(tx, ty);
+    }
+  }
+  function onWater() {
+    var tx = Math.floor(player.x / TILE), ty = Math.floor(player.y / TILE);
+    return tx >= 0 && ty >= 0 && tx < COLS && ty < ROWS && grid[ty][tx] === WATER;
   }
 
   // ---- State ----
@@ -246,6 +456,8 @@
   var keys = {};
   var joy = { x: 0, y: 0, active: false };
   var zoom = 1;
+  var night = false;
+  try { night = localStorage.getItem("portfolioQuestNight") === "1"; } catch (e) {}
   var visited = {};
   try {
     JSON.parse(localStorage.getItem("portfolioQuestV6") || "[]").forEach(function (id) { visited[id] = true; });
@@ -258,6 +470,30 @@
   var pan = { x: 0, y: 0 }; // free camera offset, set by dragging the map
   var rewardPending = false, rewardShown = false;
   try { rewardShown = localStorage.getItem("portfolioQuestV6Reward") === "1"; } catch (e) {}
+  var chestOpened = false;
+  try { chestOpened = localStorage.getItem("portfolioQuestChest") === "1"; } catch (e) {}
+  var chestSpot = null, chestLast = null;
+  try {
+    var ss = localStorage.getItem("portfolioQuestChestSpot");
+    if (ss) { var parts = ss.split(","); chestSpot = { x: +parts[0], y: +parts[1] }; }
+    var sl = localStorage.getItem("portfolioQuestChestLast");
+    if (sl) { var pl = sl.split(","); chestLast = { x: +pl[0], y: +pl[1] }; }
+  } catch (e) {}
+  function saveChestSpot() { try { localStorage.setItem("portfolioQuestChestSpot", chestSpot.x + "," + chestSpot.y); } catch (e) {} }
+  // The chest's tile for this completion: the stored spot, the old
+  // fixed corner for chests opened before spots moved, or a fresh pick
+  // from the spots (never the previous one) once the quest is done.
+  function chestTile() {
+    if (chestSpot) return chestSpot;
+    if (chestOpened) { chestSpot = LEGACY_CHEST; saveChestSpot(); return chestSpot; }
+    if (!allFound()) return null;
+    var pool = CHEST_SPOTS.filter(function (s) { return !chestLast || s.x !== chestLast.x || s.y !== chestLast.y; });
+    if (!pool.length) pool = CHEST_SPOTS.slice();
+    chestSpot = pool[Math.floor(Math.random() * pool.length)];
+    saveChestSpot();
+    return chestSpot;
+  }
+  var mailboxOpen = false;
   function allFound() { return PLACES.every(function (p) { return visited[p.id]; }); }
 
   // ---- DOM ----
@@ -266,12 +502,7 @@
   var counterLinesEl = document.getElementById("counterLines");
   var totalVisitedEl = document.getElementById("totalVisited");
   var totalBuildingsEl = document.getElementById("totalBuildings");
-  var questList = document.getElementById("questList");
-  var countersEl = document.getElementById("counters");
-  var countersToggle = document.getElementById("countersToggle");
-  var countersChev = document.getElementById("countersChev");
   var questPanel = document.getElementById("questPanel");
-  var winNote = document.getElementById("winNote");
   var joystickEl = document.getElementById("joystick");
   var joyKnob = document.getElementById("joyKnob");
   var zoomLabel = document.getElementById("zoomLabel");
@@ -280,6 +511,7 @@
   var minimapCtx = minimap.getContext("2d");
   var minimapToggle = document.getElementById("minimapToggle");
   var howtoEl = document.getElementById("howto");
+  var loadMsgEl = document.getElementById("loadScreen");
   var howtoOpen = false;
   function showHowto() { howtoOpen = true; howtoEl.hidden = false; }
   function hideHowto() {
@@ -356,49 +588,29 @@
     }
   }
   function renderQuest() {
-    var all = renderCounters();
-    questList.textContent = "";
-    QUEST_ORDER.forEach(function (id) {
-      var p = placeById(id);
-      var li = document.createElement("li");
-      if (visited[p.id]) {
-        li.className = "found";
-        var btn = document.createElement("button");
-        btn.type = "button";
-        var ci2 = document.createElement("span");
-        ci2.className = "ci";
-        ci2.appendChild(svgEl(p.cat, "currentColor"));
-        btn.appendChild(ci2);
-        var lbl = document.createElement("span");
-        lbl.textContent = p.label;
-        btn.appendChild(lbl);
-        btn.addEventListener("click", function () { openDialog(p); });
-        li.appendChild(btn);
-      } else {
-        li.textContent = "??? — unvisited place";
-      }
-      questList.appendChild(li);
-    });
-    winNote.hidden = all !== PLACES.length;
-    if (all === PLACES.length) {
-      var strong = winNote.querySelector("strong");
-      if (strong) strong.textContent = "Portfolio Master!";
-    }
+    // The quest log is just the visited totals now; the checklist is gone.
+    renderCounters();
   }
   renderQuest();
   document.getElementById("resetBtn").addEventListener("click", function () {
-    visited = {}; rewardPending = false; saveProgress(); closeDialog(); renderQuest();
+    visited = {}; rewardPending = false;
+    if (chestSpot) { try { localStorage.setItem("portfolioQuestChestLast", chestSpot.x + "," + chestSpot.y); } catch (e) {} chestLast = chestSpot; }
+    chestSpot = null; chestOpened = false;
+    try { localStorage.removeItem("portfolioQuestChest"); localStorage.removeItem("portfolioQuestChestSpot"); } catch (e) {}
+    saveProgress(); closeDialog(); renderQuest();
   });
-  // Visited (counters) and Quest log stay separate panels: the visited
-  // panel collapses to its total, the quest log opens and closes on its own.
-  function toggleCounters() {
-    var collapsed = countersEl.classList.toggle("collapsed");
-    countersToggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
-    countersChev.textContent = collapsed ? "▾" : "▴";
-  }
-  countersToggle.addEventListener("click", toggleCounters);
+  // The visited totals live inside the quest log now; one panel, not two.
   function toggleQuest() { questPanel.classList.toggle("hidden"); }
   document.getElementById("questToggle").addEventListener("click", toggleQuest);
+  function setNight(on) {
+    night = on;
+    try { localStorage.setItem("portfolioQuestNight", on ? "1" : "0"); } catch (e) { /* ignore */ }
+    document.body.classList.toggle("night", on);
+    var btn = document.getElementById("nightToggle");
+    if (btn) { btn.textContent = on ? "Day" : "Night"; btn.setAttribute("aria-pressed", on ? "true" : "false"); }
+  }
+  document.getElementById("nightToggle").addEventListener("click", function () { setNight(!night); });
+  setNight(night);
   if (window.innerWidth <= 900) questPanel.classList.add("hidden");
 
   function setZoom(z) {
@@ -425,9 +637,43 @@
     if (allFound()) rewardPending = true;
     openDialog(entry);
   }
+  function enterChest() {
+    chestOpened = true;
+    try { localStorage.setItem("portfolioQuestChest", "1"); } catch (e) {}
+    dialog = { b: { title: "Hidden Treasure!",
+      body: "You found the hidden treasure! You explored every place in Sumit's town — schools, workplaces, projects, skills, certificates, home, and contact. The real treasure is the whole story. Thanks for playing!" },
+      mode: "reward", page: 0, lines: null, titleLines: null, pages: null, wrapWidth: -1, modeCache: null, btnRects: null, linkRect: null, closeRect: null, box: null };
+    joyEnd();
+  }
+  function mailboxCenter() {
+    var post = null;
+    for (var i = 0; i < BLDGS.length; i++) if (BLDGS[i].bid === "post") { post = BLDGS[i]; break; }
+    var cx = post.x * TILE + 8, base = post.y * TILE + 16;
+    return { x: cx + 27, y: base - 4 };
+  }
+  function toggleMailbox() {
+    mailboxOpen = !mailboxOpen;
+    if (mailboxOpen) {
+      dialog = { b: { title: "You've got mail!",
+        body: "A letter from Sumit: Hello, traveller! Thanks for visiting my little town. Every building and file here is a piece of my story — school, work, projects, and home. Enjoy exploring, and don't miss the hidden treasure. — Sumit" },
+        mode: "letter", page: 0, lines: null, titleLines: null, pages: null, wrapWidth: -1, modeCache: null, btnRects: null, linkRect: null, closeRect: null, box: null };
+      joyEnd();
+    }
+  }
   function tryEnter() {
+    if (playing) { stopPlaying(); return; }
+    var it = nearestPlayItem(40);
+    if (it) { mountPlay(it); return; }
     var p = nearestPlace(48);
-    if (p) enterPlace(p);
+    var mc = mailboxCenter();
+    var mDist = Math.hypot(mc.x - player.x, mc.y - player.y);
+    var pDist = p ? Math.hypot(p.x * TILE + 8 - player.x, p.y * TILE + 8 - player.y) : 1e9;
+    var ct = chestTile();
+    var cDist = (ct && !chestOpened) ? Math.hypot(ct.x * TILE + 8 - player.x, ct.y * TILE + 8 - player.y) : 1e9;
+    // Nearest interaction wins, so a chest near a place never hijacks it.
+    if (mDist <= 36 && mDist < pDist && mDist < cDist) { toggleMailbox(); return; }
+    if (p && pDist <= cDist) { enterPlace(p); return; }
+    if (cDist <= 48) { enterChest(); return; }
   }
 
   // ---- Input: keyboard ----
@@ -445,10 +691,12 @@
       return;
     }
     if (KEYMAP[e.code]) { keys[KEYMAP[e.code]] = true; e.preventDefault(); }
+    else if (e.code === "Escape" && playing) { e.preventDefault(); stopPlaying(); }
     else if (e.code === "Space" || e.code === "KeyE") { e.preventDefault(); tryEnter(); }
     else if (e.code === "KeyQ") { toggleQuest(); }
     else if (e.code === "KeyH") { showHowto(); }
     else if (e.code === "KeyC") { pan.x = 0; pan.y = 0; }
+    else if (e.code === "KeyN") { setNight(!night); }
     else if (e.key === "+" || e.key === "=") { setZoom(zoom * 1.25); }
     else if (e.key === "-") { setZoom(zoom / 1.25); }
     else if (e.key === "0") { setZoom(1); }
@@ -602,6 +850,14 @@
       return;
     }
     var wx = camX + sx / (zoom * SCALE), wy = camY + sy / (zoom * SCALE);
+    if (playing) { stopPlaying(); return; }
+    for (var i = 0; i < PLAY_ITEMS.length; i++) {
+      var it = PLAY_ITEMS[i];
+      var a = playAnchor(it);
+      if (wx >= a.x - 20 && wx <= a.x + 20 && wy >= a.y - 20 && wy <= a.y + 20) { mountPlay(it); return; }
+    }
+    var mc = mailboxCenter();
+    if (wx >= mc.x - 11 && wx <= mc.x + 13 && wy >= mc.y - 12 && wy <= mc.y + 12) { toggleMailbox(); return; }
     for (var i = 0; i < BLDGS.length; i++) {
       var b = BLDGS[i], cx = b.x * TILE + 8, cy = b.y * TILE + 8, H = bldgH(b);
       if (wx >= cx - 52 && wx <= cx + 44 && wy >= cy + 8 - H - 10 && wy <= cy + 12) {
@@ -616,6 +872,11 @@
       if (p.kind !== "file") continue;
       var fx = p.x * TILE + 8, fy = p.y * TILE + 8;
       if (wx >= fx - 20 && wx <= fx + 20 && wy >= fy - 20 && wy <= fy + 16) { enterPlace(p); return; }
+    }
+    var ct = chestTile();
+    if (ct && !chestOpened) {
+      var ccx = ct.x * TILE + 8, ccy = ct.y * TILE + 8;
+      if (wx >= ccx - 20 && wx <= ccx + 20 && wy >= ccy - 20 && wy <= ccy + 16) { enterChest(); return; }
     }
   }
 
@@ -697,12 +958,16 @@
     var tw = ctx.measureText(label).width;
     var pw = 30 + tw + 10, ph = 24;
     var px = cx - pw / 2;
+    // LED names: the pill stays dark and the letters themselves glow,
+    // like lit sign letters, at night.
     ctx.fillStyle = "rgba(22,32,47,0.94)";
     rr(px, top, pw, ph, 2); ctx.fill();
     ctx.strokeStyle = "#f6d743"; ctx.lineWidth = 2; ctx.stroke();
     drawCatIcon(cat, px + 15, top + ph / 2, 7);
-    ctx.fillStyle = "#ffffff"; ctx.textAlign = "left";
+    ctx.fillStyle = night ? "#fffbe8" : "#ffffff"; ctx.textAlign = "left";
+    if (night) { ctx.save(); ctx.shadowColor = "rgba(255, 217, 122, 0.95)"; ctx.shadowBlur = 12; }
     ctx.fillText(label, px + 28, top + ph / 2 + 5);
+    if (night) ctx.restore();
     if (visitedFlag) {
       var bx = px + pw + 12, by = top + ph / 2;
       ctx.fillStyle = "#f6d743";
@@ -792,6 +1057,151 @@
     ctx.fillStyle = "#a9a9b0";
     ctx.fillRect(cx - 3, cy + 2, 4, 2);
   }
+  function drawBench(px, py) {
+    ctx.fillStyle = "#6b4a2f";
+    ctx.fillRect(px, py, 12, 2);
+    ctx.fillRect(px + 1, py + 2, 2, 3);
+    ctx.fillRect(px + 9, py + 2, 2, 3);
+    ctx.fillStyle = "#8a5a3a";
+    ctx.fillRect(px, py - 3, 12, 2);
+  }
+  function drawCrate(px, py) {
+    ctx.fillStyle = "#8a5a3a"; ctx.fillRect(px, py, 8, 8);
+    ctx.fillStyle = "#6b4a2f";
+    ctx.fillRect(px, py, 8, 1); ctx.fillRect(px, py + 7, 8, 1);
+    ctx.fillRect(px, py, 1, 8); ctx.fillRect(px + 7, py, 1, 8);
+  }
+  function drawSeesaw(px, py, angle) {
+    ctx.fillStyle = "#3a3f4a";
+    ctx.beginPath();
+    ctx.moveTo(px, py + 6); ctx.lineTo(px + 5, py); ctx.lineTo(px + 10, py + 6); ctx.closePath(); ctx.fill();
+    // Board as a stepped pixel line, so it stays chunky while it tilts.
+    // At angle 0 this is exactly the old flat board.
+    var cx = px + 5, tan = Math.tan(angle);
+    ctx.fillStyle = "#2e9e5b";
+    for (var xo = -13; xo <= 12; xo++) {
+      var yo = Math.round(xo * tan);
+      ctx.fillRect(cx + xo, py + yo - 1, 1, 2);
+    }
+    function seatAt(ox, oy) {
+      var c = Math.cos(angle), s = Math.sin(angle);
+      return { x: Math.round(ox * c - oy * s), y: Math.round(ox * s + oy * c) };
+    }
+    ctx.fillStyle = "#c0392b";
+    var l = seatAt(-12, -2), r = seatAt(12, -2);
+    ctx.fillRect(cx + l.x - 2, py + l.y - 1, 4, 2);
+    ctx.fillRect(cx + r.x - 2, py + r.y - 1, 4, 2);
+  }
+  function drawRoundabout(cx, cy, angle) {
+    ctx.fillStyle = "#c0392b";
+    ctx.beginPath(); ctx.arc(cx, cy, 7, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#f2ead8";
+    ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fill();
+    // Handles spin around the centre. At angle 0 these are exactly the
+    // old north/south/east/west handles.
+    ctx.fillStyle = "#3a3f4a";
+    for (var k = 0; k < 4; k++) {
+      var a = angle + k * Math.PI / 2;
+      var hx = Math.round(cx + 8 * Math.cos(a)), hy = Math.round(cy + 8 * Math.sin(a));
+      ctx.fillRect(hx - 1, hy - 1, 2, 2);
+    }
+  }
+  function drawSwingSet(ox, oy, activeSeat, angle) {
+    ctx.fillStyle = "#3a3f4a";
+    ctx.fillRect(ox, oy, 2, 12); ctx.fillRect(ox + 18, oy, 2, 12);
+    ctx.fillRect(ox, oy, 20, 2);
+    // Two seats hang from the bar. The ridden seat swings as a pendulum:
+    // chains stay vertical but shift with the seat, and the seat rises
+    // slightly at the extremes. At angle 0 this is exactly the old set.
+    var seats = [
+      { pivot: ox + 5, color: "#c0392b" },
+      { pivot: ox + 14, color: "#2e6fb0" }
+    ];
+    seats.forEach(function (s, i) {
+      var dx = 0, top = oy + 8;
+      if (i === activeSeat) { dx = Math.round(6 * Math.sin(angle)); top = Math.round(oy + 2 + 6 * Math.cos(angle)); }
+      ctx.fillStyle = "#9aa0ab";
+      ctx.fillRect(s.pivot - 2 + dx, oy + 2, 1, top - (oy + 2));
+      ctx.fillRect(s.pivot + 2 + dx, oy + 2, 1, top - (oy + 2));
+      ctx.fillStyle = s.color; ctx.fillRect(s.pivot - 3 + dx, top, 6, 2);
+    });
+  }
+  function drawSlide(ox, oy) {
+    ctx.fillStyle = "#3a3f4a";
+    ctx.fillRect(ox, oy + 8, 4, 2); ctx.fillRect(ox + 3, oy + 5, 4, 2); ctx.fillRect(ox + 6, oy + 2, 4, 2);
+    ctx.fillStyle = "#f6d743";
+    ctx.fillRect(ox + 9, oy + 2, 3, 2); ctx.fillRect(ox + 11, oy + 4, 3, 2); ctx.fillRect(ox + 13, oy + 6, 3, 2); ctx.fillRect(ox + 15, oy + 8, 3, 2);
+  }
+  function drawFlowerBed(px, py, w) {
+    ctx.fillStyle = "#7a5c38"; ctx.fillRect(px, py, w, 6);
+    ctx.fillStyle = "#e86a92";
+    ctx.fillRect(px + 3, py + 1, 1, 1); ctx.fillRect(px + 9, py + 3, 1, 1); ctx.fillRect(px + 15, py + 1, 1, 1);
+    ctx.fillStyle = "#f6d743";
+    ctx.fillRect(px + 6, py + 2, 1, 1); ctx.fillRect(px + 12, py + 4, 1, 1);
+  }
+  function drawPlots() {
+    PLOTS.forEach(function (p) {
+      var ox = p.x0 * TILE, oy = p.y0 * TILE;
+      var w = (p.x1 - p.x0 + 1) * TILE, h = (p.y1 - p.y0 + 1) * TILE;
+      if (p.ground) { ctx.fillStyle = p.ground; ctx.fillRect(ox, oy, w, h); }
+      if (p.kind === "play") {
+        // Fenced playground: rails and posts around the sand, then swings,
+        // slide, seesaw, and a roundabout.
+        ctx.strokeStyle = "#8a5a3a"; ctx.lineWidth = 1;
+        ctx.strokeRect(ox + 1, oy + 1, w - 2, h - 2);
+        ctx.fillStyle = "#8a5a3a";
+        for (var fx = 0; fx <= w; fx += 16) { ctx.fillRect(ox + fx, oy, 2, 4); ctx.fillRect(ox + fx, oy + h - 4, 2, 4); }
+        for (var fy = 0; fy <= h; fy += 16) { ctx.fillRect(ox, oy + fy, 4, 2); ctx.fillRect(ox + w - 4, oy + fy, 4, 2); }
+        var swSeat = -1, swAng = 0, ssAng = 0, rbAng = 0;
+        if (playing && playing.item.plot === p) {
+          if (playing.item.type === "swing") { swSeat = playing.item.seat; swAng = swingAngle(); }
+          else if (playing.item.type === "seesaw") ssAng = seesawAngle();
+          else if (playing.item.type === "roundabout") rbAng = playSeconds() * 2.5;
+        }
+        drawSwingSet(ox + 8, oy + 10, swSeat, swAng);
+        drawSlide(ox + 44, oy + 12);
+        drawSeesaw(ox + 76, oy + 26, ssAng);
+        drawRoundabout(ox + 88, oy + 44, rbAng);
+      } else if (p.kind === "work") {
+        drawBench(ox + 36, oy + 20);
+      } else if (p.kind === "garden") {
+        drawFlowerBed(ox + 6, oy + 8, 28);
+        drawBench(ox + 12, oy + 22);
+      } else if (p.kind === "court") {
+        drawBench(ox + 10, oy + 8);
+        drawFlowerBed(ox + 8, oy + h - 10, 24);
+      }
+    });
+  }
+  function drawLamp(gx, gy) {
+    var cx = gx * TILE + 8, base = gy * TILE + 16;
+    ctx.fillStyle = "#3a3f4a"; ctx.fillRect(cx - 1, base - 12, 2, 12);
+    ctx.fillStyle = night ? "#ffd97a" : "#2b2f3a"; ctx.fillRect(cx - 3, base - 15, 6, 3);
+    ctx.fillStyle = night ? "#fff275" : "#9aa0ab"; ctx.fillRect(cx - 1, base - 14, 2, 2);
+  }
+  // Hidden treasure chest: a golden chest in the far corner. Closed
+  // until found; lid raised with gold spilling out once opened.
+  function drawChest(cx, cy, open) {
+    ctx.fillStyle = "rgba(0,0,0,0.20)";
+    ctx.fillRect(cx - 10, cy + 8, 20, 2);
+    if (open) {
+      ctx.fillStyle = "#8a5a3a"; ctx.fillRect(cx - 9, cy - 2, 18, 10);
+      ctx.fillStyle = "#fff275"; ctx.fillRect(cx - 7, cy - 2, 14, 3);
+      ctx.fillStyle = "#e8b93c"; ctx.fillRect(cx - 9, cy - 2, 18, 1);
+      ctx.fillStyle = "#6e4526"; ctx.fillRect(cx - 9, cy - 10, 18, 5);
+      ctx.fillStyle = "#e8b93c"; ctx.fillRect(cx - 9, cy - 10, 18, 1);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(cx - 12, cy - 6, 1, 1); ctx.fillRect(cx + 11, cy - 4, 1, 1);
+      ctx.fillRect(cx - 6, cy - 8, 1, 1); ctx.fillRect(cx + 5, cy - 12, 1, 1);
+    } else {
+      ctx.fillStyle = "#8a5a3a"; ctx.fillRect(cx - 9, cy - 6, 18, 14);
+      ctx.fillStyle = "#6e4526"; ctx.fillRect(cx - 9, cy - 6, 18, 5);
+      ctx.fillStyle = "#e8b93c";
+      ctx.fillRect(cx - 9, cy - 1, 18, 1);
+      ctx.fillRect(cx - 2, cy - 6, 4, 14);
+      ctx.fillStyle = "#3a2a18"; ctx.fillRect(cx - 1, cy + 2, 2, 3);
+    }
+  }
   function drawBuilding(b) {
     var cx = b.x * TILE + 8, cy = b.y * TILE + 8;
     var H = bldgH(b), base = cy + 8, roofTop = base - H, wallTop = roofTop + 20;
@@ -850,7 +1260,7 @@
     // Windows with a cross frame, like the reference buildings.
     function win(wx, wy, w, h) {
       ctx.fillStyle = "#f2ead8"; ctx.fillRect(wx - 1, wy - 1, w + 2, h + 2);
-      ctx.fillStyle = "#2a3a5e"; ctx.fillRect(wx, wy, w, h);
+      ctx.fillStyle = night ? "#ffd97a" : "#2a3a5e"; ctx.fillRect(wx, wy, w, h);
       ctx.fillStyle = "rgba(255,255,255,0.75)";
       ctx.fillRect(wx + 6, wy, 1, h);
       ctx.fillRect(wx, wy + 6, w, 1);
@@ -872,7 +1282,7 @@
     } else if (b.shape === "workshop") {
       // Wide workshop window and double doors.
       ctx.fillStyle = "#f2ead8"; ctx.fillRect(cx - 25, wallTop + 5, 50, 14);
-      ctx.fillStyle = "#2a3a5e"; ctx.fillRect(cx - 24, wallTop + 6, 48, 12);
+      ctx.fillStyle = night ? "#ffd97a" : "#2a3a5e"; ctx.fillRect(cx - 24, wallTop + 6, 48, 12);
       ctx.fillStyle = "rgba(255,255,255,0.75)";
       ctx.fillRect(cx - 8, wallTop + 6, 1, 12);
       ctx.fillRect(cx + 8, wallTop + 6, 1, 12);
@@ -903,6 +1313,11 @@
       win(cx - 30, wallTop + 12, 12, 12); win(cx + 18, wallTop + 12, 12, 12);
       ctx.fillStyle = "#3454e0"; ctx.fillRect(cx + 24, base - 8, 6, 8);
       ctx.fillStyle = "#f6d743"; ctx.fillRect(cx + 24, base - 8, 6, 1);
+      if (mailboxOpen) {
+        // Door open, letter sticking out.
+        ctx.fillStyle = "#f2ead8"; ctx.fillRect(cx + 25, base - 14, 4, 6);
+        ctx.fillStyle = "#3454e0"; ctx.fillRect(cx + 25, base - 12, 4, 1);
+      }
     } else {
       win(cx - 30, wallTop + 6, 12, 12); win(cx + 18, wallTop + 6, 12, 12);
     }
@@ -932,6 +1347,17 @@
       ctx.strokeStyle = "#f6d743"; ctx.lineWidth = 1;
       ctx.strokeRect(cx + 30, base - 10, 16, 12);
       drawCatIcon("work", cx + 38, base - 4, 4);
+    }
+    // Visited tick on the sign, like the tick on visited project files:
+    // a gold badge on the sign's top-right corner once the building's
+    // place has been visited.
+    if (buildingVisited(b.bid)) {
+      ctx.fillStyle = "#f6d743";
+      ctx.beginPath(); ctx.arc(cx - 30, base - 10, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = "#16202f"; ctx.lineWidth = 1; ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(cx - 32, base - 10); ctx.lineTo(cx - 30.5, base - 8.5); ctx.lineTo(cx - 28, base - 12);
+      ctx.stroke();
     }
     // Name painted on the building itself: on the roof band for flat
     // roofs, on a nameplate at the top of the wall for the hall, and on
@@ -981,11 +1407,13 @@
   // its antenna turns gold once the quest is complete.
   function drawPlayer() {
     var ox = player.x - 7, top = player.y - 10;
+    var swim = onWater();
     var frame = player.moving ? Math.floor(player.dist / 9) % 2 : 0;
-    var bob = player.moving ? frame : 0;
-    var liftL = player.moving ? (frame === 0 ? 0 : 1) : 0;
-    var liftR = player.moving ? (frame === 0 ? 1 : 0) : 0;
+    var bob = !swim && player.moving ? frame : 0;
+    var liftL = !swim && player.moving ? (frame === 0 ? 0 : 1) : 0;
+    var liftR = !swim && player.moving ? (frame === 0 ? 1 : 0) : 0;
     var ty = top - bob;
+    if (swim) ty += Math.round(Math.sin(performance.now() / 300));
     var gold = allFound();
     var now = performance.now() % 9000;
     var eyeH = (now > 8460 && now < 8820) ? 1 : 2;
@@ -997,7 +1425,17 @@
     // In profile the antenna leans toward the facing side.
     var antX = side ? (right ? ox + 8 : ox + 5) : ox + 6;
     ctx.fillStyle = "#17213a"; ctx.fillRect(antX, ty, 2, 2);
-    ctx.fillStyle = gold ? "#f6d743" : "#b0451f"; ctx.fillRect(antX - 1, ty - 3, 4, 3);
+    // At night the antenna bulb glows yellow and pulses, like the robot
+    // on the portfolio site does on dark backgrounds.
+    if (night) {
+      var pulse = 0.5 + 0.5 * Math.sin((performance.now() % 2200) / 2200 * Math.PI * 2);
+      var hg = ctx.createRadialGradient(antX + 1, ty - 1, 1, antX + 1, ty - 1, 14);
+      hg.addColorStop(0, "rgba(255, 242, 117, " + (0.35 + 0.25 * pulse) + ")");
+      hg.addColorStop(1, "rgba(255, 242, 117, 0)");
+      ctx.fillStyle = hg;
+      ctx.fillRect(antX - 13, ty - 15, 28, 28);
+    }
+    ctx.fillStyle = night ? "#fff275" : gold ? "#f6d743" : "#b0451f"; ctx.fillRect(antX - 1, ty - 3, 4, 3);
     // Head: navy frame. Front view keeps the full face screen and both eyes;
     // back view shows the plain panel; side view is a true profile with the
     // face on the leading side, one eye at the front edge, and an ear tab
@@ -1027,10 +1465,10 @@
     } else if (side) {
       var panelX = right ? ox + 7 : ox + 2;
       ctx.fillStyle = "#3454e0"; ctx.fillRect(panelX, ty + 10, 5, 3);
-      ctx.fillStyle = gold ? "#f6d743" : "#f5f1e7"; ctx.fillRect(panelX + 2, ty + 11, 2, 1);
+      ctx.fillStyle = night ? "#fff275" : gold ? "#f6d743" : "#f5f1e7"; ctx.fillRect(panelX + 2, ty + 11, 2, 1);
     } else {
       ctx.fillStyle = "#3454e0"; ctx.fillRect(ox + 3, ty + 10, 8, 3);
-      ctx.fillStyle = gold ? "#f6d743" : "#f5f1e7"; ctx.fillRect(ox + 6, ty + 11, 2, 1);
+      ctx.fillStyle = night ? "#fff275" : gold ? "#f6d743" : "#f5f1e7"; ctx.fillRect(ox + 6, ty + 11, 2, 1);
     }
     // Arms: in profile the far arm is shaded dark and the near arm swings
     // with the walk, burnt-orange hand on the visible arm.
@@ -1069,6 +1507,30 @@
       ctx.fillRect(ox + 3, ty + 17 - liftL, 3, 1);
       ctx.fillRect(ox + 8, ty + 17 - liftR, 3, 1);
     }
+    // Swimming: chest-deep — only the head stays above the water, and
+    // the arms paddle on the surface instead of swinging like a walk.
+    // The walk cycle is already switched off above while swimming.
+    if (swim) {
+      var wy = ty + 9;
+      ctx.fillStyle = "rgba(74, 144, 217, 0.55)";
+      ctx.fillRect(ox - 1, wy, 16, 12);
+      // Breaststroke pull: both arms reach out together and draw back
+      // in, instead of flapping up and down in opposite phases.
+      var ext = Math.round(Math.sin(performance.now() / 280) + 1);
+      ctx.fillStyle = "#17213a";
+      ctx.fillRect(ox - 2 - ext, wy + 2, 3 + ext, 2);
+      ctx.fillRect(ox + 12, wy + 2, 3 + ext, 2);
+      ctx.fillStyle = "#b0451f";
+      ctx.fillRect(ox - 2 - ext, wy + 2, 1, 2);
+      ctx.fillRect(ox + 14 + ext, wy + 2, 1, 2);
+      var ph = (performance.now() % 1200) / 1200;
+      for (var r = 0; r < 2; r++) {
+        var p = (ph + r * 0.5) % 1;
+        ctx.strokeStyle = "rgba(255, 255, 255, " + (0.65 * (1 - p)).toFixed(2) + ")";
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.ellipse(player.x, wy + 3, 11 + p * 7, 4 + p * 2, 0, 0, Math.PI * 2); ctx.stroke();
+      }
+    }
   }
   // In-game dialog: drawn on the canvas itself, never an outside popup.
   // Overview first; the full description only after "See details".
@@ -1090,6 +1552,8 @@
       btnDefs = [{ label: "Back", action: "back" }];
       if (b.link) btnDefs.push({ label: b.linkLabel || "Open link", action: "link" });
       btnDefs.push({ label: "Close", action: "close" });
+    } else if (dialog.mode === "letter") {
+      btnDefs = [{ label: "Close", action: "close" }];
     } else {
       btnDefs = [{ label: "View resume", action: "resume" }, { label: "Email Sumit", action: "email" }, { label: "Close", action: "close" }];
     }
@@ -1248,6 +1712,7 @@
     m.fillStyle = "#ff5a3c";
     m.beginPath(); m.arc(px, py, 3, 0, Math.PI * 2); m.fill();
     m.strokeStyle = "#ffffff"; m.lineWidth = 1; m.stroke();
+    if (night) { m.fillStyle = "rgba(8, 14, 40, 0.5)"; m.fillRect(0, 0, 220, 140); }
   }
 
   // Next place in quest order: the first one not visited yet. Both the
@@ -1257,12 +1722,17 @@
       var p = placeById(QUEST_ORDER[i]);
       if (p && !visited[p.id]) return p;
     }
+    // Quest done and treasure still hidden: the chest is the last step.
+    if (allFound() && !chestOpened) {
+      var chestT = chestTile();
+      if (chestT) return { id: "chest", label: "Treasure chest", x: chestT.x, y: chestT.y };
+    }
     return null;
   }
 
   // ---- Guide arrow: a pill above the player pointing at the next place in quest order ----
   function drawGuideArrow(now) {
-    if (dialog || howtoOpen || allFound()) return;
+    if (dialog || howtoOpen) return;
     var best = nextQuestTarget();
     if (!best) return;
     var k = zoom * SCALE;
@@ -1309,7 +1779,9 @@
     var dt = Math.min((now - last) / 1000, 0.05);
     last = now;
     player.moving = false;
-    if (!dialog && !howtoOpen) {
+    // A slide is a short ride that ends by itself at the bottom.
+    if (playing && playing.item.type === "slide" && playSeconds() >= 1.1) stopPlaying();
+    if (!dialog && !howtoOpen && !playing) {
       var dx = 0, dy = 0;
       if (keys.left) dx -= 1;
       if (keys.right) dx += 1;
@@ -1324,12 +1796,12 @@
       if (dx !== 0 || dy !== 0) {
         if (Math.abs(dy) > Math.abs(dx)) player.facing = dy < 0 ? "up" : "down";
         else player.facing = dx < 0 ? "left" : "right";
-        var step = 70 * dt;
+        var step = (onWater() ? 40 : 70) * dt;
         var nx = player.x + dx * step;
         var movedX = false, movedY = false;
-        if (!collides(nx, player.y)) { player.dist += Math.abs(nx - player.x); player.x = nx; movedX = true; }
+        if (!collides(nx, player.y) || (dx !== 0 && tryPush(dx, 0, nx, player.y))) { player.dist += Math.abs(nx - player.x); player.x = nx; movedX = true; }
         var ny = player.y + dy * step;
-        if (!collides(player.x, ny)) { player.dist += Math.abs(ny - player.y); player.y = ny; movedY = true; }
+        if (!collides(player.x, ny) || (dy !== 0 && tryPush(0, dy, player.x, ny))) { player.dist += Math.abs(ny - player.y); player.y = ny; movedY = true; }
         player.moving = movedX || movedY;
       }
       player.x = Math.max(8, Math.min(WORLD_W - 8, player.x));
@@ -1351,6 +1823,7 @@
     for (var ty = y0; ty <= y1; ty++) {
       for (var tx = x0; tx <= x1; tx++) drawTile(grid[ty][tx], tx, ty);
     }
+    drawPlots();
     var drawables = [];
     for (var dty = y0; dty <= y1; dty++) {
       for (var dtx = x0; dtx <= x1; dtx++) {
@@ -1362,25 +1835,138 @@
     PLACES.forEach(function (p) {
       if (p.kind === "file") drawables.push({ y: p.y, x: p.x, kind: "file", p: p });
     });
-    drawables.push({ y: player.y / TILE, x: player.x / TILE, kind: "player" });
+    LAMPS.forEach(function (l) { drawables.push({ y: l.y, x: l.x, kind: "lamp", l: l }); });
+    CRATES.forEach(function (c) { drawables.push({ y: c.ty, x: c.tx, kind: "crate", c: c }); });
+    var chestT = chestTile();
+    if (chestT) drawables.push({ y: chestT.y, x: chestT.x, kind: "chest" });
+    var ride = riderPos();
+    drawables.push({ y: (ride ? ride.y : player.y) / TILE, x: (ride ? ride.x : player.x) / TILE, kind: "player" });
     drawables.sort(function (a, c) { return (a.y - c.y) || (a.x - c.x); });
     drawables.forEach(function (d) {
       if (d.kind === "building") drawBuilding(d.b);
       else if (d.kind === "file") drawFile(d.p);
       else if (d.kind === "tree") drawTree(d.x, d.y);
       else if (d.kind === "rock") drawRock(d.x, d.y);
+      else if (d.kind === "lamp") drawLamp(d.l.x, d.l.y);
+      else if (d.kind === "crate") drawCrate(d.c.tx * TILE + 4, d.c.ty * TILE + 4);
+      else if (d.kind === "chest") drawChest(d.x * TILE + 8, d.y * TILE + 8, chestOpened);
+      else if (ride) {
+        var sx = player.x, sy = player.y, sf = player.facing, sm = player.moving;
+        player.x = ride.x; player.y = ride.y; player.moving = false;
+        // On the roundabout the robot rides a handle around the disc,
+        // so its facing follows its direction of travel: clockwise,
+        // down, left, up, right, at the disc's own spin rate.
+        player.facing = playing.item.type === "roundabout"
+          ? ["down", "left", "up", "right"][Math.floor(playSeconds() * 2.5 / (Math.PI / 2)) % 4]
+          : "down";
+        drawPlayer();
+        // Sitting must read as sitting, not standing on the bench: draw
+        // the bench front over the robot's legs, so only head and torso
+        // show above the seat.
+        if (playing.item.type === "bench") drawBench(playing.item.bx - 6, playing.item.seatTop + 3);
+        player.x = sx; player.y = sy; player.facing = sf; player.moving = sm;
+      }
       else drawPlayer();
     });
     ctx.restore();
     // Screen-space labels (crisp text, constant size at any zoom).
     var k = zoom * SCALE;
-    BLDGS.forEach(function (b) {
-      var bx = b.x * TILE + 8, by = b.y * TILE + 8, H = bldgH(b);
-      var lx = (bx - camX) * k, ly = (by + 8 - H - 18 - camY) * k;
-      if (lx > -160 && lx < W + 160 && ly > -40 && ly < H + 40) {
-        drawLabelPillScreen(lx, ly, b.label, b.cat, buildingVisited(b.bid), 13);
-      }
-    });
+    // Night mode: dim the world, keep a warm pool of light around the
+    // robot, and darken toward the edges. Labels, the guide arrow, and
+    // dialogs are drawn after this, so they stay bright.
+    if (night) {
+      ctx.fillStyle = "rgba(8, 14, 40, 0.62)";
+      ctx.fillRect(0, 0, W, H);
+      var px = (player.x - camX) * k, py = (player.y - camY) * k;
+      var glow = ctx.createRadialGradient(px, py, 24, px, py, 150);
+      glow.addColorStop(0, "rgba(255, 214, 120, 0.22)");
+      glow.addColorStop(0.55, "rgba(255, 214, 120, 0.06)");
+      glow.addColorStop(1, "rgba(255, 214, 120, 0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(px - 150, py - 150, 300, 300);
+      var vig = ctx.createRadialGradient(px, py, 90, px, py, Math.max(W, H) * 0.72);
+      vig.addColorStop(0, "rgba(8, 14, 40, 0)");
+      vig.addColorStop(1, "rgba(8, 14, 40, 0.68)");
+      ctx.fillStyle = vig;
+      ctx.fillRect(0, 0, W, H);
+      // Lampposts cast their own pools of light.
+      LAMPS.forEach(function (l) {
+        var sx = (l.x * TILE + 8 - camX) * k, sy = (l.y * TILE + 8 - camY) * k;
+        if (sx < -80 || sx > W + 80 || sy < -80 || sy > H + 80) return;
+        var lg = ctx.createRadialGradient(sx, sy, 4, sx, sy, 70);
+        lg.addColorStop(0, "rgba(255, 214, 120, 0.30)");
+        lg.addColorStop(1, "rgba(255, 214, 120, 0)");
+        ctx.fillStyle = lg;
+        ctx.fillRect(sx - 70, sy - 70, 140, 140);
+      });
+      // Lit building names, repainted on top of the dimming: the painted
+      // boards sit under the overlay and wash out grey, so each board is
+      // redrawn here with glowing letters, same geometry as the boards.
+      BLDGS.forEach(function (b) {
+        var cx = b.x * TILE + 8, cy = b.y * TILE + 8;
+        var BH = bldgH(b), base = cy + 8, roofTop = base - BH, wallTop = roofTop + 20;
+        var bcx = (cx - camX) * k;
+        if (bcx < -120 || bcx > W + 120) return;
+        var font = "bold " + (7 * k) + "px system-ui, sans-serif";
+        ctx.textAlign = "center";
+        ctx.font = font;
+        function litText(txt, tx, ty) {
+          ctx.fillStyle = "#ffffff";
+          ctx.save(); ctx.shadowColor = "rgba(255, 217, 122, 1)"; ctx.shadowBlur = 18;
+          ctx.fillText(txt, tx, ty);
+          ctx.fillText(txt, tx, ty);
+          ctx.restore();
+          ctx.fillText(txt, tx, ty);
+        }
+        // The sign tick, repainted bright so the dimming does not wash
+        // it out like it did the painted names.
+        if (buildingVisited(b.bid)) {
+          var tx = (cx - 30 - camX) * k, ty = (base - 10 - camY) * k;
+          if (tx > -20 && tx < W + 20 && ty > -20 && ty < H + 20) {
+            ctx.fillStyle = "#f6d743";
+            ctx.beginPath(); ctx.arc(tx, ty, 4 * k, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = "#16202f"; ctx.lineWidth = 1 * k; ctx.lineCap = "round";
+            ctx.beginPath();
+            ctx.moveTo(tx - 2 * k, ty); ctx.lineTo(tx - 0.5 * k, ty + 1.5 * k); ctx.lineTo(tx + 2 * k, ty - 2 * k);
+            ctx.stroke();
+          }
+        }
+        if (b.shape === "hall") {
+          if ((wallTop + 11 - camY) * k < -20 || (wallTop - camY) * k > H + 20) return;
+          litText(b.label, bcx, (wallTop + 8 - camY) * k);
+        } else if (b.shape === "house") {
+          if ((wallTop + 12 - camY) * k < -20 || (wallTop + 2 - camY) * k > H + 20) return;
+          litText(b.label, bcx, (wallTop + 9 - camY) * k);
+        } else {
+          var nameLines = wrapLines(b.label, font, 74 * k, 2);
+          var nameY = nameLines.length > 1 ? roofTop + 8 : roofTop + 13;
+          var stripY = nameLines.length > 1 ? roofTop : roofTop + 4;
+          var stripH = nameLines.length > 1 ? 20 : 12;
+          if ((stripY + stripH - camY) * k < -20 || (stripY - camY) * k > H + 20) return;
+          nameLines.forEach(function (line, i) {
+            litText(line, bcx, (nameY + i * 9 - camY) * k);
+          });
+        }
+      });
+      // Fireflies: drifting, blinking sparks over the dark town.
+      if (!FIREFLIES) FIREFLIES = buildFireflies();
+      var ft = performance.now() / 1000;
+      FIREFLIES.forEach(function (f) {
+        var fx = (f.bx + Math.sin(ft * f.sp + f.ph) * f.rx - camX) * k;
+        var fy = (f.by + Math.cos(ft * f.sp * 0.8 + f.ph) * f.ry - camY) * k;
+        if (fx < -20 || fx > W + 20 || fy < -20 || fy > H + 20) return;
+        var blink = Math.pow(Math.max(0, Math.sin(ft * f.bf + f.bp)), 2);
+        if (blink < 0.05) return;
+        var hg = ctx.createRadialGradient(fx, fy, 1, fx, fy, 12);
+        hg.addColorStop(0, "rgba(230, 255, 150, " + (0.5 * blink) + ")");
+        hg.addColorStop(1, "rgba(230, 255, 150, 0)");
+        ctx.fillStyle = hg;
+        ctx.fillRect(fx - 12, fy - 12, 24, 24);
+        ctx.fillStyle = "#f2ffb0";
+        ctx.fillRect(fx - 1, fy - 1, 2, 2);
+      });
+      ctx.textAlign = "left";
+    }
     PLACES.forEach(function (p) {
       if (p.kind !== "file") return;
       var fx = p.x * TILE + 8, fy = p.y * TILE + 8;
@@ -1389,25 +1975,13 @@
         drawLabelPillScreen(lx, ly, p.label, p.cat, !!visited[p.id], 12);
       }
     });
-    if (!dialog) {
-      var near = nearestPlace(48);
-      if (near) {
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.font = "bold 14px system-ui, sans-serif"; ctx.textAlign = "center";
-        var label = "Space / tap to open";
-        var w = ctx.measureText(label).width + 20;
-        var lx2 = Math.max(8, Math.min(W - w - 8, (player.x - camX) * k - w / 2));
-        var ly2 = Math.max(8, (player.y - camY) * k - 32);
-        ctx.fillStyle = "rgba(22,32,47,0.92)";
-        rr(lx2, ly2, w, 26, 2); ctx.fill();
-        ctx.fillStyle = "#ffffff";
-        ctx.fillText(label, lx2 + w / 2, ly2 + 18);
-        ctx.textAlign = "left";
-      }
-    }
     drawGuideArrow(now);
     if (!minimapWrap.classList.contains("collapsed")) drawMinimap();
     drawDialog();
+    // First fully drawn frame: the game is alive, so the static
+    // loading screen can go away. If the script died before this,
+    // the screen stays as the failure notice.
+    if (loadMsgEl) loadMsgEl.hidden = true;
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);

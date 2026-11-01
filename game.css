@@ -27,29 +27,11 @@ a { color: #9db4ff; }
   padding: 12px 14px;
   backdrop-filter: blur(2px);
 }
-#counters { min-width: 186px; max-width: calc(100vw - 24px); }
-.counters-head {
-  background: none;
-  border: 0;
-  color: inherit;
-  font: inherit;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-}
-.counters-head .counters-title { margin-bottom: 0; }
-.counters-head .counters-total { border-top: 0; margin-top: 0; padding-top: 0; margin-left: auto; white-space: nowrap; }
-.counters-chev { font-size: 14px; }
-#counters.collapsed #counterLines { display: none; }
-.counters-title { font-weight: 800; font-size: 16px; margin-bottom: 6px; letter-spacing: 0.5px; }
+.quest-visited { margin-bottom: 0; padding-bottom: 0; }
+.visited-head { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 16px; margin-bottom: 6px; letter-spacing: 0.5px; }
 .counter-line { display: flex; justify-content: space-between; align-items: center; gap: 14px; font-size: 15px; padding: 2px 0; }
 .counter-line .ci { display: inline-flex; align-items: center; margin-right: 6px; vertical-align: -3px; }
 .counter-line .count { font-weight: 700; color: #f6d743; }
-.counters-total { border-top: 1px solid rgba(255,255,255,0.3); margin-top: 6px; padding-top: 6px; font-weight: 700; }
 #topLeft {
   position: fixed;
   top: 12px;
@@ -64,25 +46,23 @@ a { color: #9db4ff; }
   right: 12px;
   z-index: 10;
   display: flex;
-  gap: 8px;
-}
-#rightPanels {
-  position: fixed;
-  top: 64px;
-  right: 12px;
-  z-index: 10;
-  display: flex;
   flex-direction: row;
   align-items: flex-start;
   gap: 8px;
-  max-height: calc(100vh - 76px);
-  overflow-y: auto;
-  overflow-x: auto;
   max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 24px);
+  overflow-x: auto;
+  overflow-y: auto;
 }
-#rightPanels .hud-panel { position: static; }
-#backLink, #questToggle, #howtoBtn {
-  background: rgba(23, 33, 58, 0.88);
+#topRight .hud-panel { position: static; }
+#questCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex: none;
+}
+#backLink, #questToggle, #howtoBtn, #nightToggle {  background: rgba(23, 33, 58, 0.88);
   color: #fff;
   border: 2px solid #d9a441;
   border-radius: 10px;
@@ -92,6 +72,40 @@ a { color: #9db4ff; }
   text-decoration: none;
   cursor: pointer;
 }
+#nightToggle::before { content: "☾ "; }
+body.night #nightToggle::before { content: "☀ "; }
+body.night { background: #0d1730; }
+body.night .hud-panel { background: rgba(8, 14, 32, 0.94); }
+body.night #backLink, body.night #questToggle, body.night #howtoBtn, body.night #nightToggle { background: rgba(8, 14, 32, 0.94); }
+body.night #zoomControls, body.night #minimapWrap { background: rgba(8, 14, 32, 0.94); }
+body.night #hint { background: rgba(8, 14, 32, 0.85); }
+#loadScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(8, 14, 32, 0.96);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  pointer-events: none;
+}
+#loadScreen[hidden] { display: none; }
+.load-title { font-size: 26px; font-weight: 800; letter-spacing: 0.5px; }
+.load-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #d9a441;
+  border-radius: 50%;
+  animation: loadSpin 1s linear infinite;
+}
+@keyframes loadSpin { to { transform: rotate(360deg); } }
+.load-text { font-size: 16px; }
+.load-note { font-size: 13px; color: #c8d0e0; max-width: 300px; }
 #questPanel {
   width: 288px;
   max-width: calc(100vw - 24px);
@@ -109,30 +123,10 @@ a { color: #9db4ff; }
   font-weight: 700;
   cursor: pointer;
 }
-.quest-note { font-size: 13px; color: #cfd6e4; }
-#questList { list-style: none; padding: 0; margin: 8px 0 0; }
-#questList li { padding: 7px 0; border-top: 1px solid rgba(255,255,255,0.25); font-size: 14px; }
-#questList li.found { color: #f6d743; }
-#questList button {
-  background: none;
-  border: 0;
-  padding: 0;
-  font: inherit;
-  color: #9db4ff;
-  cursor: pointer;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-#questList button .ci { display: inline-flex; flex: none; }
-.win-note { margin-top: 12px; background: #fff4cf; color: #17213a; border-radius: 10px; padding: 10px; font-size: 14px; }
-.win-note a { color: #3454e0; }
 #hint {
   position: fixed;
   bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 12px;
   z-index: 10;
   background: rgba(23, 33, 58, 0.75);
   color: #fff;
@@ -199,6 +193,7 @@ a { color: #9db4ff; }
 }
 #zoomControls button:hover { background: rgba(255, 255, 255, 0.15); }
 #zoomControls #zoomLabel { width: 56px; font-size: 13px; }
+#zoomControls #centerBtn { width: auto; padding: 0 12px; font-size: 14px; white-space: nowrap; }
 #minimapWrap {
   position: fixed;
   right: 12px;
@@ -241,7 +236,15 @@ a { color: #9db4ff; }
 #howto ul { margin: 0 0 14px; padding-left: 20px; font-size: 15px; line-height: 1.55; }
 #howto li { margin: 6px 0; }
 @media (max-width: 640px) {
-  #questPanel { width: calc(100vw - 24px); right: 12px; }
-  #counters { min-width: 158px; }
   .counter-line { font-size: 14px; }
+  /* On narrow screens the top-right cluster is wide enough to cover the
+  top-left buttons, so drop it below that row and shrink the top buttons
+  so Portfolio, How to play, and Night all fit on one row. */
+  #topRight { top: 60px; }
+  #backLink, #questToggle, #howtoBtn, #nightToggle { padding: 7px 10px; font-size: 13px; }
+  #hint { display: none; }
+  #zoomControls { padding: 3px; gap: 3px; }
+  #zoomControls button { width: 32px; height: 34px; font-size: 16px; }
+  #zoomControls #zoomLabel { width: 48px; font-size: 12px; }
+  #zoomControls #centerBtn { width: auto; padding: 0 8px; font-size: 14px; }
 }
