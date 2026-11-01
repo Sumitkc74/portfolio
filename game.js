@@ -81,7 +81,6 @@
   // A new spot is picked every time the quest is completed, never the
   // same as the previous one.
   var CHEST_SPOTS = [{ x: 42, y: 27 }, { x: 1, y: 1 }, { x: 42, y: 1 }, { x: 30, y: 27 }, { x: 16, y: 27 }, { x: 1, y: 14 }];
-  var LEGACY_CHEST = { x: 42, y: 27 };
   // Work-yard crates: pushable toys, not scenery. Tile positions, so
   // pushing moves them one tile at a time.
   var CRATES = [{ tx: 10, ty: 14 }, { tx: 11, ty: 14 }];
@@ -316,10 +315,12 @@
     var rest = playAnchor(it);
     if (it.type === "seesaw") rest = { x: it.pivotX + side * 12, y: it.pivotY - 8 };
     player.x = rest.x; player.y = rest.y; player.facing = "down"; player.moving = false;
+    SFX.mount();
   }
   function stopPlaying() {
     if (playing) { var r = riderPos(); if (r) { player.x = r.x; player.y = r.y; } }
     playing = null;
+    SFX.click();
   }
   // Fireflies: only at night, drifting over open ground and blinking.
   // Positions are seeded, so the same fireflies return every visit.
@@ -434,6 +435,7 @@
     var ox = found.tx, oy = found.ty;
     found.tx = nx; found.ty = ny;
     if (collides(px, py)) { found.tx = ox; found.ty = oy; return false; }
+    SFX.thud();
     return true;
   }
   function collides(px, py) {
@@ -451,6 +453,64 @@
     return tx >= 0 && ty >= 0 && tx < COLS && ty < ROWS && grid[ty][tx] === WATER;
   }
 
+  // ---- Sound: tiny WebAudio synth, no audio files (nothing for the
+  // site's security rules to block). Sounds are event-only, never a
+  // loop, and the Sound button mutes them.
+  var audioCtx = null, noiseBuf = null, soundOn = true;
+  try { soundOn = localStorage.getItem("portfolioQuestSound") !== "0"; } catch (e) {}
+  function unlockAudio() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+    } catch (e) {}
+  }
+  function tone(freq, start, dur, type, vol, endFreq) {
+    if (!soundOn) return;
+    unlockAudio();
+    if (!audioCtx) return;
+    try {
+      var t = audioCtx.currentTime + (start || 0);
+      var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = type || "sine";
+      o.frequency.setValueAtTime(freq, t);
+      if (endFreq) o.frequency.exponentialRampToValueAtTime(endFreq, t + dur);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(vol || 0.15, t + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t + dur + 0.05);
+    } catch (e) {}
+  }
+  function noiseHit(dur, vol, cutoff) {
+    if (!soundOn) return;
+    unlockAudio();
+    if (!audioCtx) return;
+    try {
+      if (!noiseBuf) {
+        noiseBuf = audioCtx.createBuffer(1, Math.floor(audioCtx.sampleRate * 0.3), audioCtx.sampleRate);
+        var d = noiseBuf.getChannelData(0);
+        for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      }
+      var src = audioCtx.createBufferSource(); src.buffer = noiseBuf;
+      var f = audioCtx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = cutoff || 1200;
+      var g = audioCtx.createGain(); var t = audioCtx.currentTime;
+      g.gain.setValueAtTime(vol || 0.12, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      src.connect(f); f.connect(g); g.connect(audioCtx.destination);
+      src.start(t); src.stop(t + dur);
+    } catch (e) {}
+  }
+  var SFX = {
+    visit: function () { tone(523.25, 0, 0.18, "sine", 0.15); tone(783.99, 0.09, 0.25, "sine", 0.15); },
+    chest: function () { [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { tone(f, i * 0.1, 0.3, "triangle", 0.16); }); },
+    reward: function () { [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5].forEach(function (f, i) { tone(f, i * 0.09, 0.28, "triangle", 0.16); }); },
+    mail: function () { tone(880, 0, 0.12, "sine", 0.14); tone(1174.66, 0.08, 0.18, "sine", 0.14); },
+    click: function () { tone(1200, 0, 0.05, "square", 0.05); },
+    mount: function () { tone(300, 0, 0.16, "sine", 0.14, 700); },
+    thud: function () { tone(160, 0, 0.12, "sine", 0.2, 70); },
+    splash: function () { noiseHit(0.3, 0.12, 1200); }
+  };
+
   // ---- State ----
   var player = { x: 22 * TILE + 8, y: 13 * TILE + 8, facing: "up", dist: 0, moving: false };
   var keys = {};
@@ -458,34 +518,55 @@
   var zoom = 1;
   var night = false;
   try { night = localStorage.getItem("portfolioQuestNight") === "1"; } catch (e) {}
+  // Progress lives in the tab's session: going back to the portfolio
+  // and returning restores it, but refreshing the page wipes the
+  // session save before it is read, and closing the tab drops it
+  // entirely. Saves from the old localStorage versions are dropped so
+  // a stale save can never resurface.
+  try {
+    localStorage.removeItem("portfolioQuestV6");
+    localStorage.removeItem("portfolioQuestV6Reward");
+    localStorage.removeItem("portfolioQuestChest");
+    localStorage.removeItem("portfolioQuestChestSpot");
+    localStorage.removeItem("portfolioQuestChestLast");
+  } catch (e) {}
+  try {
+    var navType = "";
+    try { navType = performance.getEntriesByType("navigation")[0].type; } catch (e) {}
+    if (navType === "reload") {
+      sessionStorage.removeItem("portfolioQuestV6");
+      sessionStorage.removeItem("portfolioQuestV6Reward");
+      sessionStorage.removeItem("portfolioQuestChest");
+      sessionStorage.removeItem("portfolioQuestChestSpot");
+      sessionStorage.removeItem("portfolioQuestChestLast");
+    }
+  } catch (e) {}
   var visited = {};
   try {
-    JSON.parse(localStorage.getItem("portfolioQuestV6") || "[]").forEach(function (id) { visited[id] = true; });
-  } catch (e) { /* progress just won't persist */ }
+    JSON.parse(sessionStorage.getItem("portfolioQuestV6") || "[]").forEach(function (id) { visited[id] = true; });
+  } catch (e) {}
   function saveProgress() {
-    try { localStorage.setItem("portfolioQuestV6", JSON.stringify(Object.keys(visited))); } catch (e) { /* ignore */ }
+    try { sessionStorage.setItem("portfolioQuestV6", JSON.stringify(Object.keys(visited))); } catch (e) { /* ignore */ }
   }
   var dialog = null;
   var camX = 0, camY = 0;
   var pan = { x: 0, y: 0 }; // free camera offset, set by dragging the map
   var rewardPending = false, rewardShown = false;
-  try { rewardShown = localStorage.getItem("portfolioQuestV6Reward") === "1"; } catch (e) {}
+  try { rewardShown = sessionStorage.getItem("portfolioQuestV6Reward") === "1"; } catch (e) {}
   var chestOpened = false;
-  try { chestOpened = localStorage.getItem("portfolioQuestChest") === "1"; } catch (e) {}
+  try { chestOpened = sessionStorage.getItem("portfolioQuestChest") === "1"; } catch (e) {}
   var chestSpot = null, chestLast = null;
   try {
-    var ss = localStorage.getItem("portfolioQuestChestSpot");
+    var ss = sessionStorage.getItem("portfolioQuestChestSpot");
     if (ss) { var parts = ss.split(","); chestSpot = { x: +parts[0], y: +parts[1] }; }
-    var sl = localStorage.getItem("portfolioQuestChestLast");
+    var sl = sessionStorage.getItem("portfolioQuestChestLast");
     if (sl) { var pl = sl.split(","); chestLast = { x: +pl[0], y: +pl[1] }; }
   } catch (e) {}
-  function saveChestSpot() { try { localStorage.setItem("portfolioQuestChestSpot", chestSpot.x + "," + chestSpot.y); } catch (e) {} }
-  // The chest's tile for this completion: the stored spot, the old
-  // fixed corner for chests opened before spots moved, or a fresh pick
-  // from the spots (never the previous one) once the quest is done.
+  function saveChestSpot() { try { sessionStorage.setItem("portfolioQuestChestSpot", chestSpot.x + "," + chestSpot.y); } catch (e) {} }
+  // The chest's tile for this completion: the picked spot once the
+  // quest is done, never the previous completion's spot.
   function chestTile() {
     if (chestSpot) return chestSpot;
-    if (chestOpened) { chestSpot = LEGACY_CHEST; saveChestSpot(); return chestSpot; }
     if (!allFound()) return null;
     var pool = CHEST_SPOTS.filter(function (s) { return !chestLast || s.x !== chestLast.x || s.y !== chestLast.y; });
     if (!pool.length) pool = CHEST_SPOTS.slice();
@@ -581,7 +662,8 @@
     // the last detail panel closes.
     if (rewardPending && !rewardShown) {
       rewardPending = false; rewardShown = true;
-      try { localStorage.setItem("portfolioQuestV6Reward", "1"); } catch (e) {}
+      try { sessionStorage.setItem("portfolioQuestV6Reward", "1"); } catch (e) {}
+      SFX.reward();
       dialog = { b: { title: "Portfolio Master!", trophy: true,
         body: "You visited all 15 places — every school, workplace, project file, skill hall, certificate, and home. Your robot's antenna turned gold. See Sumit's resume, or reach out by email." },
         mode: "reward", page: 0, lines: null, titleLines: null, pages: null, wrapWidth: -1, modeCache: null, btnRects: null, linkRect: null, closeRect: null, box: null };
@@ -593,10 +675,10 @@
   }
   renderQuest();
   document.getElementById("resetBtn").addEventListener("click", function () {
-    visited = {}; rewardPending = false;
-    if (chestSpot) { try { localStorage.setItem("portfolioQuestChestLast", chestSpot.x + "," + chestSpot.y); } catch (e) {} chestLast = chestSpot; }
+    visited = {}; rewardPending = false; rewardShown = false;
+    if (chestSpot) { try { sessionStorage.setItem("portfolioQuestChestLast", chestSpot.x + "," + chestSpot.y); } catch (e) {} chestLast = chestSpot; }
     chestSpot = null; chestOpened = false;
-    try { localStorage.removeItem("portfolioQuestChest"); localStorage.removeItem("portfolioQuestChestSpot"); } catch (e) {}
+    try { sessionStorage.removeItem("portfolioQuestChest"); sessionStorage.removeItem("portfolioQuestChestSpot"); } catch (e) {}
     saveProgress(); closeDialog(); renderQuest();
   });
   // The visited totals live inside the quest log now; one panel, not two.
@@ -611,6 +693,22 @@
   }
   document.getElementById("nightToggle").addEventListener("click", function () { setNight(!night); });
   setNight(night);
+  var soundBtn = document.getElementById("soundToggle");
+  function renderSoundBtn() {
+    if (soundBtn) { soundBtn.textContent = soundOn ? "Mute" : "Sound"; soundBtn.setAttribute("aria-pressed", soundOn ? "true" : "false"); }
+  }
+  if (soundBtn) soundBtn.addEventListener("click", function () {
+    soundOn = !soundOn;
+    try { localStorage.setItem("portfolioQuestSound", soundOn ? "1" : "0"); } catch (e) {}
+    renderSoundBtn();
+  });
+  renderSoundBtn();
+  // Every HUD button gives a tiny click. The sound button's own toggle
+  // runs first, so muting stays silent and unmuting clicks.
+  ["howtoBtn", "questToggle", "resetBtn", "nightToggle", "soundToggle", "zoomIn", "zoomOut", "centerBtn", "minimapToggle", "howtoStart"].forEach(function (id) {
+    var b = document.getElementById(id);
+    if (b) b.addEventListener("click", function () { SFX.click(); });
+  });
   if (window.innerWidth <= 900) questPanel.classList.add("hidden");
 
   function setZoom(z) {
@@ -634,12 +732,14 @@
     if (entry.bid === "cityu") { visited.ms = true; visited.ta = true; }
     else visited[entry.id] = true;
     saveProgress(); renderQuest();
+    SFX.visit();
     if (allFound()) rewardPending = true;
     openDialog(entry);
   }
   function enterChest() {
     chestOpened = true;
-    try { localStorage.setItem("portfolioQuestChest", "1"); } catch (e) {}
+    try { sessionStorage.setItem("portfolioQuestChest", "1"); } catch (e) {}
+    SFX.chest();
     dialog = { b: { title: "Hidden Treasure!",
       body: "You found the hidden treasure! You explored every place in Sumit's town — schools, workplaces, projects, skills, certificates, home, and contact. The real treasure is the whole story. Thanks for playing!" },
       mode: "reward", page: 0, lines: null, titleLines: null, pages: null, wrapWidth: -1, modeCache: null, btnRects: null, linkRect: null, closeRect: null, box: null };
@@ -658,6 +758,7 @@
         body: "A letter from Sumit: Hello, traveller! Thanks for visiting my little town. Every building and file here is a piece of my story — school, work, projects, and home. Enjoy exploring, and don't miss the hidden treasure. — Sumit" },
         mode: "letter", page: 0, lines: null, titleLines: null, pages: null, wrapWidth: -1, modeCache: null, btnRects: null, linkRect: null, closeRect: null, box: null };
       joyEnd();
+      SFX.mail();
     }
   }
   function tryEnter() {
@@ -679,6 +780,7 @@
   // ---- Input: keyboard ----
   var KEYMAP = { ArrowUp: "up", KeyW: "up", ArrowDown: "down", KeyS: "down", ArrowLeft: "left", KeyA: "left", ArrowRight: "right", KeyD: "right" };
   document.addEventListener("keydown", function (e) {
+    unlockAudio();
     if (howtoOpen) {
       if (e.code === "Space" || e.code === "Enter" || e.code === "Escape" || e.code === "KeyH") { e.preventDefault(); hideHowto(); }
       return;
@@ -836,6 +938,7 @@
     setZoom(zoom * (e.deltaY < 0 ? 1.1 : 0.9));
   }, { passive: false });
   function handleTap(sx, sy) {
+    unlockAudio();
     if (howtoOpen) return;
     if (dialog) {
       var d = dialog;
@@ -1775,6 +1878,7 @@
 
   // ---- Loop ----
   var last = performance.now();
+  var wasSwim = false;
   function frame(now) {
     var dt = Math.min((now - last) / 1000, 0.05);
     last = now;
@@ -1807,6 +1911,9 @@
       player.x = Math.max(8, Math.min(WORLD_W - 8, player.x));
       player.y = Math.max(8, Math.min(WORLD_H - 8, player.y));
     }
+    var swimNow = onWater();
+    if (swimNow && !wasSwim) SFX.splash();
+    wasSwim = swimNow;
     var W = canvas.width, H = canvas.height;
     var viewW = W / (zoom * SCALE), viewH = H / (zoom * SCALE);
     var totalW = WORLD_W + 128, totalH = WORLD_H + 128;

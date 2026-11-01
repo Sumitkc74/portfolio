@@ -62,7 +62,7 @@ a { color: #9db4ff; }
   gap: 8px;
   flex: none;
 }
-#backLink, #questToggle, #howtoBtn, #nightToggle {  background: rgba(23, 33, 58, 0.88);
+#backLink, #questToggle, #howtoBtn, #nightToggle, #soundToggle {  background: rgba(23, 33, 58, 0.88);
   color: #fff;
   border: 2px solid #d9a441;
   border-radius: 10px;
@@ -76,7 +76,7 @@ a { color: #9db4ff; }
 body.night #nightToggle::before { content: "☀ "; }
 body.night { background: #0d1730; }
 body.night .hud-panel { background: rgba(8, 14, 32, 0.94); }
-body.night #backLink, body.night #questToggle, body.night #howtoBtn, body.night #nightToggle { background: rgba(8, 14, 32, 0.94); }
+body.night #backLink, body.night #questToggle, body.night #howtoBtn, body.night #nightToggle, body.night #soundToggle { background: rgba(8, 14, 32, 0.94); }
 body.night #zoomControls, body.night #minimapWrap { background: rgba(8, 14, 32, 0.94); }
 body.night #hint { background: rgba(8, 14, 32, 0.85); }
 #loadScreen {
@@ -241,7 +241,7 @@ body.night #hint { background: rgba(8, 14, 32, 0.85); }
   top-left buttons, so drop it below that row and shrink the top buttons
   so Portfolio, How to play, and Night all fit on one row. */
   #topRight { top: 60px; }
-  #backLink, #questToggle, #howtoBtn, #nightToggle { padding: 7px 10px; font-size: 13px; }
+  #backLink, #questToggle, #howtoBtn, #nightToggle, #soundToggle { padding: 7px 10px; font-size: 13px; }
   #hint { display: none; }
   #zoomControls { padding: 3px; gap: 3px; }
   #zoomControls button { width: 32px; height: 34px; font-size: 16px; }
