@@ -828,6 +828,10 @@
     transform: rotate(180deg);
   }
 
+  .experience-card:not(.is-collapsed) .exp-summary {
+    display: none;
+  }
+
   .experience-card.is-collapsed .exp-details {
     display: none;
   }
@@ -2775,7 +2779,7 @@
                 </a>
                 <span class="meta-pill meta-pill-accent">500+ Students</span>
               </div>
-              <p class="exp-summary">Maintained cloud and app environments for 6–7 graduate courses per quarter across AWS, Python, React, and ML.</p>
+              <p class="exp-summary">Maintained AWS cloud environments and rebuilt lab setups for 6–7 graduate courses supporting 500+ students, and resolved critical LMS gradebook integrations.</p>
               <div class="exp-details" id="exp-details-cityu">
                 <ul class="item-bullets">
                   <li>Maintained the cloud and application environments for 6 to 7 graduate courses per quarter (AWS EC2, S3, Lambda; Python, React, machine learning), diagnosing configuration, permission, and dependency failures for 500+ students</li>
@@ -2810,7 +2814,7 @@
                 </a>
                 <span class="meta-pill meta-pill-accent">15+ Platforms Shipped</span>
               </div>
-              <p class="exp-summary">Integrated payment/booking APIs, cut page load times by ~40%, and delivered 15+ production client platforms.</p>
+              <p class="exp-summary">Delivered 15+ production client platforms, integrated eSewa and Khalti payment APIs, and cut page load times by ~40% through caching and asset optimization.</p>
               <div class="exp-details" id="exp-details-swe">
                 <ul class="item-bullets">
                   <li>Integrated three payment and booking REST APIs (eSewa, Khalti, reservations) into client PHP/Laravel platforms with payment initiation, server-side verification, and booking confirmation, saving about 5 hours per week</li>
@@ -2845,7 +2849,7 @@
                 </a>
                 <span class="meta-pill meta-pill-accent">3 Deployments</span>
               </div>
-              <p class="exp-summary">Deployed 3 production client websites with zero post-launch issues and cut setup time from ~3 hours to under 1.</p>
+              <p class="exp-summary">Deployed 3 production client websites with zero post-launch issues, built validated inquiry and booking forms, and reduced local developer setup time from ~3 hours to under 1.</p>
               <div class="exp-details" id="exp-details-intern">
                 <ul class="item-bullets">
                   <li>Deployed three client websites to production (live server, domain, SSL) after testing every page, form, and booking flow, with zero reported post-launch issues</li>
@@ -2922,7 +2926,7 @@
                         <div class="meal-flow-copy"><p>Enforces a calibrated confidence gate (&tau; = 0.85); cases falling below the threshold route safely to human auditors, while verified decisions generate complete CMS appeal defense packets.</p></div>
                       </details>
                     </div>
-                    <p class="meal-flow-credit"><strong>Empirical Benchmark:</strong> 98.5% decision concordance and 100% evidence faithfulness on a self-built benchmark of clinical test vignettes across cardiology, pulmonology, and wound care (33.3% safely deferred to human review, ECE 0.032) vs. a zero-shot prompt baseline (66.7% accuracy, 48.5% faithfulness, ECE 0.274).</p>
+                    <p class="meal-flow-credit"><strong>Flow Validation vs. Baseline:</strong> Compared against a standard zero-shot prompt baseline (66.7% accuracy, 48.5% faithfulness, ECE 0.274), this 3-stage verification flow eliminated ungrounded claims through character-offset anchoring and drove calibration error down to ECE 0.032.</p>
                   </details>
                   <div class="card-footer">
                     <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-demo-btn" data-demo-url="" hidden>
