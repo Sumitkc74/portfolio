@@ -83,31 +83,32 @@
 <style>
   :root {
     /* 5 Analogous Section Background Tones */
-    --tone-cream: #f5f1e7;
-    --tone-navy: #080c14;
-    --tone-lilac: #ece8f6;
-    --tone-sage: #e9f0e8;
-    --tone-peach: #faeee2;
+    --tone-cream: #f5f1e7;       /* Warm ivory cream */
+    --tone-navy: #16223a;        /* Elegant dark navy (Experience) */
+    --tone-peach: #faeee2;       /* Soft delicate warm peach (Projects) */
+    --tone-sage: #e8eee6;        /* Subtle calm herbal sage (Skills & Resume) */
+    --tone-sand: #ede5d4;        /* Refined warm linen sand (Certifications) */
+    --tone-midnight: #23304f;    /* Midnight slate navy blue (Contact) */
 
     /* Section Background Mappings */
     --bg-hero: var(--tone-cream);
-    --bg-experience: var(--tone-navy);
-    --bg-projects: var(--tone-lilac);
+    --bg-experience: #080c14;
+    --bg-projects: var(--tone-peach);
     --bg-skills: var(--tone-sage);
-    --bg-education: var(--tone-peach);
-    --bg-certifications: var(--tone-lilac);
-    --bg-resume: var(--tone-cream);
-    --bg-contact: var(--tone-navy);
+    --bg-education: var(--tone-cream);
+    --bg-certifications: var(--tone-sand);
+    --bg-resume: var(--tone-sage);
+    --bg-contact: var(--tone-midnight);
 
     /* Section Dividers */
     --divider-subtle: rgba(23, 33, 58, 0.08);
     --divider-dark: rgba(255, 255, 255, 0.12);
 
     --cream: #f5f1e7;
-    --cream-sage: #e9f0e8;
+    --cream-sage: #e8eee6;
     --cream-peach: #faeee2;
-    --cream-lilac: #ece8f6;
-    --cream-sand: #f5f1e7;
+    --cream-lilac: #f2ece0;
+    --cream-sand: #ede5d4;
     --cream-card: #ffffff;
     --cream-border: #e3dbc5;
     --ink: #17213a;
@@ -121,7 +122,7 @@
     --coral: #b0451f;
     --coral-tint: #fbe9e1;
     --contact-blue: #23304f;
-    --footer-navy: #0b1526;
+    --footer-navy: #18233a;
     --font-display: 'Fraunces', serif;
     --font-body: 'Inter', sans-serif;
   }
@@ -2094,7 +2095,7 @@
     color: #fff;
   }
 
-  .contact-section .section-eyebrow { color: rgba(255,255,255,0.7); }
+  .contact-section .section-eyebrow { color: #9cb4ff; }
   .contact-section h2.tagline { color: #fff; }
 
   .contact-grid {
@@ -2105,17 +2106,23 @@
 
   .contact-card {
     padding: 26px;
-    border: 1.5px dashed rgba(255,255,255,0.35);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px dashed rgba(255, 255, 255, 0.35);
     border-radius: 14px;
     text-decoration: none;
     color: #fff;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    transition: background 0.2s;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   }
 
-  .contact-card:hover { background: rgba(255,255,255,0.08); }
+  .contact-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #8fa3ff;
+    border-style: solid;
+    transform: translateY(-2px);
+  }
 
   .contact-card-email {
     position: relative;
@@ -2857,7 +2864,7 @@
     </section>
 
     <!-- PROJECTS -->
-    <section class="block tint-lilac" id="projects">
+    <section class="block tint-peach" id="projects">
       <div class="container">
         <div class="section-eyebrow">02 / Projects</div>
         <h2 class="tagline">Systems built to solve real problems.</h2>
@@ -3255,7 +3262,7 @@
     </section>
 
     <!-- EDUCATION -->
-    <section class="block tint-peach" id="education">
+    <section class="block tint-cream" id="education">
       <div class="container">
       <div class="section-eyebrow">04 / Education</div>
       <h2 class="tagline">Academic foundations and honors.</h2>
@@ -3290,7 +3297,7 @@
     </section>
 
     <!-- CERTIFICATIONS -->
-    <section class="block tint-lilac" id="certifications">
+    <section class="block tint-sand" id="certifications">
       <div class="container">
       <div class="section-eyebrow">05 / Certifications</div>
       <h2 class="tagline">Proof, beyond the transcript.</h2>
@@ -3340,7 +3347,7 @@
     </section>
 
     <!-- RESUME -->
-    <section class="block tint-sand" id="resume">
+    <section class="block tint-sage" id="resume">
       <div class="container">
       <div class="section-eyebrow">06 / Resume</div>
       <h2 class="tagline">The full picture, one document.</h2>
