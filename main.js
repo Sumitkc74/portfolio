@@ -127,6 +127,7 @@ function initCarousel(config) {
     clone.querySelectorAll('[data-copy-url]').forEach((el) => el.removeAttribute('data-copy-url'));
     clone.querySelectorAll('a, button, summary').forEach((el) => el.setAttribute('tabindex', '-1'));
     clone.setAttribute('aria-hidden', 'true');
+    clone.setAttribute('inert', '');
     return clone;
   }
 
@@ -170,7 +171,17 @@ function initCarousel(config) {
     if (!animate) {
       track.offsetHeight; // Force reflow before next transition
     }
-    allSlides.forEach((s, i) => s.classList.toggle('active', i === index));
+    allSlides.forEach((s, i) => {
+      const isActive = i === index;
+      s.classList.toggle('active', isActive);
+      if (isActive) {
+        s.removeAttribute('aria-hidden');
+        s.removeAttribute('inert');
+      } else {
+        s.setAttribute('aria-hidden', 'true');
+        s.setAttribute('inert', '');
+      }
+    });
     const r = realIndexFromDom(index);
     dots.forEach((d, i) => {
       const isActive = i === r;

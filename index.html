@@ -673,13 +673,30 @@
   }
 
   .experience-card {
-    background: rgba(13, 20, 36, 0.78);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(10, 15, 28, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 16px;
     padding: 28px 32px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  }
+  .experience-card .exp-summary {
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .experience-card .item-bullets li {
+    color: rgba(255, 255, 255, 0.90);
+    line-height: 1.7;
+    font-size: 13.5px;
+  }
+  .experience-card .item-bullets li::before {
+    color: #8fa3ff;
+  }
+  .experience-card .tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f1f5f9;
+    border: 1px solid rgba(255, 255, 255, 0.22);
   }
 
   .experience-card:hover {
@@ -1075,8 +1092,8 @@
 
   .navy-section .tag {
     background: transparent;
-    border: 1px solid var(--navy-border);
-    color: var(--light-muted);
+    border: 1px solid rgba(226, 230, 240, 0.28);
+    color: rgba(235, 240, 250, 0.90);
   }
 
   .edu-note {
@@ -1121,7 +1138,7 @@
     min-width: 0;
     padding: 2px;
     box-sizing: border-box;
-    opacity: 0.35;
+    opacity: 0.65;
     transform: scale(0.93);
     transition: opacity 0.4s ease, transform 0.4s ease;
     cursor: pointer;
@@ -1216,19 +1233,28 @@
   }
 
   .carousel-dots .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    border: 8px solid transparent;
     background: var(--navy-border);
+    background-clip: padding-box;
     cursor: pointer;
     padding: 0;
+    box-sizing: border-box;
     transition: all 0.25s cubic-bezier(.25,.8,.35,1);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .carousel-dots .dot:focus-visible {
+    outline: 2px solid #8fa3ff;
+    outline-offset: 2px;
   }
 
   .carousel-dots .dot.active {
     background: #8fa3ff;
-    width: 22px;
-    border-radius: 6px;
+    background-clip: padding-box;
+    width: 38px;
+    border-radius: 12px;
     transform: none;
   }
 
@@ -1254,8 +1280,8 @@
     font-size: 11px;
     font-weight: 600;
     padding: 4px 12px;
-    border: 1px solid rgba(201,84,42,0.5);
-    color: #e0895f;
+    border: 1px solid rgba(255, 162, 120, 0.4);
+    color: #ffa278;
     border-radius: 20px;
     margin-bottom: 16px;
   }
@@ -1264,12 +1290,12 @@
     font-family: var(--font-display);
     font-size: 21px;
     font-weight: 600;
-    color: #e0895f;
+    color: #ffa278;
     margin-bottom: 4px;
   }
 
   .project-desc {
-    color: var(--light-muted);
+    color: rgba(235, 240, 250, 0.88);
     font-size: 13px;
     margin-bottom: 16px;
     text-align: justify;
@@ -1284,7 +1310,7 @@
   }
 
   .project-bullets li {
-    color: var(--light-muted);
+    color: rgba(240, 244, 255, 0.90);
     font-size: 13px;
     padding-left: 16px;
     position: relative;
@@ -1539,9 +1565,10 @@
 
   .more-project-desc {
     font-size: 13px;
-    color: var(--light-muted);
     line-height: 1.6;
+    color: rgba(226, 230, 240, 0.88);
     margin-bottom: 16px;
+    flex-grow: 1;
   }
 
   .more-project-card .tech-stack {
@@ -1683,7 +1710,7 @@
   }
   .flow-project-toggle { cursor: pointer; color: #a8bcff; }
   .flow-project-toggle h3 { display: inline; }
-  .flow-toggle-hint { display: block; margin-top: 6px; font-size: 12px; color: var(--light-muted); }
+  .flow-toggle-hint { display: block; margin-top: 6px; font-size: 12px; color: #b8c9ff; }
   .meal-flow[open] > .flow-project-toggle .flow-toggle-hint { display: none; }
   .meal-flow + .meal-flow { margin-top: 16px; }
   .meal-flow h3 { font-family: var(--font-display); font-size: 26px; color: #fff; }
@@ -1698,7 +1725,7 @@
   .meal-flow-copy { padding: 0 18px 18px; font-size: 13px; line-height: 1.75; }
   .meal-flow-copy p + p { margin-top: 12px; }
   .meal-flow-copy strong { color: #fff; }
-  .meal-flow-credit { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--navy-border); font-size: 13px; }
+  .meal-flow-credit { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--navy-border); font-size: 13px; color: rgba(226, 230, 240, 0.88); }
   .meal-flow-credit strong { color: #a8bcff; }
   @media screen and (prefers-reduced-motion: no-preference) {
     .meal-flow-step[open] .meal-flow-copy { animation: fadeUp 0.3s ease both; }
@@ -2677,7 +2704,7 @@
             <div class="carousel-track">
 
               <!-- 01: CarePolicyGuard -->
-              <div class="carousel-slide">
+              <div class="carousel-slide active">
                 <div class="project-card">
                   <span class="team-badge">Solo Project</span>
                   <div class="project-media-slot" data-screenshot-url="" hidden>
@@ -2731,7 +2758,7 @@
               </div>
 
               <!-- 02: Parallax-Eval -->
-              <div class="carousel-slide">
+              <div class="carousel-slide" aria-hidden="true" inert>
                 <div class="project-card" data-citation-url="">
                   <span class="team-badge">Solo Project</span>
                   <div class="project-media-slot" data-screenshot-url="" hidden>
@@ -2788,7 +2815,7 @@
               </div>
 
               <!-- 03: Learn to Drive -->
-              <div class="carousel-slide">
+              <div class="carousel-slide" aria-hidden="true" inert>
                 <div class="project-card">
                   <span class="team-badge">Solo Project</span>
                   <div class="project-media-slot" data-screenshot-url="" hidden>
@@ -2847,7 +2874,7 @@
               </div>
 
               <!-- 04: MealMate.ai -->
-              <div class="carousel-slide">
+              <div class="carousel-slide" aria-hidden="true" inert>
                 <div class="project-card">
                   <span class="team-badge">Team Project • CS628 CityU</span>
                   <div class="project-media-slot" data-screenshot-url="" hidden>
@@ -3266,7 +3293,7 @@
   </div>
 </footer>
 
-<script src="main.js?v=20261014"></script>
+<script src="main.js?v=20261115"></script>
 
 </body>
 </html>
