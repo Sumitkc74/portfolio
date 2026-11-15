@@ -457,11 +457,28 @@
     gap: 7px;
     font-size: 13.5px;
     color: var(--muted);
-    margin-bottom: 24px;
+    margin-bottom: 8px;
     animation: fadeUp 0.6s 0.18s ease both;
   }
 
   .hero-location svg {
+    width: 15px;
+    height: 15px;
+    color: var(--coral);
+    flex-shrink: 0;
+  }
+
+  .hero-availability {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.19s ease both;
+  }
+
+  .hero-availability svg {
     width: 15px;
     height: 15px;
     color: var(--coral);
@@ -1305,11 +1322,259 @@
 
   .icon-btn.copied .copy-tooltip { opacity: 1; }
 
+  /* Optional project media preview & demo button */
+  .project-media-slot {
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--navy-border);
+    background: var(--navy);
+  }
+
+  .project-media-slot img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .project-demo-btn {
+    display: none !important; /* Hidden per user request until deployment is completed */
+  }
+
+  .project-media-slot[hidden],
+  [hidden] {
+    display: none !important;
+  }
+
+  /* Compact More Projects row */
+  .more-projects-wrapper {
+    margin-top: 54px;
+    padding-top: 38px;
+    border-top: 1px solid var(--navy-border);
+  }
+
+  .more-projects-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .more-projects-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+  }
+
+  .more-projects-sub {
+    font-size: 13px;
+    color: var(--light-muted);
+    margin: 0;
+  }
+
+  .more-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    padding: 8px 4px 18px;
+  }
+
+  .more-project-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 14px;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+                border-color 0.28s ease,
+                box-shadow 0.28s ease;
+  }
+
+  .more-project-card:hover {
+    transform: translateY(-8px) scale(1.045);
+    border-color: rgba(224, 137, 95, 0.65);
+    box-shadow: 0 20px 36px -10px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(224, 137, 95, 0.35);
+    z-index: 5;
+  }
+
+  .more-project-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .more-project-badge {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(224, 137, 95, 0.1);
+    color: #e0895f;
+    border: 1px solid rgba(201, 84, 42, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .more-project-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .more-project-actions .icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    color: var(--light-muted);
+    border: 1px solid var(--navy-border);
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .more-project-actions .icon-btn:hover {
+    border-color: #e0895f;
+    color: #e0895f;
+    background: rgba(224, 137, 95, 0.12);
+  }
+
+  .more-project-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    line-height: 1.35;
+  }
+
+  .more-project-name a {
+    color: #e0895f;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .more-project-name a:hover {
+    color: #f5a67e;
+  }
+
+  .more-project-arrow {
+    width: 14px;
+    height: 14px;
+    color: #e0895f;
+    opacity: 0.7;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .more-project-name a:hover .more-project-arrow {
+    transform: translate(2px, -2px);
+    opacity: 1;
+    color: #f5a67e;
+  }
+
+  .more-project-desc {
+    font-size: 13px;
+    color: var(--light-muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .more-project-card .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    margin-bottom: 0;
+    padding-top: 8px;
+  }
+
+  .more-project-card .tech-stack .tag {
+    font-size: 10.5px;
+    padding: 3px 8px;
+  }
+
+  @media (max-width: 900px) {
+    .more-projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .more-projects-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .more-projects-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 4px 0 12px;
+    }
+  }
+
   /* SKILLS */
+  .skills-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--cream-card);
+    border: 1px solid var(--cream-border);
+    border-radius: 24px;
+    padding: 8px 18px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(23, 33, 58, 0.04);
+  }
+
+  .skills-highlight-badge {
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--blue);
+    background: var(--blue-tint);
+    border: 1px solid rgba(52, 84, 224, 0.2);
+    padding: 3px 9px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+
+  .skills-highlight-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  @media (max-width: 540px) {
+    .skills-highlight {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      border-radius: 14px;
+      padding: 12px 16px;
+      width: 100%;
+    }
+  }
+
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
+  }
+
+  @media (min-width: 640px) {
+    .skills-grid .skill-card:last-child:nth-child(odd) {
+      grid-column: span 2;
+    }
   }
 
   .skill-card {
@@ -1497,43 +1762,88 @@
   }
 
   /* RESUME */
-  .resume-frame {
+  .resume-card {
     background: var(--cream-card);
     border: 1px solid var(--cream-border);
     border-radius: 16px;
-    padding: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 16px rgba(23, 33, 58, 0.04);
   }
 
-  .resume-frame embed,
-  .resume-frame object {
-    border-radius: 8px;
-    display: block;
-    width: 100%;
+  .resume-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
   }
 
-  .resume-fallback {
-    padding: 60px 24px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.7;
-    background: var(--cream);
-    border-radius: 8px;
-    border: 1px dashed var(--cream-border);
+  .resume-card-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: var(--blue-tint);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
-  .resume-fallback p:first-child {
+  .resume-card-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .resume-card-title {
+    font-family: var(--font-display);
+    font-size: 18px;
     font-weight: 600;
     color: var(--ink);
-    margin-bottom: 6px;
+    margin-bottom: 3px;
+  }
+
+  .resume-card-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
   }
 
   .resume-actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 12px;
-    margin-top: 18px;
+  }
+
+  .resume-preview-desktop {
+    display: none;
+    margin-top: 24px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--cream-border);
+  }
+
+  .resume-preview-desktop object {
+    display: block;
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  @media (min-width: 900px) {
+    .resume-preview-desktop {
+      display: block;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .resume-card {
+      padding: 20px 16px;
+    }
+    .resume-card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
   }
 
   /* CONTACT */
@@ -1723,9 +2033,38 @@
     background: #2841c2;
   }
 
+  .field-error {
+    display: none;
+    font-size: 12px;
+    color: #ff9b9b;
+    margin-top: 5px;
+  }
+
+  .field-error.is-visible {
+    display: block;
+  }
+
+  .form-input.has-error,
+  .form-textarea.has-error {
+    border-color: #ff8e8e !important;
+    box-shadow: 0 0 0 2px rgba(255, 142, 142, 0.25);
+  }
+
   .form-status {
-    font-size: 13px;
+    font-size: 13.5px;
+    line-height: 1.5;
     color: #a8bcff;
+    transition: color 0.2s;
+  }
+
+  .form-status.is-success {
+    color: #6ee7b7;
+    font-weight: 500;
+  }
+
+  .form-status.is-error {
+    color: #ff9b9b;
+    font-weight: 500;
   }
 
   /* FLOATING BACK TO TOP */
@@ -1976,9 +2315,7 @@
       margin: 12px auto 20px;
       justify-content: center;
     }
-    .resume-frame embed,
-    .resume-frame object { display: none; }
-    .resume-mobile-note { display: block; }
+    /* Mobile resume embed handled via .resume-preview-desktop */
     .form-row { grid-template-columns: 1fr; }
     .contact-form { padding: 0 18px 20px; }
     .contact-form-toggle { padding: 16px 18px; }
@@ -2110,6 +2447,10 @@
       <div class="hero-location">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2a8 8 0 00-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 00-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
         <span>Seattle, WA &bull; Open to relocation &amp; remote</span>
+      </div>
+      <div class="hero-availability">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Graduating Dec 2026 &bull; Available from Jan 4, 2027</span>
       </div>
       <p class="hero-desc">
         Software engineer with experience building production web platforms, payment and booking integrations, AWS cloud environments, and AI-powered systems. Focused on reliable, well-tested software that cuts manual work and improves performance.
@@ -2305,14 +2646,18 @@
           <div class="carousel-viewport">
             <div class="carousel-track">
 
+              <!-- 01: CarePolicyGuard -->
               <div class="carousel-slide">
                 <div class="project-card">
                   <span class="team-badge">Solo Project</span>
+                  <div class="project-media-slot" data-screenshot-url="" hidden>
+                    <img src="" alt="CarePolicyGuard interface preview" loading="lazy" />
+                  </div>
                   <h3 class="project-name">CarePolicyGuard</h3>
                   <p class="project-desc">Policy-aware clinical coverage verification engine</p>
                   <ul class="project-bullets">
                     <li>FastAPI multi-agent system checking EHR patient records against CMS Medicare coverage determinations (NCD/LCD) for prior-authorization reviews.</li>
-                    <li>Achieved 100% decision concordance and 100% evidence faithfulness across 10 clinical benchmark cases, with 20% safe deferrals to human review.</li>
+                    <li>Achieved 100% decision concordance and 100% evidence faithfulness on a 10-case benchmark, with 20% safe deferrals to human review.</li>
                   </ul>
                   <div class="tech-stack">
                     <span class="tag">FastAPI</span><span class="tag">Python 3.12</span>
@@ -2320,7 +2665,7 @@
                   </div>
                   <details class="meal-flow">
                     <summary class="flow-project-toggle"><h3>Inside CarePolicyGuard</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
-                    <p class="meal-flow-intro">From raw clinical EHR text to mathematically verified prior-authorization decisions. Select a step to learn more.</p>
+                    <p class="meal-flow-intro">From raw clinical EHR text to deterministically verified prior-authorization decisions against source text. Select a step to learn more.</p>
                     <div class="meal-flow-grid">
                       <details class="meal-flow-step">
                         <summary><span class="meal-flow-number">01 / RETRIEVAL</span>Policy &amp; Criteria Ingestion</summary>
@@ -2335,10 +2680,14 @@
                         <div class="meal-flow-copy"><p>Enforces a calibrated confidence gate (&tau; = 0.85); cases falling below the threshold route safely to human auditors, while verified decisions generate complete CMS appeal defense packets.</p></div>
                       </details>
                     </div>
-                    <p class="meal-flow-credit"><strong>Empirical Benchmark:</strong> 100% accuracy and 100% evidence faithfulness vs. a zero-shot prompt baseline (60% accuracy, 45% faithfulness) with an ECE of 0.064.</p>
+                    <p class="meal-flow-credit"><strong>Empirical Benchmark:</strong> 100% accuracy and 100% evidence faithfulness on a 10-case benchmark vs. a zero-shot prompt baseline (60% accuracy, 45% faithfulness) with an ECE of 0.064.</p>
                     <p class="meal-flow-credit"><strong>My contribution:</strong> Sole author of the full system architecture, FastAPI microservice, multi-agent pipeline, deterministic slice validators, HIPAA minimum-necessary masking, and benchmark evaluation suite.</p>
                   </details>
                   <div class="card-footer">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-demo-btn" data-demo-url="" hidden>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                      Live Demo
+                    </a>
                     <a href="https://github.com/Sumitkc74/CarePolicyGuard" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View CarePolicyGuard repository on GitHub">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
                       View on GitHub
@@ -2351,9 +2700,13 @@
                 </div>
               </div>
 
+              <!-- 02: Parallax-Eval -->
               <div class="carousel-slide">
                 <div class="project-card">
                   <span class="team-badge">Solo Project</span>
+                  <div class="project-media-slot" data-screenshot-url="" hidden>
+                    <img src="" alt="Parallax-Eval interface preview" loading="lazy" />
+                  </div>
                   <h3 class="project-name">Parallax-Eval</h3>
                   <p class="project-desc">English/Nepali LLM safety evaluation platform</p>
                   <ul class="project-bullets">
@@ -2384,6 +2737,10 @@
                     <p class="meal-flow-credit"><strong>My contribution:</strong> Sole developer of the full platform: system architecture, Flutter client, FastAPI backend, LangGraph evaluation workflows, policy retrieval, statistical analysis, database integration, and CI tooling.</p>
                   </details>
                   <div class="card-footer">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-demo-btn" data-demo-url="" hidden>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                      Live Demo
+                    </a>
                     <a aria-label="View Parallax-Eval repository on GitHub" class="btn btn-dark" href="https://github.com/Sumitkc74/Parallax-Eval" rel="noopener noreferrer" target="_blank">
                       <svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14L21 3"></path></svg>
                       View on GitHub
@@ -2400,9 +2757,72 @@
                 </div>
               </div>
 
+              <!-- 03: Learn to Drive -->
+              <div class="carousel-slide">
+                <div class="project-card">
+                  <span class="team-badge">Solo Project</span>
+                  <div class="project-media-slot" data-screenshot-url="" hidden>
+                    <img src="" alt="Learn to Drive interface preview" loading="lazy" />
+                  </div>
+                  <h3 class="project-name">Learn to Drive</h3>
+                  <p class="project-desc">Learner, school, and admin platform for web and mobile</p>
+                  <ul class="project-bullets">
+                    <li>Laravel and Flutter platform connecting learners, driving schools, and admins through shared services.</li>
+                    <li>English/Nepali exam practice and progress tracking, plus school scheduling, student records, and lesson bookings.</li>
+                  </ul>
+                  <div class="tech-stack">
+                    <span class="tag">Flutter</span><span class="tag">Laravel</span>
+                    <span class="tag">REST API</span><span class="tag">MySQL</span><span class="tag">Gemini</span>
+                  </div>
+                  <details class="meal-flow">
+                    <summary class="flow-project-toggle"><h3>Inside Learn to Drive</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
+                    <p class="meal-flow-intro">From reviewed learning content to learner progress and driving school operations across web and mobile. Select a step to learn more.</p>
+                    <div class="meal-flow-grid">
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">01 / CONTENT</span>Review and publish</summary>
+                        <div class="meal-flow-copy">
+                          <p>Admins curate bilingual traffic signs, question banks, exam papers, and tutorials. Scheduled official-source imports receive Gemini screening with human approval required before publishing to the web and Flutter apps via Laravel REST APIs.</p>
+                        </div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">02 / PRACTICE</span>Practice &amp; Progress</summary>
+                        <div class="meal-flow-copy">
+                          <p>Learners choose English or Nepali for flashcards and timed 25-question mock exams. The server grades attempts, tracks daily goals, streaks, and milestones, and provides personalized revision tools with an AI study assistant.</p>
+                        </div>
+                      </details>
+                      <details class="meal-flow-step">
+                        <summary><span class="meal-flow-number">03 / SCHOOLS</span>Driving School Operations</summary>
+                        <div class="meal-flow-copy">
+                          <p>Approved driving schools manage instructors, batches, and student records with role-based access. Students book conflict-checked private lessons with vehicle assignment, real-time rescheduling, and server-verified Khalti/eSewa digital payments.</p>
+                        </div>
+                      </details>
+                    </div>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> Laravel backend and REST API, learner and admin web experiences, Flutter integration, and school management workflows.</p>
+                  </details>
+                  <div class="card-footer">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-demo-btn" data-demo-url="" hidden>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                      Live Demo
+                    </a>
+                    <a href="https://github.com/Sumitkc74/learn_to_drive" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View Learn to Drive repository on GitHub">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
+                      View on GitHub
+                    </a>
+                    <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/learn_to_drive" aria-label="Copy project link">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                      <span class="copy-tooltip" aria-hidden="true">Copied!</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 04: MealMate.ai -->
               <div class="carousel-slide">
                 <div class="project-card">
                   <span class="team-badge">Team Project</span>
+                  <div class="project-media-slot" data-screenshot-url="" hidden>
+                    <img src="" alt="MealMate.ai interface preview" loading="lazy" />
+                  </div>
                   <h3 class="project-name">MealMate.ai</h3>
                   <p class="project-desc">AI-powered meal planning platform</p>
                   <ul class="project-bullets">
@@ -2439,225 +2859,15 @@
                     <p class="meal-flow-credit"><strong>My contribution:</strong> The RAG service, API connections, React pantry suggestion interface, and assistant integration.</p>
                   </details>
                   <div class="card-footer">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-demo-btn" data-demo-url="" hidden>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                      Live Demo
+                    </a>
                     <a href="https://github.com/Sumitkc74/Mealmate.ai" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View MealMate.ai repository on GitHub">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
                       View on GitHub
                     </a>
                     <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Mealmate.ai" aria-label="Copy project link">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                      <span class="copy-tooltip" aria-hidden="true">Copied!</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="carousel-slide">
-                <div class="project-card">
-                  <span class="team-badge">Solo Project</span>
-                  <h3 class="project-name">Learn to Drive</h3>
-                  <p class="project-desc">Learner, school, and admin platform for web and mobile</p>
-                  <ul class="project-bullets">
-                    <li>Laravel and Flutter platform connecting learners, driving schools, and admins through shared services.</li>
-                    <li>English/Nepali exam practice and progress tracking, plus school scheduling, student records, and lesson bookings.</li>
-                  </ul>
-                  <div class="tech-stack">
-                    <span class="tag">Flutter</span><span class="tag">Laravel</span>
-                    <span class="tag">REST API</span><span class="tag">MySQL</span><span class="tag">Gemini</span>
-                  </div>
-                  <details class="meal-flow">
-                    <summary class="flow-project-toggle"><h3>Inside Learn to Drive</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
-                    <p class="meal-flow-intro">From reviewed learning content to learner progress and driving school operations across web and mobile. Select a step to learn more.</p>
-                    <div class="meal-flow-grid">
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">01 / CONTENT</span>Review and publish</summary>
-                        <div class="meal-flow-copy">
-                          <p>Admins manage traffic signs, question banks, exam papers, tutorials, and notices. Scheduled official-source imports receive Gemini screening, with human review required before publication.</p>
-                          <p>Published resources feed the learner website and Flutter library through the Laravel API, with search, language filters, and saved resources.</p>
-                        </div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">02 / PRACTICE</span>Learn and test yourself</summary>
-                        <div class="meal-flow-copy">
-                          <p>Learners choose English or Nepali, review traffic-sign flashcards, and start randomized practice or a 30-minute mock exam with up to 25 questions.</p>
-                          <p>Attempts can be saved and resumed. The server grades submissions and reveals answers and explanations after submission, using shared attempt records across web and mobile.</p>
-                        </div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">03 / PROGRESS</span>Track and revise</summary>
-                        <div class="meal-flow-copy">
-                          <p>My learning tracks daily goals, streaks, accuracy, milestones, and practice history, and suggests a next step based on unfinished attempts or topics needing attention.</p>
-                          <p>Premium learners can use personalized practice, revision tools, and a Gemini study assistant. Private support conversations and content reports connect learners with admins.</p>
-                        </div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">04 / SCHOOLS</span>Run the school centre</summary>
-                        <div class="meal-flow-copy">
-                          <p>Approved schools manage Owner, Manager, Instructor, and Student memberships through invitations and role-based access. Courses and capacity-limited batches connect students with instructors, scheduled classes, and attendance records.</p>
-                          <p>School staff maintain student exam and licence history, record instructor feedback, and review reports. Students control whether their completed-practice totals are shared with staff.</p>
-                          <p>Private lessons include instructor vehicles, available slots, conflict-checked booking, rescheduling, waitlists, and optional server-verified Khalti/eSewa payments. In-app notifications and scheduled reminders keep members informed.</p>
-                          <p>The Flutter school centre shares the Laravel services; school management and booking workflows also use the responsive website through secure browser handoffs.</p>
-                        </div>
-                      </details>
-                    </div>
-                    <p class="meal-flow-credit"><strong>My contribution:</strong> Laravel backend and REST API, learner and admin web experiences, Flutter integration, and school management workflows.</p>
-                  </details>
-                  <div class="card-footer">
-                    <a href="https://github.com/Sumitkc74/learn_to_drive" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View Learn to Drive repository on GitHub">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
-                      View on GitHub
-                    </a>
-                    <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/learn_to_drive" aria-label="Copy project link">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                      <span class="copy-tooltip" aria-hidden="true">Copied!</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="carousel-slide">
-                <div class="project-card">
-                  <span class="team-badge">Team Project — Hackathon</span>
-                  <h3 class="project-name">EcoVate</h3>
-                  <p class="project-desc">AI-powered circular-economy platform</p>
-                  <ul class="project-bullets">
-                    <li>Hackathon project turning an item photo into a verified reuse plan through coordinated AI agents.</li>
-                    <li>Connects vision analysis, sustainability research, and DIY recommendations in one pipeline.</li>
-                  </ul>
-                  <div class="tech-stack">
-                    <span class="tag">Next.js</span><span class="tag">TypeScript</span>
-                    <span class="tag">Multi-Agent AI</span><span class="tag">Insforge</span>
-                  </div>
-                  <div class="avatar-stack">
-                    <span class="avatar" style="background:#3454e0;" title="Namrata Mali">NM</span>
-                    <span class="avatar" style="background:#b0451f;" title="Ayush Kumar Gupta">AG</span>
-                    <span class="avatar" style="background:#3454e0;" title="Ritish Upadhyayula">RU</span>
-                    <span class="avatar" style="background:#b0451f;" title="Sumit K C">SK</span>
-                  </div>
-                  <details class="meal-flow">
-                    <summary class="flow-project-toggle"><h3>Inside EcoVate</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
-                    <p class="meal-flow-intro">From an item photo to a verified reuse plan. Select a step to learn more.</p>
-                    <div class="meal-flow-grid">
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">01 / VISION</span>Identify the item</summary>
-                        <div class="meal-flow-copy"><p>Vision agents analyze the uploaded photo to identify the item that could be reused.</p></div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">02 / RESEARCH</span>Explore reuse options</summary>
-                        <div class="meal-flow-copy"><p>Research agents find sustainable reuse options and DIY recommendations for the identified item.</p></div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">03 / VERIFICATION</span>Check the plan</summary>
-                        <div class="meal-flow-copy"><p>A verification agent checks the recommendations before the coordinated pipeline presents a reuse plan to the user.</p></div>
-                      </details>
-                    </div>
-                    <p class="meal-flow-credit"><strong>My contribution:</strong> The multi-agent coordination layer connecting vision analysis, sustainability research, and DIY reuse recommendations.</p>
-                  </details>
-                  <div class="card-footer">
-                    <a href="https://github.com/Sumitkc74/EcoVate-Insforge-x-Qoder-AI-Agent-Hackathon" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View EcoVate repository on GitHub">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
-                      View on GitHub
-                    </a>
-                    <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/EcoVate-Insforge-x-Qoder-AI-Agent-Hackathon" aria-label="Copy project link">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                      <span class="copy-tooltip" aria-hidden="true">Copied!</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="carousel-slide">
-                <div class="project-card">
-                  <span class="team-badge">Team Project</span>
-                  <h3 class="project-name">LinguoAI</h3>
-                  <p class="project-desc">AI-powered language learning mobile application</p>
-                  <ul class="project-bullets">
-                    <li>Cross-platform mobile app built with React Native (Expo) and Node.js/Express, providing interactive speaking, listening, and reading curriculum.</li>
-                    <li>Integrated real-time streaming voice conversations with Google Gemini and local Ollama (Gemma2), with smart progress tracking.</li>
-                  </ul>
-                  <div class="tech-stack">
-                    <span class="tag">React Native (Expo)</span><span class="tag">TypeScript</span>
-                    <span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">MongoDB</span><span class="tag">Gemini API</span>
-                  </div>
-                  <div class="avatar-stack">
-                    <span class="avatar" style="background:#3454e0;" title="Namrata Mali">NM</span>
-                    <span class="avatar" style="background:#b0451f;" title="Sumit K C">SK</span>
-                  </div>
-                  <details class="meal-flow">
-                    <summary class="flow-project-toggle"><h3>Inside LinguoAI</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
-                    <p class="meal-flow-intro">From speech input to interactive conversational feedback. Select a step to learn more.</p>
-                    <div class="meal-flow-grid">
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">01 / CONVERSATION</span>Speaking Partner</summary>
-                        <div class="meal-flow-copy"><p>Learners practice real-world dialogues with an AI conversation partner powered by streaming SSE responses from Google Gemini and Gemma2.</p></div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">02 / FEEDBACK</span>Pronunciation &amp; Grammar</summary>
-                        <div class="meal-flow-copy"><p>Real-time speech evaluation reviews pronunciation, identifies sentence structure mistakes, and offers instant corrections.</p></div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">03 / TRACKING</span>Adaptive Progress</summary>
-                        <div class="meal-flow-copy"><p>Mongoose-backed progress controllers record practice streaks, mastery milestones, vocabulary retention, and smart scheduling reminders.</p></div>
-                      </details>
-                    </div>
-                    <p class="meal-flow-credit"><strong>My contribution:</strong> Mobile client application flows, AI streaming integration, voice conversation state management, and backend progress tracking services.</p>
-                  </details>
-                  <div class="card-footer">
-                    <a href="https://github.com/Sumitkc74/LinguoAI" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View LinguoAI repository on GitHub">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
-                      View on GitHub
-                    </a>
-                    <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/LinguoAI" aria-label="Copy project link">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                      <span class="copy-tooltip" aria-hidden="true">Copied!</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="carousel-slide">
-                <div class="project-card">
-                  <span class="team-badge">Team Project</span>
-                  <h3 class="project-name">AI-Powered Spam Detection</h3>
-                  <p class="project-desc">SMS spam classification system</p>
-                  <ul class="project-bullets">
-                    <li>Compared six SMS classifiers using Bag-of-Words and TF-IDF text features.</li>
-                    <li>Selected Linear SVM at 98.1% accuracy with the best precision/recall balance in the project evaluation.</li>
-                  </ul>
-                  <div class="tech-stack">
-                    <span class="tag">Python</span><span class="tag">scikit-learn</span>
-                    <span class="tag">NLP</span><span class="tag">TF-IDF</span><span class="tag">SVM</span>
-                  </div>
-                  <div class="avatar-stack">
-                    <span class="avatar" style="background:#3454e0;" title="Likhitha Lakshmi Gudivada">LG</span>
-                    <span class="avatar" style="background:#b0451f;" title="Sai Shruthi Sridhar">SS</span>
-                    <span class="avatar" style="background:#3454e0;" title="Megha Narendra Simha">MS</span>
-                    <span class="avatar" style="background:#b0451f;" title="Sumit K C">SK</span>
-                  </div>
-                  <details class="meal-flow">
-                    <summary class="flow-project-toggle"><h3>Inside AI-Powered Spam Detection</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
-                    <p class="meal-flow-intro">From labeled SMS messages to a validated classifier. Select a step to learn more.</p>
-                    <div class="meal-flow-grid">
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">01 / PREPARATION</span>Process the messages</summary>
-                        <div class="meal-flow-copy"><p>The SMS Spam Collection dataset is tokenized, stripped of stopwords, and stemmed, then represented using Bag-of-Words and TF-IDF.</p></div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">02 / COMPARISON</span>Benchmark six models</summary>
-                        <div class="meal-flow-copy"><p>Compare Naive Bayes, Logistic Regression, Linear SVM, Decision Tree, Random Forest, and KNN.</p></div>
-                      </details>
-                      <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">03 / VALIDATION</span>Select the classifier</summary>
-                        <div class="meal-flow-copy"><p>Linear SVM achieved 98.1% accuracy with the best precision/recall balance in the project evaluation and was selected for final deployment.</p></div>
-                      </details>
-                    </div>
-                    <p class="meal-flow-credit"><strong>My contribution:</strong> Model validation and interpretation.</p>
-                  </details>
-                  <div class="card-footer">
-                    <a href="https://github.com/Sumitkc74/Spam_Detection" target="_blank" rel="noopener noreferrer" class="btn btn-dark" aria-label="View AI-Powered Spam Detection repository on GitHub">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
-                      View on GitHub
-                    </a>
-                    <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Spam_Detection" aria-label="Copy project link">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                       <span class="copy-tooltip" aria-hidden="true">Copied!</span>
                     </button>
@@ -2673,19 +2883,120 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
             <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Select project"></div>
-            <span class="carousel-counter" id="carouselCounter" aria-hidden="true">1 / 7</span>
+            <span class="carousel-counter" id="carouselCounter" aria-hidden="true">1 / 4</span>
             <button class="carousel-arrow" id="carouselNext" aria-label="Next project">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
         </div>
-    </section>
+
+        <!-- MORE PROJECTS ROW -->
+        <div class="container more-projects-wrapper">
+          <div class="more-projects-header">
+            <h3 class="more-projects-title">More Projects</h3>
+            <p class="more-projects-sub">Hackathon, mobile, and machine learning systems.</p>
+          </div>
+          <div class="more-projects-grid">
+
+            <div class="more-project-card">
+              <div class="more-project-top">
+                <span class="more-project-badge">Hackathon</span>
+                <div class="more-project-actions">
+                  <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/EcoVate-Insforge-x-Qoder-AI-Agent-Hackathon" aria-label="Copy EcoVate repository link" title="Copy repository link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    <span class="copy-tooltip" aria-hidden="true">Copied!</span>
+                  </button>
+                  <a href="https://github.com/Sumitkc74/EcoVate-Insforge-x-Qoder-AI-Agent-Hackathon" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="View EcoVate on GitHub" title="View on GitHub">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                  </a>
+                </div>
+              </div>
+              <h4 class="more-project-name">
+                <a href="https://github.com/Sumitkc74/EcoVate-Insforge-x-Qoder-AI-Agent-Hackathon" target="_blank" rel="noopener noreferrer">
+                  EcoVate
+                  <svg class="more-project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                </a>
+              </h4>
+              <p class="more-project-desc">AI-powered circular-economy platform converting item photos into verified reuse plans through coordinated agents.</p>
+              <div class="tech-stack">
+                <span class="tag">Next.js</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">Multi-Agent AI</span>
+                <span class="tag">Insforge</span>
+              </div>
+            </div>
+
+            <div class="more-project-card">
+              <div class="more-project-top">
+                <span class="more-project-badge">Mobile App</span>
+                <div class="more-project-actions">
+                  <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/LinguoAI" aria-label="Copy LinguoAI repository link" title="Copy repository link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    <span class="copy-tooltip" aria-hidden="true">Copied!</span>
+                  </button>
+                  <a href="https://github.com/Sumitkc74/LinguoAI" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="View LinguoAI on GitHub" title="View on GitHub">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                  </a>
+                </div>
+              </div>
+              <h4 class="more-project-name">
+                <a href="https://github.com/Sumitkc74/LinguoAI" target="_blank" rel="noopener noreferrer">
+                  LinguoAI
+                  <svg class="more-project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                </a>
+              </h4>
+              <p class="more-project-desc">Interactive language tutor with streaming Gemini conversations, pronunciation evaluation, and adaptive progress tracking.</p>
+              <div class="tech-stack">
+                <span class="tag">React Native</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">MongoDB</span>
+                <span class="tag">Gemini API</span>
+              </div>
+            </div>
+
+            <div class="more-project-card">
+              <div class="more-project-top">
+                <span class="more-project-badge">ML Research</span>
+                <div class="more-project-actions">
+                  <button class="icon-btn" data-copy-url="https://github.com/Sumitkc74/Spam_Detection" aria-label="Copy AI-Powered Spam Detection repository link" title="Copy repository link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    <span class="copy-tooltip" aria-hidden="true">Copied!</span>
+                  </button>
+                  <a href="https://github.com/Sumitkc74/Spam_Detection" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="View AI-Powered Spam Detection on GitHub" title="View on GitHub">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                  </a>
+                </div>
+              </div>
+              <h4 class="more-project-name">
+                <a href="https://github.com/Sumitkc74/Spam_Detection" target="_blank" rel="noopener noreferrer">
+                  AI-Powered Spam Detection
+                  <svg class="more-project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                </a>
+              </h4>
+              <p class="more-project-desc">SMS spam classification benchmarking six models; deployed Linear SVM at 98.1% accuracy with high precision and recall.</p>
+              <div class="tech-stack">
+                <span class="tag">Python</span>
+                <span class="tag">scikit-learn</span>
+                <span class="tag">NLP</span>
+                <span class="tag">TF-IDF</span>
+                <span class="tag">SVM</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
     <!-- SKILLS -->
     <section class="block tint-sage" id="skills">
       <div class="container">
       <div class="section-eyebrow">03 / Skills</div>
       <h2 class="tagline">Tools and technologies I build with.</h2>
+      <div class="skills-highlight">
+        <span class="skills-highlight-badge">Strongest in:</span>
+        <span class="skills-highlight-text">Python/FastAPI, React, Laravel/PHP, AWS</span>
+      </div>
       <div class="skills-grid">
         <div class="skill-card">
           <h3 class="skill-title">Languages</h3>
@@ -2700,16 +3011,20 @@
           <div class="skill-list">RAG Architecture, LangGraph (Multi-Agent), TensorFlow, scikit-learn, LLM Evaluation &amp; Benchmarks, Gemini API</div>
         </div>
         <div class="skill-card">
-          <h3 class="skill-title">Data Science &amp; Analytics</h3>
-          <div class="skill-list">Pandas, NumPy, Matplotlib, Posit (RStudio), Microsoft Fabric</div>
-        </div>
-        <div class="skill-card">
           <h3 class="skill-title">Cloud &amp; DevOps</h3>
           <div class="skill-list">AWS (EC2, S3, Lambda), Microsoft Azure, Docker, Git, GitHub Actions, REST APIs, Agile / Scrum</div>
         </div>
         <div class="skill-card">
-          <h3 class="skill-title">Databases &amp; AI Tools</h3>
-          <div class="skill-list">MySQL, PostgreSQL, MongoDB, SQLite | Claude Code, GitHub Copilot, ChatGPT, Gemini</div>
+          <h3 class="skill-title">Data Science &amp; Analytics</h3>
+          <div class="skill-list">Pandas, NumPy, Matplotlib, Posit (RStudio), Microsoft Fabric</div>
+        </div>
+        <div class="skill-card">
+          <h3 class="skill-title">Databases</h3>
+          <div class="skill-list">PostgreSQL, MySQL, MongoDB, SQLite</div>
+        </div>
+        <div class="skill-card">
+          <h3 class="skill-title">AI-Assisted Development</h3>
+          <div class="skill-list">Claude Code, GitHub Copilot, ChatGPT, Gemini</div>
         </div>
       </div>
       </div>
@@ -2805,15 +3120,16 @@
       <div class="container">
       <div class="section-eyebrow">06 / Resume</div>
       <h2 class="tagline">The full picture, one document.</h2>
-      <div class="resume-frame">
-        <p class="resume-intro">View or download my full one-page software engineering resume.</p>
-        <p class="resume-mobile-note">PDF preview is optimized for desktop displays. Tap below to view or download directly.</p>
-        <object data="Sumit_KC_Resume.pdf?v=20261025" type="application/pdf" width="100%" height="800px" title="Sumit K C Resume">
-          <div class="resume-fallback">
-            <p>Unable to preview PDF directly in this browser.</p>
-            <p>Please use the buttons below to open or download my resume.</p>
+      <div class="resume-card">
+        <div class="resume-card-header">
+          <div class="resume-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
           </div>
-        </object>
+          <div class="resume-card-info">
+            <h3 class="resume-card-title">Software Engineer Resume</h3>
+            <p class="resume-card-desc">One-page summary of systems engineering, cloud infrastructure, AI platforms, and coursework.</p>
+          </div>
+        </div>
         <div class="resume-actions">
           <a href="Sumit_KC_Resume.pdf?v=20261025" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
@@ -2823,6 +3139,9 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v13m0 0l-4-4m4 4l4-4"/><path d="M4 19h16"/></svg>
             Download PDF
           </a>
+        </div>
+        <div class="resume-preview-desktop" id="resumePreviewDesktop">
+          <object id="resumePdfEmbed" data="Sumit_KC_Resume.pdf?v=20261025" type="application/pdf" width="100%" height="800px" title="Sumit K C Resume"></object>
         </div>
       </div>
       </div>
@@ -2860,24 +3179,27 @@
             <path d="M6 9l6 6 6-6"/>
           </svg>
         </summary>
-        <form class="contact-form" action="https://formsubmit.co/sumitkc74@gmail.com" method="POST">
+        <form class="contact-form" action="https://formsubmit.co/sumitkc74@gmail.com" method="POST" novalidate>
           <input type="hidden" name="_subject" value="New Portfolio Message from sumitkc74.com.np" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
-          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+          <input type="text" name="_honey" class="contact-honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important;" />
           <div class="form-row">
             <div class="form-group">
               <label for="contact-name" class="form-label">Name</label>
               <input type="text" id="contact-name" name="name" class="form-input" required placeholder="Your name" autocomplete="name" />
+              <span class="field-error" id="nameError" role="alert"></span>
             </div>
             <div class="form-group">
               <label for="contact-email" class="form-label">Email</label>
               <input type="email" id="contact-email" name="email" class="form-input" required placeholder="your.email@example.com" autocomplete="email" />
+              <span class="field-error" id="emailError" role="alert"></span>
             </div>
           </div>
           <div class="form-group">
             <label for="contact-message" class="form-label">Message</label>
             <textarea id="contact-message" name="message" class="form-textarea" rows="4" required placeholder="What would you like to discuss?"></textarea>
+            <span class="field-error" id="messageError" role="alert"></span>
           </div>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary form-submit-btn">

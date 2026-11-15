@@ -914,22 +914,142 @@ if (pixelRobot && robotSpeech && robotSpeechText && robotSpeechClose) {
   }
 }
 
-// Contact form submission handling (FormSubmit.co - Free direct email delivery)
+// Reveal optional project demo links and screenshot slots only if non-empty URL is provided
+document.querySelectorAll('[data-demo-url]').forEach((el) => {
+  const url = el.getAttribute('data-demo-url');
+  if (url && url.trim() !== '' && !url.includes('TODO')) {
+    el.removeAttribute('hidden');
+    el.setAttribute('href', url);
+  }
+});
+
+document.querySelectorAll('[data-screenshot-url]').forEach((el) => {
+  const url = el.getAttribute('data-screenshot-url');
+  if (url && url.trim() !== '' && !url.includes('TODO')) {
+    el.removeAttribute('hidden');
+    const img = el.querySelector('img');
+    if (img) img.src = url;
+  }
+});
+
+// PDF Preview: embed only on desktop, hide if browser PDF preview is unsupported or errors
+const resumeEmbed = document.getElementById('resumePdfEmbed');
+const resumePreviewDesktop = document.getElementById('resumePreviewDesktop');
+if (resumeEmbed && resumePreviewDesktop) {
+  if (navigator.pdfViewerEnabled === false) {
+    resumePreviewDesktop.style.display = 'none';
+  }
+  resumeEmbed.addEventListener('error', () => {
+    resumePreviewDesktop.style.display = 'none';
+  });
+}
+
+
+// Contact form inline validation and submission handling
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
-    const statusEl = document.getElementById('formStatus');
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
+  const nameInput = document.getElementById('contact-name');
+  const emailInput = document.getElementById('contact-email');
+  const messageInput = document.getElementById('contact-message');
+  const honeyInput = contactForm.querySelector('input[name="_honey"]');
+  const nameError = document.getElementById('nameError');
+  const emailError = document.getElementById('emailError');
+  const messageError = document.getElementById('messageError');
+  const statusEl = document.getElementById('formStatus');
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
 
-    if (window.location.protocol === 'file:') {
-      e.preventDefault();
-      if (statusEl) statusEl.textContent = 'Note: Direct submissions require live hosting. Please use the email button above in local preview.';
+  function clearError(input, errorEl) {
+    if (input) input.classList.remove('has-error');
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.classList.remove('is-visible');
+    }
+  }
+
+  function setError(input, errorEl, message) {
+    if (input) input.classList.add('has-error');
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.classList.add('is-visible');
+    }
+  }
+
+  if (nameInput) nameInput.addEventListener('input', () => clearError(nameInput, nameError));
+  if (emailInput) emailInput.addEventListener('input', () => clearError(emailInput, emailError));
+  if (messageInput) messageInput.addEventListener('input', () => clearError(messageInput, messageError));
+
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (statusEl) {
+      statusEl.textContent = '';
+      statusEl.className = 'form-status';
+    }
+
+    let isValid = true;
+    const nameVal = nameInput ? nameInput.value.trim() : '';
+    const emailVal = emailInput ? emailInput.value.trim() : '';
+    const messageVal = messageInput ? messageInput.value.trim() : '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!nameVal) {
+      setError(nameInput, nameError, 'Please enter your name.');
+      isValid = false;
+    } else {
+      clearError(nameInput, nameError);
+    }
+
+    if (!emailVal) {
+      setError(emailInput, emailError, 'Please enter your email address.');
+      isValid = false;
+    } else if (!emailRegex.test(emailVal)) {
+      setError(emailInput, emailError, 'Please enter a valid email address.');
+      isValid = false;
+    } else {
+      clearError(emailInput, emailError);
+    }
+
+    if (!messageVal) {
+      setError(messageInput, messageError, 'Please enter your message.');
+      isValid = false;
+    } else if (messageVal.length < 5) {
+      setError(messageInput, messageError, 'Message must be at least 5 characters long.');
+      isValid = false;
+    } else {
+      clearError(messageInput, messageError);
+    }
+
+    if (!isValid) {
+      if (statusEl) {
+        statusEl.textContent = 'Please fill out all required fields correctly.';
+        statusEl.className = 'form-status is-error';
+      }
       return;
     }
 
-    e.preventDefault();
+    // Honeypot spam check
+    if (honeyInput && honeyInput.value) {
+      if (statusEl) {
+        statusEl.textContent = 'Thank you! Your message has been sent.';
+        statusEl.className = 'form-status is-success';
+      }
+      contactForm.reset();
+      return;
+    }
+
+    if (window.location.protocol === 'file:') {
+      if (statusEl) {
+        statusEl.textContent = 'Note: Direct submissions require live hosting. Please use the email button above in local preview.';
+        statusEl.className = 'form-status is-error';
+      }
+      return;
+    }
+
     if (submitBtn) submitBtn.disabled = true;
-    if (statusEl) statusEl.textContent = 'Sending...';
+    if (statusEl) {
+      statusEl.textContent = 'Sending message...';
+      statusEl.className = 'form-status';
+    }
 
     const formData = new FormData(contactForm);
     fetch('https://formsubmit.co/ajax/sumitkc74@gmail.com', {
@@ -945,14 +1065,20 @@ if (contactForm) {
       })
       .then((data) => {
         if (data.success === 'true' || data.success === true) {
-          if (statusEl) statusEl.textContent = 'Thank you! Your message has been sent.';
+          if (statusEl) {
+            statusEl.textContent = 'Thank you! Your message has been sent successfully.';
+            statusEl.className = 'form-status is-success';
+          }
           contactForm.reset();
         } else {
           throw new Error(data.message || 'Submission error');
         }
       })
       .catch(() => {
-        contactForm.submit();
+        if (statusEl) {
+          statusEl.textContent = 'Something went wrong. Please try again or reach out at sumitkc74@gmail.com.';
+          statusEl.className = 'form-status is-error';
+        }
       })
       .finally(() => {
         if (submitBtn) submitBtn.disabled = false;
