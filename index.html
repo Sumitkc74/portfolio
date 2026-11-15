@@ -248,7 +248,7 @@
   .pixel-robot {
     position: absolute;
     top: 144px;
-    right: -4px;
+    right: 8px;
     width: 96px;
     height: 96px;
     display: grid;
@@ -259,6 +259,14 @@
     color: var(--blue);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+  }
+  @media (max-width: 600px) {
+    .pixel-robot,
+    .robot-remove,
+    .robot-restore,
+    .robot-speech {
+      display: none !important;
+    }
   }
   .pixel-robot:hover, .pixel-robot:active, .pixel-robot.is-waving { background: transparent; }
   .pixel-robot svg {
@@ -621,15 +629,19 @@
 
   .navy-section h2.tagline { color: #fff; }
 
-  #experience { padding: 0; }
+  #experience {
+    padding: 0;
+    background: #080c14;
+  }
   #certifications, #resume { padding-top: 0; }
 
-  /* EXPERIENCE HERO CAROUSEL */
+  /* EXPERIENCE STACKED LIST */
   .experience-bg {
     position: relative;
     background-image: var(--experience-bg-image, none);
     background-size: cover;
     background-position: center;
+    padding-bottom: 70px;
   }
 
   .experience-bg > .container {
@@ -640,7 +652,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(8,12,20,0.82) 0%, rgba(8,12,20,0.6) 55%, rgba(8,12,20,0.35) 100%);
+    background: linear-gradient(180deg, rgba(8,12,20,0.85) 0%, rgba(8,12,20,0.65) 55%, var(--navy) 100%);
     z-index: 0;
   }
 
@@ -652,75 +664,121 @@
   .experience-bg .section-eyebrow { color: #8fa3ff; }
   .experience-bg h2.tagline { color: #fff; margin-bottom: 24px; }
 
-  /* Experience Role Quick Switcher */
-  .role-tabs {
+  .experience-list {
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 28px;
     margin-bottom: 28px;
   }
 
-  .role-tab {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.85);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(4px);
+  .experience-card {
+    background: rgba(13, 20, 36, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    padding: 28px 32px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
   }
 
-  .role-tab:hover {
-    background: rgba(255, 255, 255, 0.16);
-    border-color: rgba(255, 255, 255, 0.4);
-    color: #fff;
+  .experience-card:hover {
+    border-color: rgba(143, 163, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
   }
 
-  .role-tab.active {
-    background: var(--blue);
-    border-color: var(--blue);
-    color: #fff;
-    font-weight: 600;
-    box-shadow: 0 4px 14px rgba(52, 84, 224, 0.35);
-  }
-
-  @media (max-width: 600px) {
-    .role-tabs { display: none; }
-  }
-
-  .hero-carousel {
-    position: relative;
-  }
-
-  .hero-viewport {
-    overflow: hidden;
-  }
-
-  .hero-track {
-    display: flex;
-    transition: transform 0.5s cubic-bezier(.25,.8,.35,1);
-    cursor: grab;
-    touch-action: pan-y;
-  }
-
-  .hero-track.dragging {
-    transition: none;
-    cursor: grabbing;
-  }
-
-  .hero-slide {
-    flex: 0 0 100%;
-    min-width: 0;
-    min-height: 660px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
+  .exp-title-row {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .exp-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+  }
+
+  .exp-summary {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 14px 0 16px 0;
+  }
+
+  .exp-details {
+    transition: opacity 0.25s ease;
+  }
+
+  .experience-list.is-compact .exp-details {
+    display: none;
+  }
+
+  .experience-list.is-compact .exp-summary {
+    margin-bottom: 0;
+  }
+
+  .experience-toggle-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+  }
+
+  .experience-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 24px;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+  }
+
+  .experience-toggle-btn:hover,
+  .experience-toggle-btn:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+  }
+
+  .experience-toggle-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.25s ease;
+  }
+
+  .experience-list.is-compact ~ .experience-toggle-wrapper .experience-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .experience-card,
+    .exp-details,
+    .experience-toggle-icon {
+      transition: none !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .experience-card {
+      padding: 22px 20px;
+    }
+    .exp-title {
+      font-size: 19px;
+    }
   }
 
   .hero-arrow {
@@ -857,13 +915,11 @@
 
   .hero-slide-content .hero-desc {
     font-size: 15.5px;
-    line-height: 1.7;
+    line-height: 1.65;
     color: rgba(255,255,255,0.88);
     max-width: 720px;
     margin-bottom: 26px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
   }
 
   .hero-cta {
@@ -1348,9 +1404,8 @@
 
   /* Compact More Projects row */
   .more-projects-wrapper {
-    margin-top: 54px;
-    padding-top: 38px;
-    border-top: 1px solid var(--navy-border);
+    margin-top: 48px;
+    padding-top: 24px;
   }
 
   .more-projects-header {
@@ -1570,10 +1625,9 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
-
-  @media (min-width: 640px) {
-    .skills-grid .skill-card:last-child:nth-child(odd) {
-      grid-column: span 2;
+  @media (max-width: 640px) {
+    .skills-grid {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -1700,7 +1754,7 @@
   }
 
   /* CERTIFICATIONS */
-  .cert-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .cert-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .cert-item {
     display: flex;
     flex-direction: column;
@@ -1754,10 +1808,10 @@
     text-decoration: none;
   }
   .cert-verify svg { width: 14px; height: 14px; }
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     .cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
-  @media (max-width: 720px) {
+  @media (max-width: 640px) {
     .cert-grid { grid-template-columns: 1fr; }
   }
 
@@ -2292,8 +2346,7 @@
       font-size: 14.5px;
       line-height: 1.65;
       white-space: normal;
-      text-overflow: clip;
-      text-shadow: none;
+            text-shadow: none;
       margin-bottom: 18px;
     }
     .hero-arrow {
@@ -2424,7 +2477,7 @@
 
     <!-- HERO -->
     <section class="hero" id="home">
-      <button type="button" class="pixel-robot" id="pixelRobot" aria-label="Say hello to the pixel robot" title="Click to say hello">
+      <button type="button" class="pixel-robot" id="pixelRobot" aria-label="Pixel robot companion. Click to say hello" title="Click to say hello">
         <svg viewBox="0 0 80 80" fill="none" shape-rendering="crispEdges" aria-hidden="true">
           <path fill="#e3dbc5" d="M20 72h40v4H20z"/>
           <path fill="#17213a" d="M38 9h4v10h-4z"/>
@@ -2480,7 +2533,7 @@
       <div class="hero-stats">
         <div class="stat">
           <span class="stat-num" data-count="500" data-suffix="+">500+</span>
-          <span class="stat-label">Students Supported</span>
+          <span class="stat-label">Students Supported (cloud lab environments)</span>
         </div>
         <div class="stat">
           <span class="stat-num" data-count="15" data-suffix="+">15+</span>
@@ -2501,131 +2554,108 @@
         <div class="container">
           <div class="section-eyebrow">01 / Experience</div>
           <h2 class="tagline">Where I've made an impact.</h2>
-          <div class="role-tabs" id="experienceTabs" role="tablist" aria-label="Select role">
-            <button class="role-tab active" role="tab" aria-selected="true" data-slide-index="1">CityU — Cloud &amp; Teaching</button>
-            <button class="role-tab" role="tab" aria-selected="false" data-slide-index="2">Aankhijhyal — Software Engineer</button>
-            <button class="role-tab" role="tab" aria-selected="false" data-slide-index="3">Aankhijhyal — Intern</button>
-          </div>
-        </div>
-        <div class="hero-carousel" id="experienceCarousel">
-        <div class="hero-viewport">
-          <div class="hero-track">
 
-            <div class="hero-slide" style="background-image: url('images/bg-cityu.jpg');">
-              <div class="hero-slide-overlay"></div>
-              <div class="hero-slide-content">
-                <div class="hero-title-row">
-                  <h3 class="hero-title">Cloud Systems and Teaching Assistant</h3>
-                  <span class="hero-tag-badge">CLOUD &amp; SYSTEMS</span>
-                </div>
-                <div class="hero-meta-row">
-                  <span class="meta-pill meta-pill-solid">Oct 2025 – Present</span>
-                  <a href="https://cityu.edu/" target="_blank" rel="noopener noreferrer" class="meta-pill meta-pill-link">
-                    <img src="images/logo-cityu-white.png" alt="" class="pill-logo" width="14" height="14" />
-                    <svg class="pill-fallback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                    City University of Seattle
-                  </a>
-                  <span class="meta-pill meta-pill-accent">500+ Students</span>
-                </div>
-                <p class="hero-desc" id="exp-desc-1">Maintained cloud and app environments for 6–7 graduate courses per quarter across AWS, Python, React, and ML.</p>
-                <div class="hero-detail" id="exp-detail-1">
-                  <ul class="item-bullets">
-                    <li>Maintained the cloud and application environments for 6 to 7 graduate courses per quarter (AWS EC2, S3, Lambda; Python, React, machine learning), diagnosing configuration, permission, and dependency failures for 500+ students</li>
-                    <li>Rebuilt five graduate-course lab environments on AWS with standardized instance setups and LMS integration settings, reducing setup failures to nearly zero</li>
-                    <li>Debugged and fixed a grade-sync defect in the LMS-to-gradebook integration by comparing exported scores against gradebook records and correcting assignment mapping, re-syncing grades for 250+ students within 24 hours</li>
-                  </ul>
-                  <div class="tech-stack">
-                    <span class="tag">AWS (EC2, S3, Lambda)</span><span class="tag">Python</span><span class="tag">React</span>
-                    <span class="tag">Machine Learning</span><span class="tag">LMS</span>
-                  </div>
-                </div>
-                <button class="btn hero-cta" data-expand-target="exp-detail-1" data-summary-target="exp-desc-1">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>
-                  <span class="hero-cta-label">View Details</span>
-                </button>
-              </div>
-            </div>
+          <div class="experience-list" id="experienceList">
 
-            <div class="hero-slide" style="background-image: url('images/bg-aankhijhyal-1.jpg');">
-              <div class="hero-slide-overlay"></div>
-              <div class="hero-slide-content">
-                <div class="hero-title-row">
-                  <h3 class="hero-title">Software Engineer</h3>
-                  <span class="hero-tag-badge">ENGINEERING</span>
-                </div>
-                <div class="hero-meta-row">
-                  <span class="meta-pill meta-pill-solid">Jun 2023 – Nov 2024</span>
-                  <a href="https://aankhijhyal.com.np/" target="_blank" rel="noopener noreferrer" class="meta-pill meta-pill-link">
-                    <img src="images/logo-aankhijhyal-white.png" alt="" class="pill-logo" width="14" height="14" />
-                    <svg class="pill-fallback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
-                    Aankhijhyal Technologies
-                  </a>
-                  <span class="meta-pill meta-pill-accent">15+ Platforms Shipped</span>
-                </div>
-                <p class="hero-desc" id="exp-desc-2">Integrated payment/booking APIs, cut page load times by ~40%, and delivered 15+ production client platforms.</p>
-                <div class="hero-detail" id="exp-detail-2">
-                  <ul class="item-bullets">
-                    <li>Integrated three payment and booking REST APIs (eSewa, Khalti, reservations) into client PHP/Laravel platforms with payment initiation, server-side verification, and booking confirmation, saving about 5 hours per week</li>
-                    <li>Cut page load times by approximately 40% across 5+ client sites by tracing delays to oversized image galleries, unused plugins, and repeated database lookups, then compressing images, removing plugins, and caching pages</li>
-                    <li>Delivered 15+ client platforms with Nepali and English content, inquiry forms, and owner-editable admin panels, cutting delivery time by 15% with written scope documents and approved wireframes</li>
-                  </ul>
-                  <div class="tech-stack">
-                    <span class="tag">PHP</span><span class="tag">Laravel</span><span class="tag">REST APIs</span>
-                    <span class="tag">eSewa &amp; Khalti</span><span class="tag">MySQL</span>
-                  </div>
-                </div>
-                <button class="btn hero-cta" data-expand-target="exp-detail-2" data-summary-target="exp-desc-2">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>
-                  <span class="hero-cta-label">View Details</span>
-                </button>
+            <!-- Role 1: CityU -->
+            <article class="experience-card" id="exp-cityu">
+              <div class="exp-title-row">
+                <h3 class="exp-title">Cloud Systems and Teaching Assistant</h3>
+                <span class="hero-tag-badge">CLOUD &amp; SYSTEMS</span>
               </div>
-            </div>
+              <div class="hero-meta-row">
+                <span class="meta-pill meta-pill-solid">Oct 2025 – Present</span>
+                <a href="https://cityu.edu/" target="_blank" rel="noopener noreferrer" class="meta-pill meta-pill-link">
+                  <img src="images/logo-cityu-white.png" alt="" class="pill-logo" width="14" height="14" />
+                  <svg class="pill-fallback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                  City University of Seattle
+                </a>
+                <span class="meta-pill meta-pill-accent">500+ Students</span>
+              </div>
+              <p class="exp-summary">Maintained cloud and app environments for 6–7 graduate courses per quarter across AWS, Python, React, and ML.</p>
+              <div class="exp-details">
+                <ul class="item-bullets">
+                  <li>Maintained the cloud and application environments for 6 to 7 graduate courses per quarter (AWS EC2, S3, Lambda; Python, React, machine learning), diagnosing configuration, permission, and dependency failures for 500+ students</li>
+                  <li>Rebuilt five graduate-course lab environments on AWS with standardized instance setups and LMS integration settings, reducing setup failures to nearly zero</li>
+                  <li>Debugged and fixed a grade-sync defect in the LMS-to-gradebook integration by comparing exported scores against gradebook records and correcting assignment mapping, re-syncing grades for 250+ students within 24 hours</li>
+                </ul>
+                <div class="tech-stack" style="margin-top: 18px;">
+                  <span class="tag">AWS (EC2, S3, Lambda)</span><span class="tag">Python</span><span class="tag">React</span>
+                  <span class="tag">Machine Learning</span><span class="tag">LMS</span>
+                </div>
+              </div>
+            </article>
 
-            <div class="hero-slide" style="background-image: url('images/bg-aankhijhyal-2.jpg');">
-              <div class="hero-slide-overlay"></div>
-              <div class="hero-slide-content">
-                <div class="hero-title-row">
-                  <h3 class="hero-title">Software Engineer Intern</h3>
-                  <span class="hero-tag-badge">INTERNSHIP</span>
-                </div>
-                <div class="hero-meta-row">
-                  <span class="meta-pill meta-pill-solid">Sep 2022 – Nov 2022</span>
-                  <a href="https://aankhijhyal.com.np/" target="_blank" rel="noopener noreferrer" class="meta-pill meta-pill-link">
-                    <img src="images/logo-aankhijhyal-white.png" alt="" class="pill-logo" width="14" height="14" />
-                    <svg class="pill-fallback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
-                    Aankhijhyal Technologies
-                  </a>
-                  <span class="meta-pill meta-pill-accent">3 Deployments</span>
-                </div>
-                <p class="hero-desc" id="exp-desc-3">Deployed 3 production client websites with zero post-launch issues and cut setup time from ~3 hours to under 1.</p>
-                <div class="hero-detail" id="exp-detail-3">
-                  <ul class="item-bullets">
-                    <li>Deployed three client websites to production (live server, domain, SSL) after testing every page, form, and booking flow, with zero reported post-launch issues</li>
-                    <li>Built a local development setup with a sample database and setup guide, cutting project setup from about 3 hours to under 1</li>
-                    <li>Built inquiry and booking forms that validated input and emailed owners; fixed pages that crashed on missing data</li>
-                  </ul>
-                  <div class="tech-stack">
-                    <span class="tag">PHP</span><span class="tag">HTML/CSS</span><span class="tag">SSL &amp; Domains</span>
-                    <span class="tag">cPanel</span>
-                  </div>
-                </div>
-                <button class="btn hero-cta" data-expand-target="exp-detail-3" data-summary-target="exp-desc-3">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>
-                  <span class="hero-cta-label">View Details</span>
-                </button>
+            <!-- Role 2: Aankhijhyal SWE -->
+            <article class="experience-card" id="exp-aankhijhyal-swe">
+              <div class="exp-title-row">
+                <h3 class="exp-title">Software Engineer</h3>
+                <span class="hero-tag-badge">ENGINEERING</span>
               </div>
-            </div>
+              <div class="hero-meta-row">
+                <span class="meta-pill meta-pill-solid">Jun 2023 – Nov 2024</span>
+                <a href="https://aankhijhyal.com.np/" target="_blank" rel="noopener noreferrer" class="meta-pill meta-pill-link">
+                  <img src="images/logo-aankhijhyal-white.png" alt="" class="pill-logo" width="14" height="14" />
+                  <svg class="pill-fallback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+                  Aankhijhyal Technologies
+                </a>
+                <span class="meta-pill meta-pill-accent">15+ Platforms Shipped</span>
+              </div>
+              <p class="exp-summary">Integrated payment/booking APIs, cut page load times by ~40%, and delivered 15+ production client platforms.</p>
+              <div class="exp-details">
+                <ul class="item-bullets">
+                  <li>Integrated three payment and booking REST APIs (eSewa, Khalti, reservations) into client PHP/Laravel platforms with payment initiation, server-side verification, and booking confirmation, saving about 5 hours per week</li>
+                  <li>Cut page load times by approximately 40% across 5+ client sites by tracing delays to oversized image galleries, unused plugins, and repeated database lookups, then compressing images, removing plugins, and caching pages</li>
+                  <li>Delivered 15+ client platforms with Nepali and English content, inquiry forms, and owner-editable admin panels, cutting delivery time by 15% with written scope documents and approved wireframes</li>
+                </ul>
+                <div class="tech-stack" style="margin-top: 18px;">
+                  <span class="tag">PHP</span><span class="tag">Laravel</span><span class="tag">REST APIs</span>
+                  <span class="tag">eSewa &amp; Khalti</span><span class="tag">MySQL</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Role 3: Aankhijhyal Intern -->
+            <article class="experience-card" id="exp-aankhijhyal-intern">
+              <div class="exp-title-row">
+                <h3 class="exp-title">Software Engineer Intern</h3>
+                <span class="hero-tag-badge">INTERNSHIP</span>
+              </div>
+              <div class="hero-meta-row">
+                <span class="meta-pill meta-pill-solid">Sep 2022 – Nov 2022</span>
+                <a href="https://aankhijhyal.com.np/" target="_blank" rel="noopener noreferrer" class="meta-pill meta-pill-link">
+                  <img src="images/logo-aankhijhyal-white.png" alt="" class="pill-logo" width="14" height="14" />
+                  <svg class="pill-fallback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" hidden aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+                  Aankhijhyal Technologies
+                </a>
+                <span class="meta-pill meta-pill-accent">3 Deployments</span>
+              </div>
+              <p class="exp-summary">Deployed 3 production client websites with zero post-launch issues and cut setup time from ~3 hours to under 1.</p>
+              <div class="exp-details">
+                <ul class="item-bullets">
+                  <li>Deployed three client websites to production (live server, domain, SSL) after testing every page, form, and booking flow, with zero reported post-launch issues</li>
+                  <li>Built a local development setup with a sample database and setup guide, cutting project setup from about 3 hours to under 1</li>
+                  <li>Built inquiry and booking forms that validated input and emailed owners; fixed pages that crashed on missing data</li>
+                </ul>
+                <div class="tech-stack" style="margin-top: 18px;">
+                  <span class="tag">PHP</span><span class="tag">HTML/CSS</span><span class="tag">SSL &amp; Domains</span>
+                  <span class="tag">cPanel</span>
+                </div>
+              </div>
+            </article>
 
           </div>
+
+          <div class="experience-toggle-wrapper">
+            <button type="button" id="expToggleBtn" class="btn btn-secondary experience-toggle-btn" aria-expanded="true" aria-controls="experienceList">
+              <svg class="experience-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+              <span id="expToggleText">Show less</span>
+            </button>
+          </div>
+
         </div>
-        <div class="hero-dots" id="experienceDots" role="tablist" aria-label="Select experience"></div>
-        <button class="hero-arrow hero-arrow-left" id="experiencePrev" aria-label="Previous role">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="hero-arrow hero-arrow-right" id="experienceNext" aria-label="Next role">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-      </div>
       </div>
     </section>
 
@@ -2656,12 +2686,12 @@
                   <h3 class="project-name">CarePolicyGuard</h3>
                   <p class="project-desc">Policy-aware clinical coverage verification engine</p>
                   <ul class="project-bullets">
-                    <li>FastAPI multi-agent system checking EHR patient records against CMS Medicare coverage determinations (NCD/LCD) for prior-authorization reviews.</li>
-                    <li>Achieved 100% decision concordance and 100% evidence faithfulness on a 10-case benchmark, with 20% safe deferrals to human review.</li>
+                    <li>FastAPI system combining deterministic clinical rules and verification agents to check EHR patient records against CMS Medicare coverage determinations (NCD/LCD) for prior-authorization reviews.</li>
+                    <li>Achieved 98.5% decision concordance and 100% evidence faithfulness on a self-built benchmark of clinical test vignettes across cardiology, pulmonology, and wound care, with 33.3% safely deferred to human review.</li>
                   </ul>
                   <div class="tech-stack">
                     <span class="tag">FastAPI</span><span class="tag">Python 3.12</span>
-                    <span class="tag">Multi-Agent AI</span><span class="tag">RAG</span><span class="tag">HIPAA RBAC</span>
+                    <span class="tag">Deterministic Rule Engine</span><span class="tag">RAG</span><span class="tag">PHI Masking</span>
                   </div>
                   <details class="meal-flow">
                     <summary class="flow-project-toggle"><h3>Inside CarePolicyGuard</h3><span class="flow-toggle-hint" aria-hidden="true">Explore the flow</span></summary>
@@ -2672,16 +2702,16 @@
                         <div class="meal-flow-copy"><p>Retrieves governing Medicare NCD/LCD policies (such as ICD, PAP, TAVR) using hybrid lexical-semantic chunk matching, then extracts clinical criteria with character offset anchors.</p></div>
                       </details>
                       <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">02 / VERIFICATION</span>Adversarial Slice Auditing</summary>
-                        <div class="meal-flow-copy"><p>An adversarial verification agent programmatically confirms character slices directly against the raw EHR text to prevent LLM hallucinations, quote drifts, and negative omissions.</p></div>
+                        <summary><span class="meal-flow-number">02 / VERIFICATION</span>Source-text verification</summary>
+                        <div class="meal-flow-copy"><p>A verification pipeline confirms character slices directly against raw EHR source text to guard against extraction errors, quote drifts, and negative omissions.</p></div>
                       </details>
                       <details class="meal-flow-step">
                         <summary><span class="meal-flow-number">03 / DECISION</span>Calibrated Gate &amp; Defense Packet</summary>
                         <div class="meal-flow-copy"><p>Enforces a calibrated confidence gate (&tau; = 0.85); cases falling below the threshold route safely to human auditors, while verified decisions generate complete CMS appeal defense packets.</p></div>
                       </details>
                     </div>
-                    <p class="meal-flow-credit"><strong>Empirical Benchmark:</strong> 100% accuracy and 100% evidence faithfulness on a 10-case benchmark vs. a zero-shot prompt baseline (60% accuracy, 45% faithfulness) with an ECE of 0.064.</p>
-                    <p class="meal-flow-credit"><strong>My contribution:</strong> Sole author of the full system architecture, FastAPI microservice, multi-agent pipeline, deterministic slice validators, HIPAA minimum-necessary masking, and benchmark evaluation suite.</p>
+                    <p class="meal-flow-credit"><strong>Empirical Benchmark:</strong> 98.5% decision concordance and 100% evidence faithfulness on a self-built benchmark of clinical test vignettes across cardiology, pulmonology, and wound care (33.3% safely deferred to human review, ECE 0.032) vs. a zero-shot prompt baseline (66.7% accuracy, 48.5% faithfulness, ECE 0.274).</p>
+                    <p class="meal-flow-credit"><strong>My contribution:</strong> Sole author of the full system architecture, FastAPI microservice, deterministic clinical rule engine and slice validators, PHI minimum-necessary masking, and benchmark evaluation suite.</p>
                   </details>
                   <div class="card-footer">
                     <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-demo-btn" data-demo-url="" hidden>
@@ -2702,7 +2732,7 @@
 
               <!-- 02: Parallax-Eval -->
               <div class="carousel-slide">
-                <div class="project-card">
+                <div class="project-card" data-citation-url="">
                   <span class="team-badge">Solo Project</span>
                   <div class="project-media-slot" data-screenshot-url="" hidden>
                     <img src="" alt="Parallax-Eval interface preview" loading="lazy" />
@@ -2745,7 +2775,7 @@
                       <svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14L21 3"></path></svg>
                       View on GitHub
                     </a>
-                    <button class="btn btn-dark" data-copy-bibtex aria-label="Copy BibTeX citation for Parallax-Eval">
+                    <button class="btn btn-dark" data-copy-bibtex aria-label="Copy BibTeX citation for Parallax-Eval" hidden>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
                       <span class="btn-text">BibTeX</span>
                     </button>
@@ -2768,7 +2798,7 @@
                   <p class="project-desc">Learner, school, and admin platform for web and mobile</p>
                   <ul class="project-bullets">
                     <li>Laravel and Flutter platform connecting learners, driving schools, and admins through shared services.</li>
-                    <li>English/Nepali exam practice and progress tracking, plus school scheduling, student records, and lesson bookings.</li>
+                    <li>English/Nepali exam practice and progress tracking, plus school scheduling, student records, and lesson bookings with Khalti and eSewa digital checkout integration.</li>
                   </ul>
                   <div class="tech-stack">
                     <span class="tag">Flutter</span><span class="tag">Laravel</span>
@@ -2779,21 +2809,21 @@
                     <p class="meal-flow-intro">From reviewed learning content to learner progress and driving school operations across web and mobile. Select a step to learn more.</p>
                     <div class="meal-flow-grid">
                       <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">01 / CONTENT</span>Review and publish</summary>
+                        <summary><span class="meal-flow-number">01 / INGESTION</span>Official Content &amp; AI Screening</summary>
                         <div class="meal-flow-copy">
-                          <p>Admins curate bilingual traffic signs, question banks, exam papers, and tutorials. Scheduled official-source imports receive Gemini screening with human approval required before publishing to the web and Flutter apps via Laravel REST APIs.</p>
+                          <p>Ingests official transport notices and rulebooks, running automated Gemini screening alongside human review before publishing.</p>
                         </div>
                       </details>
                       <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">02 / PRACTICE</span>Practice &amp; Progress</summary>
+                        <summary><span class="meal-flow-number">02 / PRACTICE</span>Exams, Quizzes &amp; Progress</summary>
                         <div class="meal-flow-copy">
-                          <p>Learners choose English or Nepali for flashcards and timed 25-question mock exams. The server grades attempts, tracks daily goals, streaks, and milestones, and provides personalized revision tools with an AI study assistant.</p>
+                          <p>Timed mock exams and category quizzes with offline progress tracking and topic readiness indicators.</p>
                         </div>
                       </details>
                       <details class="meal-flow-step">
-                        <summary><span class="meal-flow-number">03 / SCHOOLS</span>Driving School Operations</summary>
+                        <summary><span class="meal-flow-number">03 / OPERATIONS</span>Schools &amp; Lesson Scheduling</summary>
                         <div class="meal-flow-copy">
-                          <p>Approved driving schools manage instructors, batches, and student records with role-based access. Students book conflict-checked private lessons with vehicle assignment, real-time rescheduling, and server-verified Khalti/eSewa digital payments.</p>
+                          <p>Schools manage instructors and vehicle rosters. Learners book conflict-free private lessons with waitlists and Khalti and eSewa digital checkout integration.</p>
                         </div>
                       </details>
                     </div>
@@ -2819,14 +2849,14 @@
               <!-- 04: MealMate.ai -->
               <div class="carousel-slide">
                 <div class="project-card">
-                  <span class="team-badge">Team Project</span>
+                  <span class="team-badge">Team Project • CS628 CityU</span>
                   <div class="project-media-slot" data-screenshot-url="" hidden>
                     <img src="" alt="MealMate.ai interface preview" loading="lazy" />
                   </div>
                   <h3 class="project-name">MealMate.ai</h3>
                   <p class="project-desc">AI-powered meal planning platform</p>
                   <ul class="project-bullets">
-                    <li>React, Node.js, and FastAPI meal planning platform with a hybrid recipe recommender, backed by 128 passing tests.</li>
+                    <li>Graduate course project (CS628, City University of Seattle) built with React, Node.js, and FastAPI, backed by 128 passing tests (59 server + 14 client + 55 AI).</li>
                     <li>Gemini cooking assistance, pantry parsing, and ingredient capture, with deterministic offline fallbacks.</li>
                   </ul>
                   <div class="tech-stack">
@@ -2855,7 +2885,7 @@
                         <div class="meal-flow-copy"><p>Gemini uses retrieved recipe context to generate suggestions and cooking answers. Ranked retrieval and structured responses provide a fallback when Gemini is unavailable.</p></div>
                       </details>
                     </div>
-                    <p class="meal-flow-credit"><strong>Recommendation pipeline:</strong> TF-IDF, LSA, and collaborative filtering consistently placed the relevant recipe in the top five during testing; Docker Compose and GitHub Actions support validation.</p>
+                    <p class="meal-flow-credit"><strong>Recommendation pipeline:</strong> The hybrid, TF-IDF, and LSA recommenders reached Recall@5 of 1.00 on a leave-one-out pantry-completion test over the 64 seed recipes; collaborative filtering scored 0.11 because the seed data has no real user interactions. Verified with 128 passing tests (59 server + 14 client + 55 AI).</p>
                     <p class="meal-flow-credit"><strong>My contribution:</strong> The RAG service, API connections, React pantry suggestion interface, and assistant integration.</p>
                   </details>
                   <div class="card-footer">
@@ -3000,7 +3030,8 @@
       <div class="skills-grid">
         <div class="skill-card">
           <h3 class="skill-title">Languages</h3>
-          <div class="skill-list">Python, Java, C#, PHP, JavaScript, TypeScript, R, Dart, SQL, HTML, CSS</div>
+          <div class="skill-list">Python, PHP, JavaScript, TypeScript, Java, Dart, SQL, HTML, CSS</div>
+          <div class="skill-sub" style="margin-top: 8px; font-size: 12.5px; color: var(--light-muted, #64748b);">Also familiar with: C#, R</div>
         </div>
         <div class="skill-card">
           <h3 class="skill-title">Frameworks &amp; Libraries</h3>
@@ -3012,11 +3043,7 @@
         </div>
         <div class="skill-card">
           <h3 class="skill-title">Cloud &amp; DevOps</h3>
-          <div class="skill-list">AWS (EC2, S3, Lambda), Microsoft Azure, Docker, Git, GitHub Actions, REST APIs, Agile / Scrum</div>
-        </div>
-        <div class="skill-card">
-          <h3 class="skill-title">Data Science &amp; Analytics</h3>
-          <div class="skill-list">Pandas, NumPy, Matplotlib, Posit (RStudio), Microsoft Fabric</div>
+          <div class="skill-list">AWS (EC2, S3, Lambda), Microsoft Azure, Docker, Linux, Git, GitHub Actions, CI/CD</div>
         </div>
         <div class="skill-card">
           <h3 class="skill-title">Databases</h3>
@@ -3172,7 +3199,7 @@
           <span class="contact-val">sumitkc74</span>
         </a>
       </div>
-      <details class="contact-form-details">
+      <details class="contact-form-details" open>
         <summary class="contact-form-toggle">
           <span class="contact-form-toggle-text">Send a quick message</span>
           <svg class="contact-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">

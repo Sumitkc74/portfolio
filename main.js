@@ -411,60 +411,38 @@ initCarousel({
   }
 });
 
-const roleTabs = Array.from(document.querySelectorAll('.role-tab'));
+// Experience stacked list toggle (Show less / Show more)
+const expToggleBtn = document.getElementById('expToggleBtn');
+const experienceList = document.getElementById('experienceList');
+const expToggleText = document.getElementById('expToggleText');
 
-const expCarousel = initCarousel({
-  carouselId: 'experienceCarousel',
-  viewportSelector: '.hero-viewport',
-  trackSelector: '.hero-track',
-  dotsId: 'experienceDots',
-  prevId: 'experiencePrev',
-  nextId: 'experienceNext',
-  dotLabel: (i, total) => 'Go to role ' + (i + 1) + ' of ' + total,
-  onSlideChange: (realIdx) => {
-    roleTabs.forEach((tab, i) => {
-      const isActive = i === realIdx;
-      tab.classList.toggle('active', isActive);
-      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
-    });
-  },
-  announceText: (i, total, slideEl) => {
-    const titleEl = slideEl.querySelector('.hero-title');
-    const expBg = document.querySelector('.experience-bg');
-    if (expBg && slideEl) {
-      const bgImg = slideEl.style.backgroundImage;
-      if (bgImg) expBg.style.setProperty('--experience-bg-image', bgImg);
+if (expToggleBtn && experienceList) {
+  expToggleBtn.addEventListener('click', () => {
+    const isExpanded = expToggleBtn.getAttribute('aria-expanded') === 'true';
+    const nextExpanded = !isExpanded;
+    expToggleBtn.setAttribute('aria-expanded', String(nextExpanded));
+    experienceList.classList.toggle('is-compact', !nextExpanded);
+    if (expToggleText) {
+      expToggleText.textContent = nextExpanded ? 'Show less' : 'Show more';
     }
-    return 'Showing role ' + (i + 1) + ' of ' + total + ': ' + (titleEl ? titleEl.textContent : '');
-  }
-});
-
-roleTabs.forEach((tab) => {
-  tab.addEventListener('click', () => {
-    const slideIdx = parseInt(tab.dataset.slideIndex, 10);
-    if (!isNaN(slideIdx) && expCarousel) {
-      expCarousel.goTo(slideIdx);
+    const announcer = document.getElementById('a11y-announcer');
+    if (announcer) {
+      announcer.textContent = nextExpanded ? 'Experience list expanded' : 'Experience list collapsed to compact view';
     }
   });
-});
+}
 
-// Expand/collapse the "View Details" panel on each experience hero slide
-document.querySelectorAll('[data-expand-target]').forEach((btn) => {
-  btn.setAttribute('aria-expanded', 'false');
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const panel = document.getElementById(btn.dataset.expandTarget);
-    if (!panel) return;
-    const isOpen = panel.classList.toggle('open');
-    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    const label = btn.querySelector('.hero-cta-label');
-    if (label) label.textContent = isOpen ? 'Hide Details' : 'View Details';
-    const summary = btn.dataset.summaryTarget ? document.getElementById(btn.dataset.summaryTarget) : null;
-    if (summary) summary.classList.toggle('hero-desc-hidden', isOpen);
-  });
-});
+// Note: Experience roles are fully expanded by default; master toggle handled by #expToggleBtn
 
 // Wire up all copy buttons via data attributes instead of inline onclick
+// Reveal BibTeX citation button only if project card has non-empty data-citation-url
+document.querySelectorAll('[data-copy-bibtex]').forEach((btn) => {
+  const card = btn.closest('[data-citation-url]');
+  const citationUrl = card ? card.getAttribute('data-citation-url') : null;
+  if (citationUrl && citationUrl.trim() !== '') {
+    btn.removeAttribute('hidden');
+  }
+});
 document.querySelectorAll('[data-copy-bibtex]').forEach((btn) => {
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -691,9 +669,9 @@ if (pixelRobot) {
     const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
     const progress = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
     // Stay near the original lane, moving slightly outward rather than over text.
-    const rightSpace = Math.max(0, (window.innerWidth - companionHero.getBoundingClientRect().right) - 8);
-    const targetX = Math.min(36, rightSpace) * Math.min(window.scrollY / 160, 1)
-      + Math.sin(progress * Math.PI) * Math.min(10, rightSpace / 3);
+    const heroRect = companionHero.getBoundingClientRect();
+    const rightSpace = Math.max(0, window.innerWidth - heroRect.right - 12);
+    const targetX = Math.min(28, rightSpace * 0.4) * Math.min(window.scrollY / 160, 1);
     const distanceY = targetY - companionY;
     const distanceX = targetX - companionX;
     const catchUp = 1 - Math.exp(-dt / 200);
@@ -917,7 +895,7 @@ if (pixelRobot && robotSpeech && robotSpeechText && robotSpeechClose) {
 // Reveal optional project demo links and screenshot slots only if non-empty URL is provided
 document.querySelectorAll('[data-demo-url]').forEach((el) => {
   const url = el.getAttribute('data-demo-url');
-  if (url && url.trim() !== '' && !url.includes('TODO')) {
+  if (url && url.trim() !== '') {
     el.removeAttribute('hidden');
     el.setAttribute('href', url);
   }
@@ -925,7 +903,7 @@ document.querySelectorAll('[data-demo-url]').forEach((el) => {
 
 document.querySelectorAll('[data-screenshot-url]').forEach((el) => {
   const url = el.getAttribute('data-screenshot-url');
-  if (url && url.trim() !== '' && !url.includes('TODO')) {
+  if (url && url.trim() !== '') {
     el.removeAttribute('hidden');
     const img = el.querySelector('img');
     if (img) img.src = url;
