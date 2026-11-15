@@ -733,58 +733,53 @@
     transition: opacity 0.25s ease;
   }
 
-  .experience-list.is-compact .exp-details {
-    display: none;
-  }
-
-  .experience-list.is-compact .exp-summary {
-    margin-bottom: 0;
-  }
-
-  .experience-toggle-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 24px;
-  }
-
-  .experience-toggle-btn {
+  .exp-card-toggle {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 24px;
-    font-size: 14px;
+    margin-top: 18px;
+    padding: 8px 18px;
+    font-size: 13px;
     font-weight: 600;
     color: #fff;
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 20px;
     cursor: pointer;
     backdrop-filter: blur(4px);
     transition: all 0.2s ease;
   }
 
-  .experience-toggle-btn:hover,
-  .experience-toggle-btn:focus-visible {
+  .exp-card-toggle:hover,
+  .exp-card-toggle:focus-visible {
     background: rgba(255, 255, 255, 0.2);
     border-color: #fff;
-    outline: 2px solid var(--blue);
+    outline: 2px solid #8fa3ff;
     outline-offset: 2px;
   }
 
-  .experience-toggle-icon {
-    width: 16px;
-    height: 16px;
+  .exp-card-toggle-icon {
+    width: 14px;
+    height: 14px;
     transition: transform 0.25s ease;
   }
 
-  .experience-list.is-compact ~ .experience-toggle-wrapper .experience-toggle-icon {
+  .exp-card-toggle[aria-expanded="false"] .exp-card-toggle-icon {
     transform: rotate(180deg);
+  }
+
+  .experience-card.is-collapsed .exp-details {
+    display: none;
+  }
+
+  .experience-card.is-collapsed .exp-summary {
+    margin-bottom: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .experience-card,
     .exp-details,
-    .experience-toggle-icon {
+    .exp-card-toggle-icon {
       transition: none !important;
     }
   }
@@ -2600,7 +2595,7 @@
                 <span class="meta-pill meta-pill-accent">500+ Students</span>
               </div>
               <p class="exp-summary">Maintained cloud and app environments for 6–7 graduate courses per quarter across AWS, Python, React, and ML.</p>
-              <div class="exp-details">
+              <div class="exp-details" id="exp-details-cityu">
                 <ul class="item-bullets">
                   <li>Maintained the cloud and application environments for 6 to 7 graduate courses per quarter (AWS EC2, S3, Lambda; Python, React, machine learning), diagnosing configuration, permission, and dependency failures for 500+ students</li>
                   <li>Rebuilt five graduate-course lab environments on AWS with standardized instance setups and LMS integration settings, reducing setup failures to nearly zero</li>
@@ -2611,6 +2606,12 @@
                   <span class="tag">Machine Learning</span><span class="tag">LMS</span>
                 </div>
               </div>
+              <button type="button" class="btn btn-secondary exp-card-toggle" aria-expanded="true" aria-controls="exp-details-cityu">
+                <svg class="exp-card-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M18 15l-6-6-6 6"/>
+                </svg>
+                <span class="exp-card-toggle-label">Show less</span>
+              </button>
             </article>
 
             <!-- Role 2: Aankhijhyal SWE -->
@@ -2629,7 +2630,7 @@
                 <span class="meta-pill meta-pill-accent">15+ Platforms Shipped</span>
               </div>
               <p class="exp-summary">Integrated payment/booking APIs, cut page load times by ~40%, and delivered 15+ production client platforms.</p>
-              <div class="exp-details">
+              <div class="exp-details" id="exp-details-swe">
                 <ul class="item-bullets">
                   <li>Integrated three payment and booking REST APIs (eSewa, Khalti, reservations) into client PHP/Laravel platforms with payment initiation, server-side verification, and booking confirmation, saving about 5 hours per week</li>
                   <li>Cut page load times by approximately 40% across 5+ client sites by tracing delays to oversized image galleries, unused plugins, and repeated database lookups, then compressing images, removing plugins, and caching pages</li>
@@ -2640,6 +2641,12 @@
                   <span class="tag">eSewa &amp; Khalti</span><span class="tag">MySQL</span>
                 </div>
               </div>
+              <button type="button" class="btn btn-secondary exp-card-toggle" aria-expanded="true" aria-controls="exp-details-swe">
+                <svg class="exp-card-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M18 15l-6-6-6 6"/>
+                </svg>
+                <span class="exp-card-toggle-label">Show less</span>
+              </button>
             </article>
 
             <!-- Role 3: Aankhijhyal Intern -->
@@ -2658,7 +2665,7 @@
                 <span class="meta-pill meta-pill-accent">3 Deployments</span>
               </div>
               <p class="exp-summary">Deployed 3 production client websites with zero post-launch issues and cut setup time from ~3 hours to under 1.</p>
-              <div class="exp-details">
+              <div class="exp-details" id="exp-details-intern">
                 <ul class="item-bullets">
                   <li>Deployed three client websites to production (live server, domain, SSL) after testing every page, form, and booking flow, with zero reported post-launch issues</li>
                   <li>Built a local development setup with a sample database and setup guide, cutting project setup from about 3 hours to under 1</li>
@@ -2669,17 +2676,14 @@
                   <span class="tag">cPanel</span>
                 </div>
               </div>
+              <button type="button" class="btn btn-secondary exp-card-toggle" aria-expanded="true" aria-controls="exp-details-intern">
+                <svg class="exp-card-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M18 15l-6-6-6 6"/>
+                </svg>
+                <span class="exp-card-toggle-label">Show less</span>
+              </button>
             </article>
 
-          </div>
-
-          <div class="experience-toggle-wrapper">
-            <button type="button" id="expToggleBtn" class="btn btn-secondary experience-toggle-btn" aria-expanded="true" aria-controls="experienceList">
-              <svg class="experience-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M18 15l-6-6-6 6"/>
-              </svg>
-              <span id="expToggleText">Show less</span>
-            </button>
           </div>
 
         </div>

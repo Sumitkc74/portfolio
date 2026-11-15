@@ -422,28 +422,35 @@ initCarousel({
   }
 });
 
-// Experience stacked list toggle (Show less / Show more)
-const expToggleBtn = document.getElementById('expToggleBtn');
-const experienceList = document.getElementById('experienceList');
-const expToggleText = document.getElementById('expToggleText');
-
-if (expToggleBtn && experienceList) {
-  expToggleBtn.addEventListener('click', () => {
-    const isExpanded = expToggleBtn.getAttribute('aria-expanded') === 'true';
+// Experience card toggle (Show less / Show more on each individual card)
+document.querySelectorAll('.exp-card-toggle').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
     const nextExpanded = !isExpanded;
-    expToggleBtn.setAttribute('aria-expanded', String(nextExpanded));
-    experienceList.classList.toggle('is-compact', !nextExpanded);
-    if (expToggleText) {
-      expToggleText.textContent = nextExpanded ? 'Show less' : 'Show more';
+    const card = btn.closest('.experience-card');
+    const label = btn.querySelector('.exp-card-toggle-label');
+
+    btn.setAttribute('aria-expanded', String(nextExpanded));
+    if (card) {
+      card.classList.toggle('is-collapsed', !nextExpanded);
+      if (!nextExpanded) {
+        // When collapsing, ensure the card remains nicely in view
+        const rect = card.getBoundingClientRect();
+        if (rect.top < 80) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
     }
+    if (label) {
+      label.textContent = nextExpanded ? 'Show less' : 'Show more';
+    }
+    const roleTitle = card ? card.querySelector('.exp-title') : null;
     const announcer = document.getElementById('a11y-announcer');
-    if (announcer) {
-      announcer.textContent = nextExpanded ? 'Experience list expanded' : 'Experience list collapsed to compact view';
+    if (announcer && roleTitle) {
+      announcer.textContent = `${roleTitle.textContent} details ${nextExpanded ? 'expanded' : 'collapsed'}`;
     }
   });
-}
-
-// Note: Experience roles are fully expanded by default; master toggle handled by #expToggleBtn
+});
 
 // Wire up all copy buttons via data attributes instead of inline onclick
 // Reveal BibTeX citation button only if project card has non-empty data-citation-url
