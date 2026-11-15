@@ -1,19 +1,4 @@
-# Local workspace and documentation files
 TODO.local.md
-
-# OS & Editor artifacts
 .DS_Store
 Thumbs.db
-*.swp
-*.tmp
-
-# Temporary test scripts and scratch outputs
-scratch/
-test_*.py
-search_*.py
-check_*.py
-fetch_*.py
-read_*.py
 preview/
-screenshot-*.png
-lighthouse-report.*
